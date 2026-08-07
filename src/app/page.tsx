@@ -5,25 +5,7 @@ import Script from "next/script";
 
 export default function Home() {
   useEffect(() => {
-    // 1. Intersection Observer for smooth fade-up animations
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            (entry.target as HTMLElement).style.animationPlayState = "running";
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    document.querySelectorAll(".fade-up-enter").forEach((el) => {
-      (el as HTMLElement).style.animationPlayState = "paused";
-      observer.observe(el);
-    });
-
-    // 2. WebGL Background Shader Canvas
+    // 1. WebGL Background Shader Canvas
     const canvas = document.getElementById("bg-canvas") as HTMLCanvasElement | null;
     if (canvas) {
       const gl = canvas.getContext("webgl");
@@ -48,13 +30,12 @@ export default function Home() {
 
           void main() {
             vec2 uv = v_texCoord;
-            vec3 color = vec3(0.05, 0.05, 0.06);
-            float pulse = sin(u_time * 0.8) * 0.5 + 0.5;
-            float t = u_time * 0.3;
-            vec3 orange = vec3(0.976, 0.451, 0.086);
-            float ambientGlow = smoothstep(0.1, 0.9, uv.y + sin(t)*0.2);
-            color += orange * ambientGlow * 0.06;
-            color += (noise(uv + u_time * 0.01) - 0.5) * 0.02;
+            vec3 color = vec3(0.06, 0.06, 0.07);
+            float t = u_time * 0.25;
+            vec3 orange = vec3(0.976, 0.35, 0.05);
+            float ambientGlow = smoothstep(0.0, 1.0, uv.y + sin(t)*0.15);
+            color += orange * ambientGlow * 0.08;
+            color += (noise(uv + u_time * 0.005) - 0.5) * 0.025;
             gl_FragColor = vec4(color, 1.0);
           }
         `;
@@ -92,14 +73,6 @@ export default function Home() {
 
             const timeLocation = gl.getUniformLocation(program, "u_time");
 
-            const resize = () => {
-              canvas.width = window.innerWidth;
-              canvas.height = window.innerHeight;
-              gl.viewport(0, 0, canvas.width, canvas.height);
-            };
-            window.addEventListener("resize", resize);
-            resize();
-
             let animationFrameId: number;
             const render = (time: number) => {
               gl.uniform1f(timeLocation, time * 0.001);
@@ -108,17 +81,14 @@ export default function Home() {
             };
             animationFrameId = requestAnimationFrame(render);
 
-            return () => {
-              window.removeEventListener("resize", resize);
-              cancelAnimationFrame(animationFrameId);
-            };
+            return () => cancelAnimationFrame(animationFrameId);
           }
         }
       }
     }
   }, []);
 
-  // 3. Three.js Flame Graphic Initializer
+  // 2. Three.js Flame Graphic Initializer
   const initThreeScene = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const THREE = (window as any).THREE;
@@ -127,8 +97,8 @@ export default function Home() {
     const container = document.getElementById("threejs-container");
     if (!container || container.children.length > 0) return;
 
-    const width = 160;
-    const height = 160;
+    const width = 120;
+    const height = 120;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
@@ -142,11 +112,11 @@ export default function Home() {
 
     const orangeMaterial = new THREE.MeshPhongMaterial({
       color: 0xf97316,
-      emissive: 0xf97316,
-      emissiveIntensity: 0.6,
+      emissive: 0xe65100,
+      emissiveIntensity: 0.8,
       transparent: true,
       opacity: 0.95,
-      shininess: 100,
+      shininess: 90,
     });
 
     const coreGeo = new THREE.SphereGeometry(0.5, 32, 32);
@@ -160,20 +130,20 @@ export default function Home() {
 
     scene.add(group);
 
-    const light = new THREE.PointLight(0xf97316, 2, 10);
+    const light = new THREE.PointLight(0xf97316, 2.5, 10);
     light.position.set(2, 2, 2);
     scene.add(light);
-    scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+    scene.add(new THREE.AmbientLight(0xffffff, 0.3));
 
-    camera.position.z = 2.8;
+    camera.position.z = 2.6;
 
     function animate() {
       requestAnimationFrame(animate);
       const time = Date.now() * 0.001;
-      group.rotation.y = time * 0.5;
-      group.rotation.z = Math.sin(time * 0.7) * 0.1;
-      group.position.y = Math.sin(time) * 0.05;
-      const s = 1.0 + Math.sin(time * 2.0) * 0.03;
+      group.rotation.y = time * 0.6;
+      group.rotation.z = Math.sin(time * 0.8) * 0.08;
+      group.position.y = Math.sin(time * 1.5) * 0.04;
+      const s = 1.0 + Math.sin(time * 2.5) * 0.03;
       group.scale.set(s, s, s);
       renderer.render(scene, camera);
     }
@@ -182,13 +152,14 @@ export default function Home() {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-[#eef0f3] flex items-center justify-center p-4 sm:p-8">
+      {/* External Scripts */}
       <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet"
       />
       <link
-        href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet"
       />
 
@@ -199,217 +170,192 @@ export default function Home() {
 
       <style jsx global>{`
         body {
-          font-family: 'Geist', sans-serif;
-          overflow-x: hidden;
+          font-family: 'Inter', sans-serif;
         }
 
-        .glass-card {
-          background: rgba(19, 19, 21, 0.75);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        /* Smooth Custom Scrollbar */
+        .phone-viewport::-webkit-scrollbar {
+          width: 4px;
+        }
+        .phone-viewport::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.2);
+        }
+        .phone-viewport::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 4px;
         }
 
-        .glow-button {
-          background: rgba(249, 115, 22, 0.15);
-          border: 1px solid rgba(249, 115, 22, 0.5);
-          box-shadow: 0 0 20px rgba(249, 115, 22, 0.2);
-          transition: all 0.3s ease;
+        .pulse-glow {
+          animation: pulseGlow 2.5s infinite alternate;
         }
 
-        .glow-button:hover {
-          background: rgba(249, 115, 22, 0.25);
-          transform: translateY(-2px);
-        }
-
-        .fade-up-enter {
-          opacity: 0;
-          transform: translateY(20px);
-          animation: tacticalFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes tacticalFadeUp {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .pulse-dot {
-          animation: pulseDot 2s infinite;
-        }
-
-        @keyframes pulseDot {
-          0% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.2); opacity: 0.6; }
-          100% { transform: scale(1); opacity: 1; }
-        }
-
-        .hero-text-glow {
-          background: linear-gradient(135deg, #ffffff 0%, #ffb690 60%, #f97316 100%);
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
+        @keyframes pulseGlow {
+          0% { box-shadow: 0 0 15px rgba(249, 115, 22, 0.2); }
+          100% { box-shadow: 0 0 30px rgba(249, 115, 22, 0.45); }
         }
       `}</style>
 
-      {/* WebGL Fullscreen Canvas */}
-      <canvas id="bg-canvas" className="fixed inset-0 w-full h-full -z-10 pointer-events-none" />
-
-      {/* Main Centered Mobile Viewport Wrapper */}
-      <div className="w-full max-w-[390px] mx-auto min-h-screen flex flex-col justify-between bg-[#131315]/95 border-x border-white/5 relative z-10 shadow-2xl">
+      {/* STITCH MOBILE PHONE FRAME CONTAINER */}
+      <div className="w-full max-w-[390px] h-[812px] bg-[#0c0c0e] rounded-[48px] p-2.5 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.35),0_0_0_12px_#34373c,0_0_0_14px_#1e2023] relative overflow-hidden flex flex-col">
         
-        {/* Navigation Bar */}
-        <header className="sticky top-0 z-50 bg-[#131315]/80 backdrop-blur-md flex justify-between items-center px-5 h-16 border-b border-white/5">
-          <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#ffb690] pulse-dot text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>
-              local_fire_department
-            </span>
-            <span className="font-bold text-lg bg-gradient-to-r from-[#ffb690] to-[#ffc640] bg-clip-text text-transparent">
-              ABTalks
-            </span>
-          </div>
-          <button className="bg-[#f97316] text-white font-semibold text-xs px-4 py-2 rounded-full glow-button">
-            Sign In
-          </button>
-        </header>
+        {/* Dynamic Island / Notch */}
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-28 h-4 bg-black rounded-full z-50 flex items-center justify-end px-2">
+          <div className="w-2.5 h-2.5 rounded-full bg-[#101015] border border-white/10" />
+        </div>
 
-        {/* Content Section */}
-        <main className="px-5 py-6 flex flex-col gap-10">
+        {/* INNER SCROLLABLE PHONE VIEWPORT */}
+        <div className="phone-viewport w-full h-full bg-[#0a0a0c] rounded-[38px] overflow-y-auto overflow-x-hidden relative flex flex-col justify-between select-none">
           
-          {/* Hero Header */}
-          <section className="flex flex-col items-center text-center">
-            <div id="threejs-container" className="w-[160px] h-[160px] flex items-center justify-center my-2" />
+          {/* Shader Canvas bounded inside screen */}
+          <canvas id="bg-canvas" className="absolute inset-0 w-full h-full z-0 pointer-events-none" />
 
-            <div className="border border-[#f97316]/30 bg-[#f97316]/10 backdrop-blur-md rounded-full px-3.5 py-1 mb-4 flex items-center gap-1.5 fade-up-enter">
-              <span className="material-symbols-outlined text-[#ffb690] text-xs pulse-dot" style={{ fontVariationSettings: "'FILL' 1" }}>
+          {/* Sticky Header */}
+          <header className="sticky top-0 z-40 bg-[#0a0a0c]/85 backdrop-blur-xl flex justify-between items-center px-5 pt-8 pb-3 border-b border-white/[0.06]">
+            <div className="flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-[#f97316] text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
                 local_fire_department
               </span>
-              <span className="text-[11px] font-semibold text-[#ffb690] uppercase tracking-wider">
-                60-Day Student Challenge
+              <span className="font-extrabold text-sm text-white tracking-tight">
+                ABTalks
               </span>
             </div>
-
-            <h1 className="text-3xl font-black hero-text-glow leading-tight mb-4 fade-up-enter">
-              Build Consistency.
-              <br />
-              Get Hired.
-            </h1>
-
-            <p className="text-xs text-[#e0c0b1] leading-relaxed mb-6 fade-up-enter">
-              The elite proof-of-work engine for high-performance students. Commit to the daily grind, build public credibility, and get noticed by top recruiters.
-            </p>
-
-            <button className="w-full text-[#ffb690] font-bold text-sm py-3.5 rounded-xl glow-button flex items-center justify-center gap-2 fade-up-enter">
-              Start Challenge
-              <span className="material-symbols-outlined text-base">
-                arrow_forward
-              </span>
+            <button className="bg-transparent hover:bg-[#f97316]/10 text-[#f97316] border border-[#f97316]/60 font-semibold text-[11px] px-3.5 py-1 rounded-md transition-all">
+              Sign In
             </button>
-          </section>
+          </header>
 
-          {/* Tactical Briefs */}
-          <section className="flex flex-col gap-4">
-            <h2 className="text-lg font-bold text-white/90 fade-up-enter">
-              Tactical Briefs
-            </h2>
-
-            <div className="glass-card p-5 rounded-xl fade-up-enter">
-              <div className="flex items-center justify-between mb-3">
-                <span className="font-mono text-[10px] text-[#e0c0b1] tracking-widest uppercase">STEP 01</span>
-                <span className="material-symbols-outlined text-[#ffb690] text-xl">terminal</span>
-              </div>
-              <h3 className="text-sm font-bold text-white mb-1">Daily Briefing</h3>
-              <p className="text-xs text-[#e0c0b1] leading-relaxed">
-                Receive a tactical task focused on core CS concepts or real-world building.
-              </p>
-            </div>
-
-            <div className="glass-card p-5 rounded-xl fade-up-enter">
-              <div className="flex items-center justify-between mb-3">
-                <span className="font-mono text-[10px] text-[#e0c0b1] tracking-widest uppercase">STEP 02</span>
-                <div className="flex gap-1.5">
-                  <span className="material-symbols-outlined text-[#ffc640] text-xl">code</span>
-                  <span className="material-symbols-outlined text-[#ffc640] text-xl">link</span>
-                </div>
-              </div>
-              <h3 className="text-sm font-bold text-white mb-1">Dual Proof</h3>
-              <p className="text-xs text-[#e0c0b1] leading-relaxed">
-                Commit code to GitHub and share the insight publicly on LinkedIn.
-              </p>
-            </div>
-
-            <div className="glass-card p-5 rounded-xl fade-up-enter">
-              <div className="flex items-center justify-between mb-3">
-                <span className="font-mono text-[10px] text-[#e0c0b1] tracking-widest uppercase">STEP 03</span>
-                <span className="material-symbols-outlined text-[#c0c1ff] text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>
-                  emoji_events
+          {/* Body Content */}
+          <main className="px-5 py-6 flex flex-col gap-10 relative z-10">
+            
+            {/* HERO SECTION */}
+            <section className="flex flex-col items-center text-center pt-2">
+              
+              {/* Badge */}
+              <div className="border border-[#f97316]/40 bg-[#f97316]/10 backdrop-blur-md rounded-full px-3 py-1 mb-3 flex items-center gap-1.5 shadow-[0_0_15px_rgba(249,115,22,0.15)]">
+                <span className="material-symbols-outlined text-[#f97316] text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>
+                  local_fire_department
+                </span>
+                <span className="text-[10px] font-bold text-[#f97316] uppercase tracking-wider">
+                  60-Day Student Challenge
                 </span>
               </div>
-              <h3 className="text-sm font-bold text-white mb-1">Visibility</h3>
-              <p className="text-xs text-[#e0c0b1] leading-relaxed">
-                Climb the ranks. Top performers are highlighted directly to hiring partners.
-              </p>
-            </div>
-          </section>
 
-          {/* Live Status Card */}
-          <section className="fade-up-enter">
-            <div className="glass-card rounded-xl p-5">
-              <div className="flex items-center justify-between mb-4 pb-2 border-b border-white/5">
-                <span className="font-mono text-[10px] text-[#ffb690] tracking-widest font-semibold uppercase">
+              {/* 3D Flame Icon */}
+              <div id="threejs-container" className="w-[120px] h-[120px] flex items-center justify-center -my-2" />
+
+              {/* Headline */}
+              <h1 className="text-2xl font-black text-white leading-tight mb-3 tracking-tight">
+                Build <br />
+                Consistency. <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f97316] to-[#ff9800]">
+                  Get Hired.
+                </span>
+              </h1>
+
+              {/* Subtitle */}
+              <p className="text-[11px] text-gray-400 leading-relaxed max-w-[280px] mb-6">
+                The elite proof-of-work engine for high-performance students. Commit to the daily grind, build public credibility, and get noticed by top recruiters.
+              </p>
+
+              {/* CTA Button */}
+              <button className="w-full bg-gradient-to-r from-[#16161a] to-[#121215] text-[#f97316] border border-[#f97316]/50 font-bold text-xs py-3 rounded-xl pulse-glow flex items-center justify-center gap-2 hover:brightness-125 transition-all">
+                Start Challenge
+                <span className="material-symbols-outlined text-sm">
+                  arrow_forward
+                </span>
+              </button>
+            </section>
+
+            {/* SECTION: TACTICAL BRIEFS */}
+            <section className="flex flex-col gap-3">
+              <h2 className="text-center text-xs font-bold text-gray-300 tracking-wider mb-1">
+                Tactical Briefs
+              </h2>
+
+              {/* Step 1 */}
+              <div className="bg-[#121216]/90 border border-white/[0.08] p-4 rounded-xl backdrop-blur-md">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-mono text-[9px] text-[#f97316] tracking-widest font-bold uppercase">
+                    STEP 01
+                  </span>
+                  <span className="material-symbols-outlined text-[#f97316] text-base">
+                    subtitles
+                  </span>
+                </div>
+                <h3 className="text-xs font-bold text-white mb-1">Daily Briefing</h3>
+                <p className="text-[10px] text-gray-400 leading-relaxed">
+                  Receive a tactical task focused on core CS concepts or real-world building.
+                </p>
+              </div>
+
+              {/* Step 2 */}
+              <div className="bg-[#121216]/90 border border-white/[0.08] p-4 rounded-xl backdrop-blur-md">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-mono text-[9px] text-[#f97316] tracking-widest font-bold uppercase">
+                    STEP 02
+                  </span>
+                  <div className="flex gap-1">
+                    <span className="material-symbols-outlined text-[#f97316] text-base">code</span>
+                    <span className="material-symbols-outlined text-[#f97316] text-base">link</span>
+                  </div>
+                </div>
+                <h3 className="text-xs font-bold text-white mb-1">Dual Proof</h3>
+                <p className="text-[10px] text-gray-400 leading-relaxed">
+                  Commit code to GitHub and share the insight publicly on LinkedIn.
+                </p>
+              </div>
+
+              {/* Step 3 */}
+              <div className="bg-[#121216]/90 border border-white/[0.08] p-4 rounded-xl backdrop-blur-md">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-mono text-[9px] text-[#f97316] tracking-widest font-bold uppercase">
+                    STEP 03
+                  </span>
+                  <span className="material-symbols-outlined text-[#818cf8] text-base" style={{ fontVariationSettings: "'FILL' 1" }}>
+                    emoji_events
+                  </span>
+                </div>
+                <h3 className="text-xs font-bold text-white mb-1">Visibility</h3>
+                <p className="text-[10px] text-gray-400 leading-relaxed">
+                  Climb the ranks. Top performers are highlighted directly to hiring partners.
+                </p>
+              </div>
+            </section>
+
+            {/* SECTION: LIVE STATUS (STITCH STACKED CARDS) */}
+            <section className="flex flex-col gap-3 pb-4">
+              <div className="flex items-center justify-end gap-1.5 pr-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#f97316] animate-ping" />
+                <span className="font-mono text-[9px] text-[#f97316] tracking-widest font-bold uppercase">
                   LIVE STATUS
                 </span>
-                <div className="w-2 h-2 rounded-full bg-[#ffb690] pulse-dot" />
               </div>
-              <div className="grid grid-cols-3 gap-2 text-center">
-                <div>
-                  <div className="text-lg font-extrabold text-white">1,250+</div>
-                  <div className="text-[9px] uppercase text-[#e0c0b1] mt-0.5">Students</div>
-                </div>
-                <div>
-                  <div className="text-lg font-extrabold text-[#ffc640]">75k</div>
-                  <div className="text-[9px] uppercase text-[#e0c0b1] mt-0.5">Proofs</div>
-                </div>
-                <div>
-                  <div className="text-lg font-extrabold text-[#c0c1ff]">Top 5%</div>
-                  <div className="text-[9px] uppercase text-[#e0c0b1] mt-0.5">Hired</div>
-                </div>
+
+              <div className="bg-[#121216]/90 border border-white/[0.08] p-4 rounded-xl backdrop-blur-md flex flex-col gap-1">
+                <span className="text-base font-extrabold text-white">1,250+</span>
+                <span className="text-[10px] text-gray-400 font-medium">Active Students</span>
               </div>
-            </div>
-          </section>
-        </main>
 
-        {/* Footer */}
-        <footer className="border-t border-white/5 bg-[#0e0e10] p-5 flex flex-col gap-6">
-          <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#ffb690] text-lg pulse-dot" style={{ fontVariationSettings: "'FILL' 1" }}>
-              local_fire_department
-            </span>
-            <span className="font-bold text-base bg-gradient-to-r from-[#ffb690] to-[#ffc640] bg-clip-text text-transparent">
-              ABTalks
-            </span>
-          </div>
+              <div className="bg-[#121216]/90 border border-white/[0.08] p-4 rounded-xl backdrop-blur-md flex flex-col gap-1">
+                <span className="text-base font-extrabold text-[#f97316]">75k</span>
+                <span className="text-[10px] text-gray-400 font-medium">Proofs Submitted</span>
+              </div>
 
-          <div className="grid grid-cols-2 gap-4 text-xs text-[#e0c0b1]">
-            <div className="flex flex-col gap-2">
-              <a href="#" className="hover:text-white transition-colors">Daily Briefing</a>
-              <a href="#" className="hover:text-white transition-colors">Proof-of-Work</a>
-              <a href="#" className="hover:text-white transition-colors">Leaderboard</a>
-            </div>
-            <div className="flex flex-col gap-2">
-              <a href="#" className="hover:text-white transition-colors">Discord</a>
-              <a href="#" className="hover:text-white transition-colors">LinkedIn</a>
-              <a href="#" className="hover:text-white transition-colors">GitHub</a>
-            </div>
-          </div>
+              <div className="bg-[#121216]/90 border border-white/[0.08] p-4 rounded-xl backdrop-blur-md flex flex-col gap-1">
+                <span className="text-base font-extrabold text-[#818cf8]">Top 5%</span>
+                <span className="text-[10px] text-gray-400 font-medium">Hired Cohort</span>
+              </div>
+            </section>
+          </main>
 
-          <p className="text-[9px] text-[#e0c0b1]/50 tracking-widest uppercase font-mono text-center pt-4 border-t border-white/5">
-            © 2026 ABTALKS. ALL RIGHTS RESERVED.
-          </p>
-        </footer>
+          {/* Footer inside viewport */}
+          <footer className="border-t border-white/[0.06] bg-[#08080a] p-4 text-center relative z-10">
+            <p className="text-[8px] text-gray-500 font-mono tracking-widest uppercase">
+              © 2026 ABTALKS. ALL RIGHTS RESERVED.
+            </p>
+          </footer>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
