@@ -124,7 +124,8 @@ export default function Home() {
 
   // 3. Three.js Hero Scene Initialization
   const initThreeScene = () => {
-    const THREE = (window as unknown as { THREE: typeof import("three") }).THREE;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const THREE = (window as any).THREE;
     if (!THREE) return;
 
     const container = document.getElementById("threejs-container");
