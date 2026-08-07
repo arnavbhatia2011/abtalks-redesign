@@ -5,7 +5,7 @@ import Script from "next/script";
 
 export default function Home() {
   useEffect(() => {
-    // 1. Intersection Observer for fade-up animations
+    // 1. Intersection Observer for smooth fade-up animations
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -23,7 +23,7 @@ export default function Home() {
       observer.observe(el);
     });
 
-    // 2. WebGL Shader Canvas
+    // 2. WebGL Background Shader Canvas
     const canvas = document.getElementById("bg-canvas") as HTMLCanvasElement | null;
     if (canvas) {
       const gl = canvas.getContext("webgl");
@@ -80,7 +80,11 @@ export default function Home() {
 
             const positionBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW);
+            gl.bufferData(
+              gl.ARRAY_BUFFER,
+              new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
+              gl.STATIC_DRAW
+            );
 
             const positionLocation = gl.getAttribLocation(program, "position");
             gl.enableVertexAttribArray(positionLocation);
@@ -114,6 +118,7 @@ export default function Home() {
     }
   }, []);
 
+  // 3. Three.js Flame Graphic Initializer
   const initThreeScene = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const THREE = (window as any).THREE;
@@ -122,8 +127,8 @@ export default function Home() {
     const container = document.getElementById("threejs-container");
     if (!container || container.children.length > 0) return;
 
-    const width = container.clientWidth || 180;
-    const height = container.clientHeight || 180;
+    const width = 160;
+    const height = 160;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
@@ -199,7 +204,7 @@ export default function Home() {
         }
 
         .glass-card {
-          background: rgba(19, 19, 21, 0.7);
+          background: rgba(19, 19, 21, 0.75);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
           border: 1px solid rgba(255, 255, 255, 0.08);
@@ -249,13 +254,13 @@ export default function Home() {
         }
       `}</style>
 
-      {/* Fixed Fullscreen Background Canvas */}
+      {/* WebGL Fullscreen Canvas */}
       <canvas id="bg-canvas" className="fixed inset-0 w-full h-full -z-10 pointer-events-none" />
 
-      {/* Main Container constrained to Max 420px (Mobile-friendly layout) */}
-      <div className="w-full max-w-[420px] mx-auto min-h-screen flex flex-col justify-between bg-[#131315]/90 border-x border-white/5 relative z-10 shadow-2xl">
+      {/* Main Centered Mobile Viewport Wrapper */}
+      <div className="w-full max-w-[390px] mx-auto min-h-screen flex flex-col justify-between bg-[#131315]/95 border-x border-white/5 relative z-10 shadow-2xl">
         
-        {/* Header */}
+        {/* Navigation Bar */}
         <header className="sticky top-0 z-50 bg-[#131315]/80 backdrop-blur-md flex justify-between items-center px-5 h-16 border-b border-white/5">
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-[#ffb690] pulse-dot text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>
@@ -270,13 +275,12 @@ export default function Home() {
           </button>
         </header>
 
-        {/* Content Body */}
+        {/* Content Section */}
         <main className="px-5 py-6 flex flex-col gap-10">
           
-          {/* Hero Section */}
+          {/* Hero Header */}
           <section className="flex flex-col items-center text-center">
-            {/* 3D Flame Container with fixed size */}
-            <div id="threejs-container" className="w-[180px] h-[180px] flex items-center justify-center my-2" />
+            <div id="threejs-container" className="w-[160px] h-[160px] flex items-center justify-center my-2" />
 
             <div className="border border-[#f97316]/30 bg-[#f97316]/10 backdrop-blur-md rounded-full px-3.5 py-1 mb-4 flex items-center gap-1.5 fade-up-enter">
               <span className="material-symbols-outlined text-[#ffb690] text-xs pulse-dot" style={{ fontVariationSettings: "'FILL' 1" }}>
