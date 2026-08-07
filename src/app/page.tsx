@@ -9,8 +9,6 @@ import {
   Code2,
   Link2,
   Trophy,
-  Share2,
-  Award,
 } from "lucide-react";
 
 export default function Home() {
@@ -60,11 +58,11 @@ export default function Home() {
       }
     `;
 
-    function createShader(gl: WebGLRenderingContext, type: number, source: string) {
-      const shader = gl.createShader(type);
+    function createShader(glContext: WebGLRenderingContext, type: number, source: string) {
+      const shader = glContext.createShader(type);
       if (!shader) return null;
-      gl.shaderSource(shader, source);
-      gl.compileShader(shader);
+      glContext.shaderSource(shader, source);
+      glContext.compileShader(shader);
       return shader;
     }
 
@@ -106,7 +104,7 @@ export default function Home() {
     function render(time: number) {
       if (!gl) return;
       gl.uniform1f(timeLocation, time * 0.001);
-      gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+      gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
       animationFrameId = requestAnimationFrame(render);
     }
