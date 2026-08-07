@@ -1,9 +1,16 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ABTalks — 60-Day Student Coding Challenge",
-  description: "Mobile-first platform for daily proof-of-work coding challenges.",
+  title: "ABTalks - 60-Day Student Challenge",
+  description: "Build Consistency. Get Hired.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
@@ -13,11 +20,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-neutral-950 min-h-screen text-neutral-100 antialiased flex justify-center">
-        {/* Mobile viewport wrapper locked to max 390px */}
-        <div className="w-full max-w-[390px] min-h-screen border-x border-neutral-800 bg-neutral-950 shadow-2xl">
-          {children}
-        </div>
+      <body className="antialiased bg-[#08080a] text-[#e5e1e4] min-h-screen">
+        {children}
       </body>
     </html>
   );
