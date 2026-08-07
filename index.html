@@ -1,1 +1,612 @@
+<!DOCTYPE html>
 
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ABTalks - 60-Day Student Challenge</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-primary": "#9d4300",
+                        "secondary": "#ffc640",
+                        "on-secondary": "#402d00",
+                        "tertiary-container": "#8c8fff",
+                        "on-secondary-fixed-variant": "#5c4300",
+                        "surface-container-low": "#1c1b1d",
+                        "inverse-surface": "#e5e1e4",
+                        "error-container": "#93000a",
+                        "secondary-container": "#e3aa00",
+                        "on-primary-fixed-variant": "#783200",
+                        "surface-container-highest": "#353437",
+                        "on-error-container": "#ffdad6",
+                        "surface-dim": "#131315",
+                        "tertiary": "#c0c1ff",
+                        "on-surface-variant": "#e0c0b1",
+                        "tertiary-fixed-dim": "#c0c1ff",
+                        "outline-variant": "#584237",
+                        "secondary-fixed-dim": "#f9bd22",
+                        "on-background": "#e5e1e4",
+                        "on-secondary-container": "#5a4100",
+                        "on-primary-fixed": "#341100",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed-variant": "#2f2ebe",
+                        "surface-container-high": "#2a2a2c",
+                        "surface-container-lowest": "#0e0e10",
+                        "outline": "#a78b7d",
+                        "primary-fixed": "#ffdbca",
+                        "on-tertiary-fixed": "#07006c",
+                        "surface-variant": "#353437",
+                        "surface-tint": "#ffb690",
+                        "secondary-fixed": "#ffdf9f",
+                        "primary-fixed-dim": "#ffb690",
+                        "on-surface": "#e5e1e4",
+                        "on-tertiary": "#1000a9",
+                        "surface-container": "#201f22",
+                        "inverse-on-surface": "#313032",
+                        "on-secondary-fixed": "#261a00",
+                        "tertiary-fixed": "#e1e0ff",
+                        "background": "#131315",
+                        "primary": "#ffb690",
+                        "on-error": "#690005",
+                        "surface": "#131315",
+                        "primary-container": "#f97316",
+                        "on-primary": "#552100",
+                        "on-tertiary-container": "#1304ac",
+                        "on-primary-container": "#582200",
+                        "surface-bright": "#39393b"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "container-padding-desktop": "24px",
+                        "unit": "4px",
+                        "stack-md": "16px",
+                        "gutter": "16px",
+                        "stack-lg": "32px",
+                        "container-padding-mobile": "16px",
+                        "stack-sm": "8px"
+                    },
+                    fontFamily: {
+                        "code-sm": ["JetBrains Mono"],
+                        "display-sm": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "label-caps": ["Geist"],
+                        "body-md": ["Geist"],
+                        "headline-lg-mobile": ["Geist"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Base styles */
+        body {
+            min-height: max(884px, 100dvh);
+            background-color: transparent; /* Let canvas show through */
+        }
+        
+        /* Tactical Overhaul Styles */
+        .glass-card {
+            background: rgba(19, 19, 21, 0.4);
+            backdrop-filter: blur(60px);
+            -webkit-backdrop-filter: blur(60px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .glow-button {
+            position: relative;
+            background: rgba(249, 115, 22, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(249, 115, 22, 0.5);
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.2), inset 0 0 20px rgba(249, 115, 22, 0.1);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .glow-button::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(249, 115, 22, 0.8), transparent 30%);
+            animation: rotateBorder 4s linear infinite;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .glow-button::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: #131315;
+            border-radius: inherit;
+            z-index: -1;
+            transition: background 0.3s;
+        }
+
+        .glow-button:hover::before {
+            opacity: 1;
+        }
+        .glow-button:hover::after {
+            background: rgba(249, 115, 22, 0.1);
+        }
+
+        .glow-button:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 10px 40px rgba(249, 115, 22, 0.4);
+        }
+        
+        .glow-button:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes rotateBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .badge-border {
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            background: rgba(249, 115, 22, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .fade-up-enter {
+            opacity: 0;
+            transform: translateY(30px) scale(0.98);
+            animation: tacticalFadeUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        
+        @keyframes tacticalFadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        
+        .pulse-dot {
+            animation: pulseDot 2s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+        }
+        @keyframes pulseDot {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7); }
+            50% { transform: scale(1.2); box-shadow: 0 0 0 10px rgba(249, 115, 22, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.05;
+            animation: flicker 0.15s infinite;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.05; }
+            50% { opacity: 0.04; }
+            100% { opacity: 0.05; }
+        }
+
+        .hero-text-glow {
+            background: linear-gradient(135deg, #e5e1e4 0%, #c0c1ff 40%, #ffb690 80%, #f97316 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 40px rgba(249, 115, 22, 0.4), 0 0 80px rgba(255, 182, 144, 0.2);
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+        }
+
+        #threejs-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 120%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .nav-blur {
+            background: rgba(19, 19, 21, 0.2);
+            backdrop-filter: blur(30px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Spring transitions for global elements */
+        * {
+            transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+    </style>
+</head>
+<body class="text-on-background min-h-screen font-body-md overflow-x-hidden relative">
+<canvas height="1814" id="bg-canvas" width="390"></canvas>
+<div class="scanlines"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 nav-blur shadow-none flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop h-16 max-w-7xl mx-auto transition-transform duration-300">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-primary pulse-dot" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="font-display-sm text-display-sm bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent drop-shadow-[0_0_8px_rgba(255,182,144,0.5)]">ABTalks</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary-container text-on-primary-container font-label-caps text-label-caps px-4 py-2 rounded-full glow-button active:scale-95">
+                Sign In
+            </button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-container-padding-mobile md:px-container-padding-desktop max-w-7xl mx-auto flex flex-col gap-stack-lg relative z-10 overflow-hidden">
+<!-- Hero Section -->
+<section class="flex flex-col items-center justify-center text-center mt-12 relative min-h-[50vh] w-full max-w-[390px] mx-auto md:max-w-none">
+<div id="threejs-container"></div>
+<div class="badge-border rounded-full px-4 py-1 mb-6 flex items-center gap-2 shadow-[0_0_15px_rgba(249,115,22,0.2)] fade-up-enter stagger-1">
+<span class="material-symbols-outlined text-primary text-sm pulse-dot" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="font-label-caps text-label-caps text-primary">60-Day Student Challenge</span>
+</div>
+<h1 class="font-display-lg text-[40px] md:text-[64px] leading-[1.1] md:leading-tight font-extrabold hero-text-glow mb-6 w-full relative z-10 fade-up-enter stagger-2">
+                Build Consistency.<br/>Get Hired.
+            </h1>
+<p class="font-body-md text-body-md text-on-surface-variant w-full mb-8 relative z-10 drop-shadow-md fade-up-enter stagger-3 px-2">
+                The elite proof-of-work engine for high-performance students. Commit to the daily grind, build public credibility, and get noticed by top recruiters.
+            </p>
+<button class="text-primary font-headline-lg-mobile text-headline-lg-mobile px-8 py-4 rounded-full glow-button active:scale-95 flex items-center gap-2 group relative z-10 fade-up-enter stagger-4">
+                Start Challenge
+                <span class="material-symbols-outlined group-hover:translate-x-2 transition-transform duration-300">arrow_forward</span>
+</button>
+</section>
+<!-- Proof-of-Work Engine -->
+<section class="mt-16 relative z-10">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-center mb-8 fade-up-enter text-white/90">Tactical Briefs</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-stack-md">
+<!-- Step 1 -->
+<div class="glass-card p-6 rounded-xl fade-up-enter stagger-1 relative overflow-hidden group">
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+<div class="flex items-center justify-between mb-4">
+<span class="font-code-sm text-code-sm text-on-surface-variant tracking-wider">STEP 01</span>
+<span class="material-symbols-outlined text-primary text-2xl drop-shadow-[0_0_8px_rgba(249,115,22,0.5)]">terminal</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile mb-2 text-white">Daily Briefing</h3>
+<p class="text-sm text-on-surface-variant">Receive a tactical task focused on core CS concepts or real-world building.</p>
+</div>
+<!-- Step 2 -->
+<div class="glass-card p-6 rounded-xl fade-up-enter stagger-2 relative overflow-hidden group">
+<div class="absolute inset-0 bg-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+<div class="flex items-center justify-between mb-4">
+<span class="font-code-sm text-code-sm text-on-surface-variant tracking-wider">STEP 02</span>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-secondary text-2xl drop-shadow-[0_0_8px_rgba(255,198,64,0.5)]">code</span>
+<span class="material-symbols-outlined text-secondary text-2xl drop-shadow-[0_0_8px_rgba(255,198,64,0.5)]">link</span>
+</div>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile mb-2 text-white">Dual Proof</h3>
+<p class="text-sm text-on-surface-variant">Commit code to GitHub and share the insight publicly on LinkedIn.</p>
+</div>
+<!-- Step 3 -->
+<div class="glass-card p-6 rounded-xl fade-up-enter stagger-3 relative overflow-hidden group">
+<div class="absolute inset-0 bg-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+<div class="flex items-center justify-between mb-4">
+<span class="font-code-sm text-code-sm text-on-surface-variant tracking-wider">STEP 03</span>
+<span class="material-symbols-outlined text-tertiary text-2xl drop-shadow-[0_0_8px_rgba(192,193,255,0.5)]" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile mb-2 text-white">Visibility</h3>
+<p class="text-sm text-on-surface-variant">Climb the ranks. Top performers are highlighted directly to hiring partners.</p>
+</div>
+</div>
+</section>
+<!-- Live Stats Grid -->
+<section class="mt-16 fade-up-enter relative z-10" id="stats-section">
+<div class="glass-card rounded-2xl p-8 relative overflow-hidden transition-transform duration-200 ease-out" id="stats-card">
+<div class="absolute top-4 right-4 flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary pulse-dot"></div>
+<span class="font-code-sm text-code-sm text-primary tracking-widest">LIVE STATUS</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-6">
+<div>
+<div class="font-display-sm text-display-sm text-white mb-1 drop-shadow-md">1,250+</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant tracking-wider">Active Students</div>
+</div>
+<div>
+<div class="font-display-sm text-display-sm text-secondary mb-1 drop-shadow-[0_0_10px_rgba(255,198,64,0.3)]">75k</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant tracking-wider">Proofs Submitted</div>
+</div>
+<div>
+<div class="font-display-sm text-display-sm text-tertiary mb-1 drop-shadow-[0_0_10px_rgba(192,193,255,0.3)]">Top 5%</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant tracking-wider">Hired Cohort</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<script>
+        // Intersection Observer for fade-up animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-up-enter').forEach(el => {
+                el.style.animationPlayState = 'paused';
+                observer.observe(el);
+            });
+        });
+
+        // WebGL Background Shader
+        const canvas = document.getElementById('bg-canvas');
+        const gl = canvas.getContext('webgl');
+
+        if (gl) {
+            const vertexShaderSource = `
+                attribute vec2 position;
+                varying vec2 v_texCoord;
+                void main() {
+                    gl_Position = vec4(position, 0.0, 1.0);
+                    v_texCoord = position * 0.5 + 0.5;
+                }
+            `;
+
+            const fragmentShaderSource = `
+precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+// Simplified procedural noise for better mobile performance
+float noise(vec2 p) {
+    return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+void main() {
+    vec2 uv = v_texCoord;
+    
+    // Deep Onyx Base
+    vec3 color = vec3(0.04, 0.04, 0.05);
+    
+    // Smooth pulse instead of mouse-follow
+    float pulse = sin(u_time * 0.8) * 0.5 + 0.5;
+    
+    // Flowing energy waves (ambient, non-interactive)
+    float t = u_time * 0.3;
+    float wave = sin(uv.y * 6.0 + t) * cos(uv.x * 4.0 - t);
+    
+    vec3 orange = vec3(0.976, 0.451, 0.086); // #f97316
+    
+    // Ambient glow that shifts vertically
+    float ambientGlow = smoothstep(0.2, 0.8, uv.y + sin(t)*0.2);
+    color += orange * ambientGlow * 0.05;
+    
+    // Animated streaks
+    float streaks = smoothstep(0.45, 0.55, sin(uv.x * 12.0 + uv.y * 2.0 + t));
+    color += orange * streaks * 0.08 * pulse;
+    
+    // Sub-pixel grain
+    color += (noise(uv + u_time * 0.01) - 0.5) * 0.02;
+    
+    gl_FragColor = vec4(color, 1.0);
+}
+            `;
+
+            function createShader(gl, type, source) {
+                const shader = gl.createShader(type);
+                gl.shaderSource(shader, source);
+                gl.compileShader(shader);
+                return shader;
+            }
+
+            const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+            const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+
+            const program = gl.createProgram();
+            gl.attachShader(program, vertexShader);
+            gl.attachShader(program, fragmentShader);
+            gl.linkProgram(program);
+            gl.useProgram(program);
+
+            const positionBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+            const positions = [
+                -1.0, -1.0,
+                 1.0, -1.0,
+                -1.0,  1.0,
+                -1.0,  1.0,
+                 1.0, -1.0,
+                 1.0,  1.0,
+            ];
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+            const positionAttributeLocation = gl.getAttribLocation(program, "position");
+            gl.enableVertexAttribArray(positionAttributeLocation);
+            gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+
+            const timeLocation = gl.getUniformLocation(program, "u_time");
+            const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                gl.viewport(0, 0, canvas.width, canvas.height);
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            function render(time) {
+                gl.uniform1f(timeLocation, time * 0.001);
+                gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+                requestAnimationFrame(render);
+            }
+            requestAnimationFrame(render);
+        }
+
+        // Three.js Hero Scene
+        if (typeof THREE !== 'undefined') {
+            (function() {
+              const container = document.getElementById('threejs-container');
+              const width = container.clientWidth || window.innerWidth;
+              const height = container.clientHeight || window.innerHeight;
+              
+              const scene = new THREE.Scene();
+              const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+              const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+
+              renderer.setSize(width, height);
+              renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+              container.appendChild(renderer.domElement);
+
+              // Group for the tactical flame
+              const group = new THREE.Group();
+
+              const orangeMaterial = new THREE.MeshPhongMaterial({ 
+                  color: 0xf97316, 
+                  emissive: 0xf97316,
+                  emissiveIntensity: 0.6,
+                  transparent: true,
+                  opacity: 0.95,
+                  shininess: 100
+              });
+
+              // Base core
+              const coreGeo = new THREE.SphereGeometry(0.6, 32, 32);
+              const core = new THREE.Mesh(coreGeo, orangeMaterial);
+              group.add(core);
+
+              // Tactical "flame" tip (Cone)
+              const tipGeo = new THREE.ConeGeometry(0.6, 1.4, 32);
+              const tip = new THREE.Mesh(tipGeo, orangeMaterial);
+              tip.position.y = 0.6;
+              group.add(tip);
+
+              scene.add(group);
+
+              const light = new THREE.PointLight(0xf97316, 2, 10);
+              light.position.set(2, 2, 2);
+              scene.add(light);
+              scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+
+              camera.position.z = 3.5;
+
+              // Auto-rotation for mobile (no cursor)
+              function animate() {
+                  requestAnimationFrame(animate);
+                  
+                  const time = Date.now() * 0.001;
+                  
+                  // Gentle floating and rotating motion
+                  group.rotation.y = time * 0.5;
+                  group.rotation.z = Math.sin(time * 0.7) * 0.1;
+                  group.position.y = Math.sin(time) * 0.1;
+                  
+                  // Pulsing scale
+                  const s = 1.0 + Math.sin(time * 2.0) * 0.05;
+                  group.scale.set(s, s, s);
+                  
+                  renderer.render(scene, camera);
+              }
+
+              window.addEventListener('resize', () => {
+                  const w = container.clientWidth || window.innerWidth;
+                  const h = container.clientHeight || window.innerHeight;
+                  camera.aspect = w / h;
+                  camera.updateProjectionMatrix();
+                  renderer.setSize(w, h);
+              });
+
+              animate();
+            })();
+        }
+    </script>
+<footer class="relative z-10 mt-16 border-t border-white/5 bg-surface-container-lowest pt-16 pb-8 px-container-padding-mobile md:px-container-padding-desktop">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+<!-- Brand Section -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary pulse-dot" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="font-display-sm text-headline-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">ABTalks</span>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+        The elite proof-of-work engine for high-performance students. Build consistency, gain visibility, and get hired.
+      </p>
+</div>
+<!-- Challenge Links -->
+<div>
+<h4 class="font-label-caps text-label-caps text-white mb-6 tracking-widest">Challenge</h4>
+<ul class="flex flex-col gap-3">
+<li class=""><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Daily Briefing</a></li>
+<li class=""><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Proof-of-Work</a></li>
+<li class=""><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Leaderboard</a></li>
+<li class=""><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">FAQ</a></li>
+</ul>
+</div>
+<!-- Community Links -->
+<div>
+<h4 class="font-label-caps text-label-caps text-white mb-6 tracking-widest">Community</h4>
+<ul class="flex flex-col gap-3">
+<li class=""><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Discord</a></li>
+<li class=""><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">LinkedIn</a></li>
+<li class=""><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">GitHub</a></li>
+<li class=""><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Success Stories</a></li>
+</ul>
+</div>
+<!-- Legal Links -->
+<div>
+<h4 class="font-label-caps text-label-caps text-white mb-6 tracking-widest">Legal</h4>
+<ul class="flex flex-col gap-3">
+<li class=""><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li class=""><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+<li class=""><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Honor Code</a></li>
+</ul>
+</div>
+</div>
+<!-- Bottom Bar -->
+<div class="max-w-7xl mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+<p class="text-[10px] font-label-caps text-on-surface-variant/60 tracking-widest">
+      © 2026 ABTALKS. ALL RIGHTS RESERVED.
+    </p>
+<div class="flex gap-6">
+<a class="text-on-surface-variant/60 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">brand_awareness</span>
+</a>
+<a class="text-on-surface-variant/60 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">terminal</span>
+</a>
+<a class="text-on-surface-variant/60 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">share</span>
+</a>
+</div>
+</div>
+</footer></body></html>
