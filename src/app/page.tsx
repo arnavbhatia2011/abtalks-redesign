@@ -1,15 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import {
-  Flame,
-  ChevronRight,
-  Github,
-  Trophy,
-  Terminal,
-  ExternalLink,
-} from "lucide-react";
 
 /**
  * Procedural Onyx & Amber WebGL Shader Background Component
@@ -105,9 +96,6 @@ const TacticalBackground = () => {
   );
 };
 
-/**
- * Main Landing Page Component
- */
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#09090b] text-white font-sans selection:bg-orange-500/30 overflow-x-hidden">
@@ -117,65 +105,52 @@ export default function LandingPage() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-white/5 px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center shadow-[0_0_15px_rgba(249,115,22,0.4)]">
-            <Flame size={18} className="text-white fill-white" />
+            <svg className="w-4 h-4 text-white fill-white" viewBox="0 0 24 24">
+              <path d="M12 23c-4.97 0-9-3.58-9-8 0-4.12 3.28-7.58 7.34-11.83.33-.35.88-.37 1.24-.03.04.03.07.07.1.1 1.77 1.95 3.32 3.86 3.32 5.76 0 .55-.45 1-1 1s-1-.45-1-1c0-1.12-.99-2.35-2-3.55C7.94 10.15 5 12.87 5 15c0 3.31 3.13 6 7 6s7-2.69 7-6c0-2.22-1.37-4.19-3-6.12-.39-.47-.32-1.16.15-1.55.46-.38 1.14-.32 1.53.13C19.5 9.7 21 12.12 21 15c0 4.42-4.03 8-9 8z" />
+            </svg>
           </div>
           <span className="font-bold text-xl tracking-tight bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
             ABTalks
           </span>
         </div>
-        <motion.button
-          whileTap={{ scale: 0.95 }}
-          className="px-5 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-500 font-semibold text-sm hover:bg-orange-500/20 transition-colors"
-        >
+        <button className="px-5 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-500 font-semibold text-sm hover:bg-orange-500/20 active:scale-95 transition-all">
           Sign In
-        </motion.button>
+        </button>
       </nav>
 
-      {/* Content Container */}
+      {/* Main Content Container */}
       <main className="pt-24 pb-32 px-6 max-w-[390px] mx-auto space-y-16">
         
         {/* Hero Section */}
         <section className="text-center space-y-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-500 text-xs font-bold tracking-widest uppercase"
-          >
-            <Flame size={14} className="animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-500 text-xs font-bold tracking-widest uppercase">
+            <svg className="w-3.5 h-3.5 animate-pulse fill-current" viewBox="0 0 24 24">
+              <path d="M12 23c-4.97 0-9-3.58-9-8 0-4.12 3.28-7.58 7.34-11.83.33-.35.88-.37 1.24-.03.04.03.07.07.1.1 1.77 1.95 3.32 3.86 3.32 5.76 0 .55-.45 1-1 1s-1-.45-1-1c0-1.12-.99-2.35-2-3.55C7.94 10.15 5 12.87 5 15c0 3.31 3.13 6 7 6s7-2.69 7-6c0-2.22-1.37-4.19-3-6.12-.39-.47-.32-1.16.15-1.55.46-.38 1.14-.32 1.53.13C19.5 9.7 21 12.12 21 15c0 4.42-4.03 8-9 8z" />
+            </svg>
             60-Day Student Challenge
-          </motion.div>
+          </div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-5xl font-extrabold tracking-tight leading-[1.1] bg-gradient-to-b from-white via-white to-white/40 bg-clip-text text-transparent"
-          >
+          <h1 className="text-5xl font-extrabold tracking-tight leading-[1.1] bg-gradient-to-b from-white via-white to-white/40 bg-clip-text text-transparent">
             Build Consistency.<br />
             <span className="text-orange-500">Get Hired.</span>
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-white/60 text-sm leading-relaxed max-w-[280px] mx-auto"
-          >
+          <p className="text-white/60 text-sm leading-relaxed max-w-[280px] mx-auto">
             The elite proof-of-work engine for high-performance students. Commit to the daily grind, build public credibility, and get noticed by top recruiters.
-          </motion.p>
+          </p>
 
-          <motion.button
-            whileTap={{ scale: 0.98 }}
-            className="group relative w-full py-4 bg-orange-600 rounded-xl font-bold text-white shadow-[0_20px_40px_-10px_rgba(249,115,22,0.4)] flex items-center justify-center gap-2 overflow-hidden"
-          >
+          <button className="group relative w-full py-4 bg-orange-600 rounded-xl font-bold text-white shadow-[0_20px_40px_-10px_rgba(249,115,22,0.4)] flex items-center justify-center gap-2 overflow-hidden active:scale-98 transition-all">
             <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative z-10 flex items-center gap-2">
-              Start Challenge <ChevronRight size={18} />
+              Start Challenge
+              <svg className="w-4 h-4 stroke-current stroke-2 fill-none" viewBox="0 0 24 24">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
             </span>
-          </motion.button>
+          </button>
         </section>
 
-        {/* Tactical Briefs with Scroll Animations */}
+        {/* Tactical Briefs */}
         <section className="space-y-8">
           <h2 className="text-center text-white/40 text-[10px] font-bold tracking-[0.3em] uppercase">
             Tactical Briefs
@@ -183,27 +158,20 @@ export default function LandingPage() {
 
           <div className="space-y-4">
             {[
-              { step: "01", title: "Daily Briefing", desc: "Receive a tactical task focused on core CS concepts or real-world building.", icon: Terminal },
-              { step: "02", title: "Dual Proof", desc: "Commit code to GitHub and share the insight publicly on LinkedIn.", icon: Github },
-              { step: "03", title: "Visibility", desc: "Climb the ranks. Top performers are highlighted directly to hiring partners.", icon: Trophy },
+              { step: "01", title: "Daily Briefing", desc: "Receive a tactical task focused on core CS concepts or real-world building." },
+              { step: "02", title: "Dual Proof", desc: "Commit code to GitHub and share the insight publicly on LinkedIn." },
+              { step: "03", title: "Visibility", desc: "Climb the ranks. Top performers are highlighted directly to hiring partners." },
             ].map((item, idx) => (
-              <motion.div
+              <div
                 key={idx}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
                 className="group p-6 rounded-2xl bg-[#1c1b1d]/40 backdrop-blur-md border border-white/5 hover:border-orange-500/20 transition-all duration-300 relative overflow-hidden"
               >
-                <div className="absolute top-0 right-0 p-4 text-white/10 group-hover:text-orange-500/20 transition-colors">
-                  <item.icon size={24} />
-                </div>
                 <span className="text-[10px] font-mono font-bold text-orange-500/60 uppercase tracking-widest mb-3 block">
                   Step {item.step}
                 </span>
                 <h3 className="text-xl font-bold mb-2">{item.title}</h3>
                 <p className="text-sm text-white/50 leading-relaxed">{item.desc}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </section>
@@ -223,16 +191,10 @@ export default function LandingPage() {
               { label: "Proofs Submitted", value: "75k", color: "text-orange-400" },
               { label: "Hired Cohort", value: "Top 5%", color: "text-blue-400" },
             ].map((stat, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-              >
+              <div key={idx}>
                 <div className={`text-3xl font-bold mb-1 ${stat.color}`}>{stat.value}</div>
                 <div className="text-xs font-medium text-white/40 uppercase tracking-wider">{stat.label}</div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </section>
@@ -241,33 +203,14 @@ export default function LandingPage() {
         <footer className="pt-16 border-t border-white/5 space-y-12">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <Flame size={20} className="text-orange-500" />
+              <svg className="w-5 h-5 text-orange-500 fill-current" viewBox="0 0 24 24">
+                <path d="M12 23c-4.97 0-9-3.58-9-8 0-4.12 3.28-7.58 7.34-11.83.33-.35.88-.37 1.24-.03.04.03.07.07.1.1 1.77 1.95 3.32 3.86 3.32 5.76 0 .55-.45 1-1 1s-1-.45-1-1c0-1.12-.99-2.35-2-3.55C7.94 10.15 5 12.87 5 15c0 3.31 3.13 6 7 6s7-2.69 7-6c0-2.22-1.37-4.19-3-6.12-.39-.47-.32-1.16.15-1.55.46-.38 1.14-.32 1.53.13C19.5 9.7 21 12.12 21 15c0 4.42-4.03 8-9 8z" />
+              </svg>
               <span className="font-bold text-xl">ABTalks</span>
             </div>
             <p className="text-sm text-white/40 leading-relaxed">
               The elite proof-of-work engine for high-performance students. Build consistency, gain visibility, and get hired.
             </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-10">
-            {[
-              { title: "Challenge", links: ["Daily Briefing", "Proof-of-Work", "Leaderboard", "FAQ"] },
-              { title: "Community", links: ["Discord", "LinkedIn", "GitHub", "Success Stories"] },
-              { title: "Legal", links: ["Privacy Policy", "Terms of Service", "Honor Code"] },
-            ].map((col, idx) => (
-              <div key={idx} className="space-y-4">
-                <h4 className="text-xs font-bold text-white/80 uppercase tracking-widest">{col.title}</h4>
-                <ul className="space-y-3">
-                  {col.links.map((link, lIdx) => (
-                    <li key={lIdx}>
-                      <a href="#" className="text-sm text-white/40 hover:text-orange-500 transition-colors flex items-center justify-between group">
-                        {link} <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all" />
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
           </div>
 
           <div className="pt-8 flex items-center justify-between text-white/20 text-[10px] font-bold uppercase tracking-widest border-t border-white/5">
