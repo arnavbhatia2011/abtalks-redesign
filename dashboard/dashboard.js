@@ -4,9 +4,45 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    initISTTimer();
     initTop10Leaderboard();
     initUrlValidation();
 });
+
+/**
+ * 1. DAILY RESET COUNTDOWN TIMER (IST TIMEZONE)
+ * Calculates time remaining until 24:00 (Midnight) IST
+ */
+function updateISTTimer() {
+    const timerEl = document.getElementById('ist-countdown');
+    if (!timerEl) return;
+
+    const now = new Date();
+    const utcMs = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const istOffsetMs = 5.5 * 60 * 60 * 1000;
+    const istTime = new Date(utcMs + istOffsetMs);
+
+    const nextMidnightIST = new Date(istTime);
+    nextMidnightIST.setHours(24, 0, 0, 0);
+
+    const diff = nextMidnightIST - istTime;
+
+    if (diff <= 0) {
+        timerEl.innerText = "00h 00m 00s";
+        return;
+    }
+
+    const hours = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+    const minutes = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, '0');
+    const seconds = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+
+    timerEl.innerText = `${hours}h ${minutes}m ${seconds}s`;
+}
+
+function initISTTimer() {
+    updateISTTimer();
+    setInterval(updateISTTimer, 1000);
+}
 
 // Explicit Top 10 Participants Data
 const TOP_10_LEADERS = [
@@ -23,7 +59,7 @@ const TOP_10_LEADERS = [
 ];
 
 /**
- * 1. LEADERBOARD DISPLAY LOGIC
+ * 2. LEADERBOARD DISPLAY LOGIC
  * Populates your existing container while preserving its parent styling.
  */
 function initTop10Leaderboard() {
@@ -49,7 +85,7 @@ function initTop10Leaderboard() {
 }
 
 /**
- * 2. STRICT DOMAIN VALIDATION LOGIC
+ * 3. STRICT DOMAIN VALIDATION LOGIC
  * Accepts ONLY valid GitHub and LinkedIn URLs.
  */
 function isValidGitHubUrl(urlString) {
@@ -124,6 +160,12 @@ function initUrlValidation() {
             if (!ghValid || !liValid) {
                 e.preventDefault();
                 alert('Submission rejected: GitHub input must be a github.com link and LinkedIn input must be a linkedin.com link.');
+            } else {
+                e.preventDefault();
+                alert('Proof Submitted Successfully!');
+                form.reset();
+                if (githubInput) githubInput.classList.remove('border-emerald-500');
+                if (linkedinInput) linkedinInput.classList.remove('border-emerald-500');
             }
         });
     }
