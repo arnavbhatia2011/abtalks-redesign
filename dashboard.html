@@ -86,13 +86,18 @@
             -webkit-backdrop-filter: blur(12px);
         }
 
-        /* Hide scrollbars */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="text-on-background min-h-screen font-body-md overflow-x-hidden relative flex justify-center">
 <div class="scanlines"></div>
+
+<!-- Toast Notification Banner -->
+<div id="toast-banner" class="fixed top-4 z-50 transition-all duration-300 transform -translate-y-16 opacity-0 pointer-events-none bg-surface-container-high/90 border border-white/20 text-white px-4 py-2 rounded-full text-xs font-semibold shadow-2xl flex items-center gap-2">
+    <span id="toast-icon" class="material-symbols-outlined text-primary text-sm">info</span>
+    <span id="toast-msg">Notification Message</span>
+</div>
 
 <!-- Mobile Container (390px Viewport Target) -->
 <div class="w-full max-w-[390px] min-h-screen relative flex flex-col bg-[#131315]">
@@ -105,18 +110,21 @@
         </a>
         
         <div class="flex items-center gap-2">
-            <div class="flex items-center gap-1 glass-card px-2.5 py-1 rounded-full border border-primary/20">
+            <!-- Streak Button -->
+            <button id="streak-badge-btn" class="flex items-center gap-1 glass-card px-2.5 py-1 rounded-full border border-primary/20 active:scale-95 transition-transform">
                 <span class="material-symbols-outlined text-primary text-xs">local_fire_department</span>
-                <span class="font-code-sm text-[10px] text-white font-bold">12 DAYS</span>
-            </div>
-            <div class="w-8 h-8 rounded-full bg-primary-container/20 border border-primary/40 flex items-center justify-center font-bold text-xs text-primary">
+                <span class="font-code-sm text-[10px] text-white font-bold" id="header-streak-label">12 DAYS</span>
+            </button>
+            
+            <!-- User Avatar -->
+            <button id="user-profile-btn" class="w-8 h-8 rounded-full bg-primary-container/20 border border-primary/40 flex items-center justify-center font-bold text-xs text-primary active:scale-90 transition-transform">
                 ST
-            </div>
+            </button>
         </div>
     </header>
 
-    <!-- Content Area -->
-    <main class="pt-16 pb-24 px-4 flex flex-col gap-4">
+    <!-- Main Content Area -->
+    <main class="pt-16 pb-20 px-4 flex flex-col gap-4">
         
         <!-- User Greeting -->
         <section class="flex flex-col gap-1.5 pt-1">
@@ -125,8 +133,31 @@
                 <span class="text-[10px] font-code-sm text-primary font-normal">Day 12 / 60</span>
             </h1>
             <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                <div class="bg-gradient-to-r from-primary to-secondary h-full rounded-full" style="width: 20%;"></div>
+                <div class="bg-gradient-to-r from-primary to-secondary h-full rounded-full transition-all duration-500" style="width: 20%;"></div>
             </div>
+        </section>
+
+        <!-- Stats Overview Cards Grid -->
+        <section class="grid grid-cols-2 gap-2" id="stats-summary-grid">
+            <!-- Rank Button Card -->
+            <button id="open-modal-rank-btn" class="glass-card p-3 rounded-xl hover:border-secondary/50 active:scale-[0.98] transition-all text-left relative overflow-hidden group">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="font-code-sm text-[9px] text-on-surface-variant uppercase">GLOBAL RANK</span>
+                    <span class="material-symbols-outlined text-secondary text-sm">emoji_events</span>
+                </div>
+                <div class="text-base font-extrabold text-white">#12</div>
+                <div class="text-[9px] text-emerald-400 font-medium">Top 2% Cohort</div>
+            </button>
+
+            <!-- Proof Count Card -->
+            <button id="stat-proof-btn" class="glass-card p-3 rounded-xl hover:border-primary/50 active:scale-[0.98] transition-all text-left">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="font-code-sm text-[9px] text-on-surface-variant uppercase">PROOFS</span>
+                    <span class="material-symbols-outlined text-primary text-sm">verified</span>
+                </div>
+                <div class="text-base font-extrabold text-white">12 / 12</div>
+                <div class="text-[9px] text-emerald-400 font-medium">100% Completed</div>
+            </button>
         </section>
 
         <!-- Dynamic Navigation Tabs (Panes Switcher) -->
@@ -135,7 +166,7 @@
                 Today
             </button>
             <button data-pane="submissions" class="pane-tab flex-1 py-1.5 rounded-lg font-medium text-center text-on-surface-variant hover:text-white transition-all">
-                History (Day 1-12)
+                History (1-12)
             </button>
             <button data-pane="ranks" class="pane-tab flex-1 py-1.5 rounded-lg font-medium text-center text-on-surface-variant hover:text-white transition-all">
                 Leaderboard
@@ -152,60 +183,126 @@
                     <span class="text-[9px] bg-primary/20 text-primary px-2 py-0.5 rounded-full font-bold">DAY 12</span>
                 </div>
                 <h2 class="text-sm font-bold text-white mb-1">Data Structures: Binary Trees & DFS</h2>
-                <p class="text-[11px] text-on-surface-variant mb-3">Implement Depth-First Search traversal and upload proof links below.</p>
+                <p class="text-[11px] text-on-surface-variant mb-3 leading-relaxed">Implement Depth-First Search traversal algorithm and submit your solution proof on LinkedIn and GitHub.</p>
                 
-                <a href="/day12" class="w-full py-2 bg-primary text-on-primary rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform">
+                <a href="/day12" id="submit-today-btn" class="w-full py-2 bg-primary text-on-primary rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform shadow-lg shadow-primary/20">
                     <span>Submit Day 12 Work</span>
                     <span class="material-symbols-outlined text-sm">arrow_forward</span>
                 </a>
             </div>
 
             <!-- Day 13 Coming Soon Lock Card -->
-            <div class="glass-card p-3 rounded-xl opacity-75 border-dashed border-white/20 relative">
+            <button id="day13-locked-btn" class="glass-card p-3 rounded-xl opacity-80 border-dashed border-white/20 text-left relative active:scale-[0.99] transition-transform group">
                 <div class="flex items-center justify-between mb-1">
                     <span class="font-code-sm text-[9px] text-on-surface-variant font-bold">DAY 13</span>
-                    <span class="text-[9px] bg-white/10 text-on-surface-variant px-2 py-0.5 rounded-full flex items-center gap-1">
+                    <span class="text-[9px] bg-white/10 text-on-surface-variant px-2 py-0.5 rounded-full flex items-center gap-1 font-semibold group-hover:bg-primary/20 group-hover:text-primary transition-colors">
                         <span class="material-symbols-outlined text-[10px]">lock</span> Out Soon
                     </span>
                 </div>
-                <h3 class="text-xs font-bold text-white/80 mb-0.5">Dynamic Programming & Memoization</h3>
-                <p class="text-[10px] text-on-surface-variant/70">Unlocks tomorrow at 00:00 UTC</p>
-            </div>
+                <h3 class="text-xs font-bold text-white/90 mb-0.5">Dynamic Programming & Memoization</h3>
+                <p class="text-[10px] text-on-surface-variant/70">Unlocks tomorrow at 00:00 UTC • Tap to set reminder</p>
+            </button>
         </div>
 
         <!-- ================= PANE 2: DAY 1 - 12 SUBMISSIONS LOG ================= -->
         <div id="pane-submissions" class="pane-content hidden flex flex-col gap-2.5">
-            <div class="flex justify-between items-center mb-1">
-                <h2 class="text-xs font-bold text-white uppercase font-code-sm">Submitted Proofs (12/12)</h2>
-                <span class="text-[10px] text-emerald-400 font-bold">100% Completion</span>
+            <!-- Search & Filter Controls for History -->
+            <div class="flex flex-col gap-2">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xs font-bold text-white uppercase font-code-sm">Submitted Proofs</h2>
+                    <span class="text-[10px] text-emerald-400 font-bold" id="submissions-count-badge">12/12 Verified</span>
+                </div>
+
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-xs pointer-events-none">search</span>
+                    <input type="text" id="history-search-input" placeholder="Search past topics..." class="w-full bg-surface-container-high/40 border border-white/10 rounded-xl pl-8 pr-3 py-1.5 text-xs text-white placeholder:text-on-surface-variant/60 focus:outline-none focus:border-primary/50">
+                </div>
             </div>
 
-            <!-- Submitted Items List (Rendered via JS) -->
+            <!-- Submitted Items List -->
             <div class="flex flex-col gap-2" id="submissions-log-container">
-                <!-- Javascript populates submitted entries from Day 1 to Day 12 -->
+                <!-- Javascript renders Day 1 through Day 12 entries -->
             </div>
         </div>
 
-        <!-- ================= PANE 3: CITY, STATE & COUNTRY LEADERBOARD ================= -->
+        <!-- ================= PANE 3: LEADERBOARD PANE ================= -->
         <div id="pane-ranks" class="pane-content hidden flex flex-col gap-3">
             
-            <!-- Scope Filter Tabs (City, State, Country) -->
-            <div class="flex gap-1.5 overflow-x-auto text-[10px]" id="leaderboard-scope-filters">
-                <button data-scope="city" class="scope-btn active px-3 py-1 rounded-full bg-secondary text-surface font-bold">City (Mumbai)</button>
-                <button data-scope="state" class="scope-btn px-3 py-1 rounded-full bg-white/5 border border-white/10 text-on-surface-variant hover:text-white">State (MH)</button>
-                <button data-scope="country" class="scope-btn px-3 py-1 rounded-full bg-white/5 border border-white/10 text-on-surface-variant hover:text-white">Country (India)</button>
+            <!-- Scope Filters (City, State, Country) -->
+            <div class="flex gap-1.5 overflow-x-auto text-[10px]" id="pane-scope-filters">
+                <button data-scope="city" class="pane-scope-btn active px-3 py-1 rounded-full bg-secondary text-surface font-bold transition-all">City (Mumbai)</button>
+                <button data-scope="state" class="pane-scope-btn px-3 py-1 rounded-full bg-white/5 border border-white/10 text-on-surface-variant hover:text-white transition-all">State (Maharashtra)</button>
+                <button data-scope="country" class="pane-scope-btn px-3 py-1 rounded-full bg-white/5 border border-white/10 text-on-surface-variant hover:text-white transition-all">Country (India)</button>
+            </div>
+
+            <!-- Leaderboard Search Bar -->
+            <div class="relative">
+                <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-xs pointer-events-none">search</span>
+                <input type="text" id="pane-leaderboard-search" placeholder="Search builder name..." class="w-full bg-surface-container-high/40 border border-white/10 rounded-xl pl-8 pr-3 py-1.5 text-xs text-white placeholder:text-on-surface-variant/60 focus:outline-none focus:border-secondary/50">
             </div>
 
             <!-- Standings List -->
-            <div class="flex flex-col gap-1.5" id="leaderboard-scope-list">
+            <div class="flex flex-col gap-1.5" id="pane-leaderboard-list">
                 <!-- Javascript renders scoped rankings -->
             </div>
         </div>
 
     </main>
+
+    <!-- Leaderboard Modal -->
+    <div id="leaderboard-modal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-3 opacity-0 transition-opacity duration-200">
+        <div class="glass-card w-full max-w-[360px] rounded-2xl p-4 relative max-h-[82vh] flex flex-col border border-white/20 shadow-2xl scale-95 transition-transform duration-200" id="modal-card">
+            
+            <!-- Close Button -->
+            <button id="close-modal-btn" class="absolute top-3 right-3 text-on-surface-variant hover:text-white active:scale-90 transition-all p-1">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+
+            <!-- Modal Header -->
+            <div class="mb-3 pr-6">
+                <div class="flex items-center gap-1.5 mb-0.5">
+                    <span class="material-symbols-outlined text-secondary text-base">emoji_events</span>
+                    <h3 class="text-base font-bold text-white">Cohort Standings</h3>
+                </div>
+                <p class="text-[10px] text-on-surface-variant">Live builder rankings based on daily proof submissions.</p>
+            </div>
+
+            <!-- Modal Scope Filters -->
+            <div class="flex gap-1.5 overflow-x-auto text-[10px] mb-2.5" id="modal-scope-filters">
+                <button data-scope="city" class="modal-scope-btn active px-2.5 py-1 rounded-full bg-secondary text-surface font-bold transition-all">City (Mumbai)</button>
+                <button data-scope="state" class="modal-scope-btn px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-on-surface-variant hover:text-white transition-all">State (MH)</button>
+                <button data-scope="country" class="modal-scope-btn px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-on-surface-variant hover:text-white transition-all">Country (India)</button>
+            </div>
+
+            <!-- Modal User Rank Card Banner -->
+            <div class="bg-primary/10 border border-primary/30 p-2.5 rounded-xl flex items-center justify-between mb-2.5 shrink-0">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-full bg-primary-container text-on-primary font-bold flex items-center justify-center text-[11px] shadow-sm">
+                        #12
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-white">You (Student)</div>
+                        <div class="text-[9px] text-primary">12-Day Streak • 1,240 XP</div>
+                    </div>
+                </div>
+                <span class="text-[9px] font-bold bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/30">Top 2%</span>
+            </div>
+
+            <!-- Modal Live Search -->
+            <div class="relative mb-2.5 shrink-0">
+                <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-xs pointer-events-none">search</span>
+                <input type="text" id="modal-leaderboard-search" placeholder="Search builder..." class="w-full bg-surface-container-high/40 border border-white/10 rounded-lg pl-7 pr-2.5 py-1 text-[11px] text-white placeholder:text-on-surface-variant/60 focus:outline-none focus:border-secondary/50">
+            </div>
+
+            <!-- Modal Leaderboard List -->
+            <div class="overflow-y-auto pr-1 flex-1 space-y-1.5" id="modal-leaderboard-list">
+                <!-- Populated via Javascript -->
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- Dashboard Logic -->
+<!-- Main Script Logic -->
 <script src="dashboard.js"></script>
 </body>
 </html>
