@@ -1,15 +1,15 @@
 /**
- * ABTalks Dashboard Controller (dash.js)
- * Plugs directly into your existing UI.
+ * ABTalks Dashboard Pure Logic (dash.js)
+ * Mounts directly onto your existing HTML elements without altering your UI/layout.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    renderTop10Leaders();
-    attachStrictUrlValidation();
+    initTop10Leaderboard();
+    initUrlValidation();
 });
 
-// Guaranteed Top 10 Participants
-const top10Data = [
+// Explicit Top 10 Participants Data
+const TOP_10_LEADERS = [
     { rank: 1, name: "Alex Rivers", points: 1200 },
     { rank: 2, name: "Sarah Chen", points: 1180 },
     { rank: 3, name: "Michael Vance", points: 1150 },
@@ -23,68 +23,81 @@ const top10Data = [
 ];
 
 /**
- * Renders all 10 participants into your leaderboard element.
+ * 1. LEADERBOARD DISPLAY LOGIC
+ * Populates your existing container while preserving its parent styling.
  */
-function renderTop10Leaders() {
-    // Looks for your existing leaderboard wrapper ID
-    const container = document.getElementById('leaderboard-list') || document.getElementById('leaderboard');
-    if (!container) return;
+function initTop10Leaderboard() {
+    // Tries to find your existing leaderboard container ID
+    const leaderboardContainer = document.getElementById('leaderboard-list') 
+        || document.getElementById('leaderboard')
+        || document.querySelector('[data-leaderboard]');
 
-    container.innerHTML = top10Data.map(user => `
-        <div class="leaderboard-item flex items-center justify-between p-2.5 rounded-xl bg-white/5 border border-white/10 mb-2">
+    if (!leaderboardContainer) return;
+
+    // Injects exactly 10 leaders into your existing container
+    leaderboardContainer.innerHTML = TOP_10_LEADERS.map(user => `
+        <div class="leaderboard-row flex items-center justify-between p-3 my-1 rounded-lg bg-white/5 border border-white/10">
             <div class="flex items-center gap-3">
-                <span class="rank-badge w-6 h-6 rounded-full ${user.rank <= 3 ? 'bg-amber-400 text-black font-bold' : 'bg-white/10 text-white'} text-xs flex items-center justify-center">
-                    ${user.rank}
+                <span class="font-bold text-xs px-2 py-0.5 rounded ${user.rank <= 3 ? 'bg-amber-400 text-black' : 'bg-white/10 text-white'}">
+                    #${user.rank}
                 </span>
-                <span class="user-name text-xs font-semibold text-white">${user.name}</span>
+                <span class="font-semibold text-xs text-white">${user.name}</span>
             </div>
-            <span class="user-points text-xs font-mono font-bold text-amber-400">${user.points} pts</span>
+            <span class="font-mono text-xs font-bold text-amber-400">${user.points} pts</span>
         </div>
     `).join('');
 }
 
 /**
- * Strict URL Validation Helpers
+ * 2. STRICT DOMAIN VALIDATION LOGIC
+ * Accepts ONLY valid GitHub and LinkedIn URLs.
  */
-function isStrictGitHubUrl(url) {
+function isValidGitHubUrl(urlString) {
     try {
-        const parsed = new URL(url);
-        return parsed.hostname === 'github.com' || parsed.hostname === 'www.github.com';
+        const url = new URL(urlString);
+        return url.hostname === 'github.com' || url.hostname === 'www.github.com';
     } catch (_) {
         return false;
     }
 }
 
-function isStrictLinkedInUrl(url) {
+function isValidLinkedInUrl(urlString) {
     try {
-        const parsed = new URL(url);
-        return parsed.hostname === 'linkedin.com' || parsed.hostname.endsWith('.linkedin.com');
+        const url = new URL(urlString);
+        return url.hostname === 'linkedin.com' || url.hostname.endsWith('.linkedin.com');
     } catch (_) {
         return false;
     }
 }
 
 /**
- * Binds strict validation to your form & link input fields
+ * Attaches validation listeners to your form inputs
  */
-function attachStrictUrlValidation() {
-    // Selects by ID or generic fallback selectors
-    const ghInput = document.getElementById('github-url') || document.querySelector('input[name="github"]') || document.querySelector('input[placeholder*="github"]');
-    const liInput = document.getElementById('linkedin-url') || document.querySelector('input[name="linkedin"]') || document.querySelector('input[placeholder*="linkedin"]');
-    const form = document.getElementById('submission-form') || document.querySelector('form');
+function initUrlValidation() {
+    // Auto-detects inputs by ID, name, or attribute
+    const githubInput = document.getElementById('github-url') 
+        || document.querySelector('input[name="github"]') 
+        || document.querySelector('input[placeholder*="github" i]');
 
-    function validateField(input, type) {
-        if (!input) return false;
+    const linkedinInput = document.getElementById('linkedin-url') 
+        || document.querySelector('input[name="linkedin"]') 
+        || document.querySelector('input[placeholder*="linkedin" i]');
+
+    const form = document.getElementById('submission-form') 
+        || document.querySelector('form');
+
+    function checkField(input, type) {
+        if (!input) return true;
         const val = input.value.trim();
-        
+
         if (val === '') {
             input.classList.remove('border-red-500', 'border-emerald-500');
             return false;
         }
 
-        const isValid = type === 'github' ? isStrictGitHubUrl(val) : isStrictLinkedInUrl(val);
+        const valid = type === 'github' ? isValidGitHubUrl(val) : isValidLinkedInUrl(val);
 
-        if (isValid) {
+        if (valid) {
             input.classList.remove('border-red-500');
             input.classList.add('border-emerald-500');
             return true;
@@ -95,22 +108,22 @@ function attachStrictUrlValidation() {
         }
     }
 
-    if (ghInput) {
-        ghInput.addEventListener('input', () => validateField(ghInput, 'github'));
+    if (githubInput) {
+        githubInput.addEventListener('input', () => checkField(githubInput, 'github'));
     }
 
-    if (liInput) {
-        liInput.addEventListener('input', () => validateField(liInput, 'linkedin'));
+    if (linkedinInput) {
+        linkedinInput.addEventListener('input', () => checkField(linkedinInput, 'linkedin'));
     }
 
     if (form) {
         form.addEventListener('submit', (e) => {
-            const ghValid = ghInput ? validateField(ghInput, 'github') : true;
-            const liValid = liInput ? validateField(liInput, 'linkedin') : true;
+            const ghValid = githubInput ? checkField(githubInput, 'github') : true;
+            const liValid = linkedinInput ? checkField(linkedinInput, 'linkedin') : true;
 
             if (!ghValid || !liValid) {
                 e.preventDefault();
-                alert('Invalid URL! GitHub inputs must be a github.com link and LinkedIn inputs must be a linkedin.com link.');
+                alert('Submission rejected: GitHub input must be a github.com link and LinkedIn input must be a linkedin.com link.');
             }
         });
     }
