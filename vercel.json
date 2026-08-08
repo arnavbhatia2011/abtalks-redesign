@@ -1,9 +1,9 @@
 {
   "version": 2,
+  "cleanUrls": true,
   "builds": [
     { "src": "*.html", "use": "@vercel/static" }
   ],
-  "cleanUrls": true,
   "routes": [
     { "source": "/", "dest": "/homepage.html" },
     { "source": "/dashboard", "dest": "/dashboard.html" },
