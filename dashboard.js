@@ -2,14 +2,6 @@
  * Dashboard Application State
  */
 const DASHBOARD_STATE = {
-    user: {
-        id: "usr_01",
-        name: "You (Student)",
-        currentDay: 12,
-        streak: 12,
-        xp: 1240
-    },
-    activePane: "today", 
     paneLeaderboardScope: "city", 
     modalLeaderboardScope: "city",
     historySearchQuery: "",
@@ -57,7 +49,7 @@ const DASHBOARD_STATE = {
 };
 
 /**
- * Toast Notification Function
+ * Toast Notification
  */
 function showToast(message, icon = "info") {
     const toastBanner = document.getElementById("toast-banner");
@@ -78,35 +70,39 @@ function showToast(message, icon = "info") {
 }
 
 /**
- * Switch Active View Pane
+ * Direct Tab/Pane Switcher
  */
-function switchPane(paneId) {
-    DASHBOARD_STATE.activePane = paneId;
+function switchTabPane(targetPaneId) {
+    // 1. Hide all panes
+    const allPanes = document.querySelectorAll(".tab-pane");
+    allPanes.forEach(pane => {
+        pane.classList.remove("active-pane");
+    });
 
-    // Update Tab Styles
-    document.querySelectorAll(".pane-tab").forEach(tab => {
-        if (tab.dataset.pane === paneId) {
-            tab.classList.add("active", "text-primary", "bg-white/10", "font-bold");
+    // 2. Show target pane
+    const selectedPane = document.getElementById(targetPaneId);
+    if (selectedPane) {
+        selectedPane.classList.add("active-pane");
+    }
+
+    // 3. Highlight active tab
+    const allTabs = document.querySelectorAll(".pane-tab");
+    allTabs.forEach(tab => {
+        if (tab.getAttribute("data-target") === targetPaneId) {
+            tab.classList.add("text-primary", "bg-white/10", "font-bold");
             tab.classList.remove("text-on-surface-variant", "font-medium");
         } else {
-            tab.classList.remove("active", "text-primary", "bg-white/10", "font-bold");
+            tab.classList.remove("text-primary", "bg-white/10", "font-bold");
             tab.classList.add("text-on-surface-variant", "font-medium");
         }
     });
 
-    // Toggle View Content Panes
-    document.querySelectorAll(".pane-content").forEach(pane => {
-        if (pane.id === `pane-${paneId}`) {
-            pane.classList.remove("pane-hidden");
-            pane.classList.add("pane-visible");
-        } else {
-            pane.classList.remove("pane-visible");
-            pane.classList.add("pane-hidden");
-        }
-    });
-
-    if (paneId === "submissions") renderSubmissionsLog();
-    if (paneId === "ranks") renderPaneLeaderboard();
+    // 4. Render Dynamic Contents
+    if (targetPaneId === "pane-submissions") {
+        renderSubmissionsLog();
+    } else if (targetPaneId === "pane-ranks") {
+        renderPaneLeaderboard();
+    }
 }
 
 /**
@@ -160,7 +156,7 @@ function renderSubmissionsLog() {
 }
 
 /**
- * Leaderboard HTML Builder
+ * Leaderboard Dynamic Rows
  */
 function buildLeaderboardRowsHtml(data, searchQuery) {
     const filtered = data.filter(item => 
@@ -234,32 +230,42 @@ function closeModal() {
 }
 
 /**
- * Initialize Event Handlers
+ * Initialize Everything Function
  */
-function initDashboard() {
-    // 1. Navigation Brand Header Button -> Return to Today Pane
-    const brandBtn = document.getElementById("nav-dashboard-brand");
-    if (brandBtn) {
-        brandBtn.addEventListener("click", () => {
-            switchPane("today");
-            showToast("Returned to Dashboard", "dashboard");
-        });
-    }
-
-    // 2. Tab Navigation Click Handlers
-    document.querySelectorAll(".pane-tab").forEach(tab => {
-        tab.addEventListener("click", (e) => {
+function initApp() {
+    // 1. Tab Event Listeners
+    const tabs = document.querySelectorAll(".pane-tab");
+    tabs.forEach(tab => {
+        tab.addEventListener("click", function(e) {
             e.preventDefault();
-            switchPane(tab.dataset.pane);
+            const target = this.getAttribute("data-target");
+            switchTabPane(target);
         });
     });
 
-    // 3. Search Bar for History
+    // 2. Brand Return Button
+    const brandBtn = document.getElementById("nav-dashboard-brand");
+    if (brandBtn) {
+        brandBtn.addEventListener("click", () => {
+            switchTabPane("pane-today");
+            showToast("Returned to Main Workspace", "dashboard");
+        });
+    }
+
+    // 3. Search Inputs
     const historySearchInput = document.getElementById("history-search-input");
     if (historySearchInput) {
         historySearchInput.addEventListener("input", (e) => {
             DASHBOARD_STATE.historySearchQuery = e.target.value.trim();
             renderSubmissionsLog();
+        });
+    }
+
+    const paneLeaderboardSearch = document.getElementById("pane-leaderboard-search");
+    if (paneLeaderboardSearch) {
+        paneLeaderboardSearch.addEventListener("input", (e) => {
+            DASHBOARD_STATE.paneSearchQuery = e.target.value.trim();
+            renderPaneLeaderboard();
         });
     }
 
@@ -279,22 +285,19 @@ function initDashboard() {
         });
     });
 
-    // 5. Pane Leaderboard Search Bar
-    const paneLeaderboardSearch = document.getElementById("pane-leaderboard-search");
-    if (paneLeaderboardSearch) {
-        paneLeaderboardSearch.addEventListener("input", (e) => {
-            DASHBOARD_STATE.paneSearchQuery = e.target.value.trim();
-            renderPaneLeaderboard();
-        });
-    }
-
-    // 6. Modal Open/Close Controls
+    // 5. Modal Trigger Handlers
     const openModalRankBtn = document.getElementById("open-modal-rank-btn");
     const closeModalBtn = document.getElementById("close-modal-btn");
     const leaderboardModal = document.getElementById("leaderboard-modal");
 
     if (openModalRankBtn) openModalRankBtn.addEventListener("click", openModal);
     if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
+
+    if (leaderboardModal) {
+        leaderboardModal.addEventListener("click", (e) => {
+            if (e.target === leaderboardModal) closeModal();
+        });
+    }
 
     document.querySelectorAll(".modal-scope-btn").forEach(btn => {
         btn.addEventListener("click", () => {
@@ -319,41 +322,27 @@ function initDashboard() {
         });
     }
 
-    if (leaderboardModal) {
-        leaderboardModal.addEventListener("click", (e) => {
-            if (e.target === leaderboardModal) closeModal();
-        });
-    }
-
-    // 7. Quick Stat Action Cards
-    const day13LockedBtn = document.getElementById("day13-locked-btn");
+    // 6. Quick Action Badges
     const statProofBtn = document.getElementById("stat-proof-btn");
-    const streakBadgeBtn = document.getElementById("streak-badge-btn");
-    const userProfileBtn = document.getElementById("user-profile-btn");
-
-    if (day13LockedBtn) {
-        day13LockedBtn.addEventListener("click", () => showToast("Day 13 unlocks tomorrow at 00:00 UTC!", "lock"));
-    }
     if (statProofBtn) {
         statProofBtn.addEventListener("click", () => {
-            switchPane("submissions");
+            switchTabPane("pane-submissions");
             showToast("Switched to History Log", "history");
         });
     }
-    if (streakBadgeBtn) {
-        streakBadgeBtn.addEventListener("click", () => showToast("🔥 12-Day Streak Active!", "local_fire_department"));
-    }
-    if (userProfileBtn) {
-        userProfileBtn.addEventListener("click", () => showToast("Logged in as Student (Day 12)", "account_circle"));
+
+    const day13LockedBtn = document.getElementById("day13-locked-btn");
+    if (day13LockedBtn) {
+        day13LockedBtn.addEventListener("click", () => showToast("Day 13 unlocks tomorrow at 00:00 UTC!", "lock"));
     }
 
-    // Initial Active View Load
-    switchPane("today");
+    // Default View Load
+    switchTabPane("pane-today");
 }
 
-// Execute listener setup once DOM ready
+// Bind load listener safely
 if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initDashboard);
+    document.addEventListener("DOMContentLoaded", initApp);
 } else {
-    initDashboard();
+    initApp();
 }
