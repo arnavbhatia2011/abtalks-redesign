@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-    <title>Dashboard - ABTalks 60-Day Tech Challenge</title>
+    <title>ABTalks - Student Dashboard</title>
 
     <!-- Tailwind CSS with Plugins -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -38,19 +38,13 @@
         }
     </script>
 
-    <!-- Typography and Icons -->
+    <!-- Typography & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700" rel="stylesheet"/>
 
     <style>
         :root {
             --bg-color: #131315;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
         }
 
         body {
@@ -71,7 +65,7 @@
         }
 
         .glass-card-glow {
-            background: rgba(25, 25, 28, 0.85);
+            background: rgba(25, 25, 28, 0.75);
             backdrop-filter: blur(28px);
             -webkit-backdrop-filter: blur(28px);
             border: 1px solid rgba(249, 115, 22, 0.3);
@@ -84,218 +78,125 @@
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
-
-        .pulse-dot {
-            animation: pulseDot 2s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-        }
-        @keyframes pulseDot {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7); }
-            50% { transform: scale(1.15); box-shadow: 0 0 0 12px rgba(249, 115, 22, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
-        }
     </style>
 </head>
 <body class="relative flex justify-center items-center min-h-screen">
 
-<!-- Outer Mobile Container -->
+<!-- Main Outer Dashboard Wrapper -->
 <div class="w-full max-w-[420px] min-h-screen relative z-10 flex flex-col bg-[#131315] border-x border-white/5 shadow-2xl">
 
-    <!-- Header Navigation -->
+    <!-- Sticky Navigation Header -->
     <header class="sticky top-0 w-full z-50 glass-nav flex items-center justify-between px-4 h-16">
         <a href="/" class="flex items-center gap-2 cursor-pointer">
-            <span class="material-symbols-outlined text-primary text-xl">arrow_back</span>
+            <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-container/40 to-primary/10 border border-primary/40 flex items-center justify-center shadow-md">
+                <span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+            </div>
             <div class="flex flex-col">
-                <span class="font-display-sm text-sm font-extrabold tracking-tight bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent">ABTalks</span>
+                <span class="font-display-sm text-base font-extrabold tracking-tight bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent">ABTalks Dash</span>
                 <span class="text-[8px] font-code-sm text-on-surface-variant/70 tracking-widest -mt-1 uppercase">Student Portal</span>
             </div>
         </a>
 
         <div class="flex items-center gap-2">
-            <span class="text-xs font-code-sm text-emerald-400 bg-emerald-400/10 px-2.5 py-1 rounded-full border border-emerald-400/20 font-bold flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                RANK #2
+            <span class="px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-code-sm text-[10px] font-bold">
+                Day 12 Active
             </span>
         </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="flex-1 px-4 pt-5 pb-24 flex flex-col gap-5">
+    <!-- Main Dashboard Body Flow -->
+    <main class="flex-1 px-4 pt-6 pb-12 flex flex-col gap-6">
 
-        <!-- User Profile & Streak Overview Header -->
-        <section class="glass-panel p-4 rounded-2xl flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-container to-secondary p-0.5 shadow-lg">
-                    <div class="w-full h-full bg-[#131315] rounded-[10px] flex items-center justify-center font-bold text-white text-base">
-                        AB
+        <!-- User Progress Header Card -->
+        <section class="glass-card-glow p-4 rounded-2xl flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-primary font-bold font-code-sm">
+                        JD
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-sm font-bold text-white">John Doe</span>
+                        <span class="text-[10px] text-on-surface-variant font-code-sm">Streak: 🔥 12 Days</span>
                     </div>
                 </div>
-                <div class="flex flex-col">
-                    <h2 class="text-sm font-bold text-white">Arnav Bhatia</h2>
-                    <span class="text-[10px] font-code-sm text-on-surface-variant">Cohort #4 • Day 12/60</span>
+                <div class="text-right">
+                    <span class="text-xs font-bold text-secondary font-code-sm">850 pts</span>
+                    <span class="block text-[9px] text-on-surface-variant font-code-sm">Rank #14</span>
                 </div>
-            </div>
-
-            <div class="flex flex-col items-end">
-                <div class="flex items-center gap-1 text-primary">
-                    <span class="material-symbols-outlined text-lg pulse-dot" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
-                    <span class="text-lg font-extrabold font-code-sm">12</span>
-                </div>
-                <span class="text-[9px] font-code-sm text-on-surface-variant uppercase">Day Streak</span>
             </div>
         </section>
 
-        <!-- Dynamic IST Countdown Clock Widget (Updated Text) -->
-        <section class="glass-card-glow p-4 rounded-2xl flex flex-col gap-2">
-            <div class="flex justify-between items-center border-b border-white/10 pb-2">
-                <div class="flex items-center gap-1.5">
-                    <span class="material-symbols-outlined text-primary text-base">schedule</span>
-                    <span class="text-xs font-code-sm text-white font-bold uppercase tracking-wider">Submission Lock</span>
-                </div>
-                <span class="text-[9px] font-code-sm text-secondary bg-secondary/10 px-2 py-0.5 rounded border border-secondary/20">IST (UTC+5:30)</span>
-            </div>
-
-            <div class="flex justify-between items-center pt-1">
-                <span class="text-[10px] font-code-sm text-on-surface-variant">Time left to submit today's task:</span>
-                <span class="text-base font-extrabold font-code-sm text-primary tracking-wider" id="ist-countdown">00h 00m 00s</span>
-            </div>
-        </section>
-
-        <!-- Stats Grid -->
-        <section class="grid grid-cols-3 gap-2">
-            <div class="glass-panel p-3 rounded-xl flex flex-col items-center justify-center text-center gap-1">
-                <span class="text-[9px] font-code-sm text-on-surface-variant uppercase">Total Points</span>
-                <span class="text-base font-extrabold font-code-sm text-secondary">1,200</span>
-            </div>
-            <div class="glass-panel p-3 rounded-xl flex flex-col items-center justify-center text-center gap-1">
-                <span class="text-[9px] font-code-sm text-on-surface-variant uppercase">Completed</span>
-                <span class="text-base font-extrabold font-code-sm text-emerald-400">12/60</span>
-            </div>
-            <div class="glass-panel p-3 rounded-xl flex flex-col items-center justify-center text-center gap-1">
-                <span class="text-[9px] font-code-sm text-on-surface-variant uppercase">Accuracy</span>
-                <span class="text-base font-extrabold font-code-sm text-tertiary">100%</span>
-            </div>
-        </section>
-
-        <!-- Daily Task & Submission Form -->
-        <section class="glass-panel p-4 rounded-2xl flex flex-col gap-3">
-            <div class="flex items-center justify-between">
+        <!-- Proof Submission Section (Strict GitHub & LinkedIn Domain Checking) -->
+        <section class="glass-panel p-4 rounded-2xl flex flex-col gap-4">
+            <div class="flex items-center justify-between border-b border-white/5 pb-2">
                 <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 bg-primary-container/20 text-primary text-[10px] font-code-sm font-bold rounded border border-primary-container/30">DAY 12</span>
-                    <span class="text-xs font-bold text-white">Today's Challenge</span>
+                    <span class="material-symbols-outlined text-primary text-base">cloud_upload</span>
+                    <span class="font-code-sm text-xs text-white font-bold uppercase tracking-wider">Submit Day 12 Proof</span>
                 </div>
-                <span class="text-[10px] font-code-sm text-emerald-400 font-bold">+100 PTS</span>
+                <span class="text-[9px] font-code-sm text-secondary bg-secondary/10 px-2 py-0.5 rounded-full border border-secondary/20">STRICT DOMAIN CHECK</span>
             </div>
 
-            <h3 class="text-sm font-bold text-white">Implement LRU Cache & System Architecture</h3>
-            <p class="text-xs text-on-surface-variant leading-relaxed">
-                Construct an LRU (Least Recently Used) cache with O(1) time complexity for read/write operations. Push code to GitHub and share a breakdown on LinkedIn.
-            </p>
-
-            <form class="flex flex-col gap-2.5 pt-2" onsubmit="event.preventDefault(); alert('Proof Submitted Successfully!');">
+            <form id="dashboard-submit-form" class="flex flex-col gap-3">
+                <!-- GitHub Link Input -->
                 <div class="flex flex-col gap-1">
-                    <label class="text-[10px] font-code-sm text-on-surface-variant uppercase">GitHub Commit / Repo URL</label>
-                    <input class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-primary font-code-sm" placeholder="https://github.com/username/repo" required="" type="url"/>
+                    <label class="text-[10px] font-code-sm text-on-surface-variant">GitHub Repository Link</label>
+                    <div class="relative flex items-center">
+                        <input 
+                            type="url" 
+                            id="github-input" 
+                            placeholder="https://github.com/username/project" 
+                            required
+                            class="w-full bg-surface-variant border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-white/30 focus:outline-none transition-colors pr-8 font-code-sm"
+                        />
+                        <span id="github-status-icon" class="material-symbols-outlined text-sm absolute right-2 text-white/30">code</span>
+                    </div>
+                    <span id="github-error-msg" class="text-[9px] text-red-400 hidden font-code-sm">Invalid domain! Only valid https://github.com/ URLs allowed.</span>
                 </div>
 
+                <!-- LinkedIn Link Input -->
                 <div class="flex flex-col gap-1">
-                    <label class="text-[10px] font-code-sm text-on-surface-variant uppercase">LinkedIn Post Link</label>
-                    <input class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-primary font-code-sm" placeholder="https://linkedin.com/posts/..." required="" type="url"/>
+                    <label class="text-[10px] font-code-sm text-on-surface-variant">LinkedIn Post Link</label>
+                    <div class="relative flex items-center">
+                        <input 
+                            type="url" 
+                            id="linkedin-input" 
+                            placeholder="https://linkedin.com/posts/..." 
+                            required
+                            class="w-full bg-surface-variant border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-white/30 focus:outline-none transition-colors pr-8 font-code-sm"
+                        />
+                        <span id="linkedin-status-icon" class="material-symbols-outlined text-sm absolute right-2 text-white/30">share</span>
+                    </div>
+                    <span id="linkedin-error-msg" class="text-[9px] text-red-400 hidden font-code-sm">Invalid domain! Only valid https://linkedin.com/ URLs allowed.</span>
                 </div>
 
-                <button class="w-full py-3 mt-1 bg-gradient-to-r from-primary-container via-primary to-secondary text-on-primary rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-primary-container/20 active:scale-[0.98] transition-transform" type="submit">
-                    <span class="material-symbols-outlined text-sm">upload_file</span>
-                    <span>Submit Proof of Work</span>
+                <button type="submit" class="w-full py-2.5 bg-gradient-to-r from-primary-container to-primary text-on-primary rounded-xl font-bold text-xs shadow-md hover:opacity-95 transition-opacity mt-1">
+                    Verify & Submit
                 </button>
             </form>
         </section>
 
-        <!-- Recent Submissions History Log -->
-        <section class="flex flex-col gap-3 pt-1">
-            <div class="flex items-center justify-between px-1">
-                <span class="font-code-sm text-xs text-on-surface-variant font-semibold uppercase tracking-wider">Recent Activity</span>
-                <a href="/dashboard/submissions" class="text-[10px] font-code-sm text-primary hover:underline">View All</a>
+        <!-- Top 10 Leaderboard Container (Populated dynamically via dash.js) -->
+        <section class="glass-panel p-4 rounded-2xl flex flex-col gap-3">
+            <div class="flex items-center justify-between border-b border-white/5 pb-2">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-secondary text-base">emoji_events</span>
+                    <span class="font-code-sm text-xs text-white font-bold uppercase tracking-wider">Top 10 Leaders</span>
+                </div>
+                <span class="text-[9px] font-code-sm text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full border border-emerald-400/20">LIVE STANDINGS</span>
             </div>
 
-            <div class="flex flex-col gap-2">
-                <div class="glass-panel p-3 rounded-xl flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-                            <span class="material-symbols-outlined text-base">check_circle</span>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-xs font-bold text-white">Day 11 • Binary Tree Traversal</span>
-                            <span class="text-[9px] text-on-surface-variant font-code-sm">Submitted Yesterday • Verified</span>
-                        </div>
-                    </div>
-                    <span class="text-xs font-code-sm font-bold text-secondary">+100</span>
-                </div>
-
-                <div class="glass-panel p-3 rounded-xl flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-                            <span class="material-symbols-outlined text-base">check_circle</span>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-xs font-bold text-white">Day 10 • Dynamic Programming</span>
-                            <span class="text-[9px] text-on-surface-variant font-code-sm">2 days ago • Verified</span>
-                        </div>
-                    </div>
-                    <span class="text-xs font-code-sm font-bold text-secondary">+100</span>
-                </div>
+            <!-- Dynamic Leaderboard Entry List (Displays all 10 participants) -->
+            <div id="leaderboard-list" class="flex flex-col gap-1.5 pt-1">
+                <!-- Rendered dynamically by dash.js -->
             </div>
         </section>
 
     </main>
 
-    <!-- Bottom Navigation Bar -->
-    <nav class="fixed bottom-0 w-full max-w-[420px] glass-nav h-16 z-50 border-t border-white/10 grid grid-cols-3 items-center text-center">
-        <a href="/dashboard" class="flex flex-col items-center gap-0.5 text-primary">
-            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">dashboard</span>
-            <span class="text-[9px] font-code-sm font-bold uppercase">Dashboard</span>
-        </a>
-        <a href="/dashboard/leaderboard" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
-            <span class="material-symbols-outlined text-xl">emoji_events</span>
-            <span class="text-[9px] font-code-sm uppercase">Leaderboard</span>
-        </a>
-        <a href="/dashboard/submissions" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
-            <span class="material-symbols-outlined text-xl">history</span>
-            <span class="text-[9px] font-code-sm uppercase">History</span>
-        </a>
-    </nav>
-
 </div>
 
-<script>
-    function updateISTTimer() {
-        const now = new Date();
-        const utcMs = now.getTime() + (now.getTimezoneOffset() * 60000);
-        const istOffsetMs = 5.5 * 60 * 60 * 1000;
-        const istTime = new Date(utcMs + istOffsetMs);
-
-        const nextMidnightIST = new Date(istTime);
-        nextMidnightIST.setHours(24, 0, 0, 0);
-
-        const diff = nextMidnightIST - istTime;
-
-        if (diff <= 0) {
-            document.getElementById('ist-countdown').innerText = "00h 00m 00s";
-            return;
-        }
-
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((diff / (1000 * 60)) % 60);
-        const seconds = Math.floor((diff / 1000) % 60);
-
-        const h = String(hours).padStart(2, '0');
-        const m = String(minutes).padStart(2, '0');
-        const s = String(seconds).padStart(2, '0');
-
-        document.getElementById('ist-countdown').innerText = `${h}h ${m}m ${s}s`;
-    }
-
-    updateISTTimer();
-    setInterval(updateISTTimer, 1000);
-</script>
+<!-- Linked Logic File -->
+<script src="./dash.js"></script>
 
 </body>
 </html>
