@@ -38,7 +38,7 @@
         }
     </script>
 
-    <!-- Typography & Icons -->
+    <!-- Typography & Material Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700" rel="stylesheet"/>
 
@@ -56,6 +56,7 @@
             overflow-x: hidden;
         }
 
+        /* Glassmorphism Components */
         .glass-panel {
             background: rgba(25, 25, 28, 0.65);
             backdrop-filter: blur(24px);
@@ -82,120 +83,138 @@
 </head>
 <body class="relative flex justify-center items-center min-h-screen">
 
-<!-- Main Outer Dashboard Wrapper -->
+<!-- Outer Mobile Shell Container (Max 420px Viewport) -->
 <div class="w-full max-w-[420px] min-h-screen relative z-10 flex flex-col bg-[#131315] border-x border-white/5 shadow-2xl">
 
-    <!-- Sticky Navigation Header -->
+    <!-- Sticky Navigation Bar -->
     <header class="sticky top-0 w-full z-50 glass-nav flex items-center justify-between px-4 h-16">
-        <a href="/" class="flex items-center gap-2 cursor-pointer">
+        <a href="/" class="flex items-center gap-2">
             <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-container/40 to-primary/10 border border-primary/40 flex items-center justify-center shadow-md">
                 <span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings: 'FILL' 1;">dashboard</span>
             </div>
             <div class="flex flex-col">
-                <span class="font-display-sm text-base font-extrabold tracking-tight bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent">ABTalks Dash</span>
-                <span class="text-[8px] font-code-sm text-on-surface-variant/70 tracking-widest -mt-1 uppercase">Student Portal</span>
+                <span class="font-display-sm text-base font-extrabold tracking-tight bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent">ABTalks</span>
+                <span class="text-[8px] font-code-sm text-on-surface-variant/70 tracking-widest -mt-1 uppercase">60-Day Challenge</span>
             </div>
         </a>
 
-        <div class="flex items-center gap-2">
-            <span class="px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-code-sm text-[10px] font-bold">
-                Day 12 Active
-            </span>
+        <!-- IST Lock Countdown Widget -->
+        <div class="flex flex-col items-end">
+            <span class="text-[9px] font-code-sm text-on-surface-variant uppercase tracking-wider">IST Deadline</span>
+            <span id="ist-countdown" class="text-xs font-code-sm font-bold text-secondary">--:--:--</span>
         </div>
     </header>
 
-    <!-- Main Dashboard Body Flow -->
-    <main class="flex-1 px-4 pt-6 pb-12 flex flex-col gap-6">
+    <!-- Main Scrollable Dashboard Content -->
+    <main class="flex-1 px-4 pt-5 pb-12 flex flex-col gap-5">
 
-        <!-- User Progress Header Card -->
-        <section class="glass-card-glow p-4 rounded-2xl flex flex-col gap-3">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-primary font-bold font-code-sm">
-                        JD
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="text-sm font-bold text-white">John Doe</span>
-                        <span class="text-[10px] text-on-surface-variant font-code-sm">Streak: 🔥 12 Days</span>
-                    </div>
+        <!-- User Profile & Streak Summary -->
+        <section class="glass-card-glow p-4 rounded-2xl flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-primary-container/20 border border-primary-container/40 flex items-center justify-center text-primary font-bold font-code-sm text-sm">
+                    DEV
                 </div>
-                <div class="text-right">
-                    <span class="text-xs font-bold text-secondary font-code-sm">850 pts</span>
-                    <span class="block text-[9px] text-on-surface-variant font-code-sm">Rank #14</span>
+                <div class="flex flex-col">
+                    <span class="text-xs font-bold text-white">Student Portal</span>
+                    <span class="text-[10px] text-emerald-400 font-code-sm flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Active Streak: 🔥 12 Days
+                    </span>
                 </div>
+            </div>
+            <div class="text-right">
+                <span class="text-xs font-bold text-secondary font-code-sm">Day 12 / 60</span>
+                <span class="block text-[9px] text-on-surface-variant font-code-sm">850 PTS</span>
             </div>
         </section>
 
-        <!-- Proof Submission Section (Strict GitHub & LinkedIn Domain Checking) -->
-        <section class="glass-panel p-4 rounded-2xl flex flex-col gap-4">
+        <!-- Proof-of-Work Submission Form -->
+        <section class="glass-panel p-4 rounded-2xl flex flex-col gap-3">
             <div class="flex items-center justify-between border-b border-white/5 pb-2">
                 <div class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-primary text-base">cloud_upload</span>
                     <span class="font-code-sm text-xs text-white font-bold uppercase tracking-wider">Submit Day 12 Proof</span>
                 </div>
-                <span class="text-[9px] font-code-sm text-secondary bg-secondary/10 px-2 py-0.5 rounded-full border border-secondary/20">STRICT DOMAIN CHECK</span>
+                <span class="text-[9px] font-code-sm text-secondary bg-secondary/10 px-2 py-0.5 rounded-full border border-secondary/20">STRICT DOMAINS</span>
             </div>
 
-            <form id="dashboard-submit-form" class="flex flex-col gap-3">
-                <!-- GitHub Link Input -->
+            <form id="submission-form" class="flex flex-col gap-3">
+                <!-- GitHub Repository Link -->
                 <div class="flex flex-col gap-1">
-                    <label class="text-[10px] font-code-sm text-on-surface-variant">GitHub Repository Link</label>
-                    <div class="relative flex items-center">
-                        <input 
-                            type="url" 
-                            id="github-input" 
-                            placeholder="https://github.com/username/project" 
-                            required
-                            class="w-full bg-surface-variant border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-white/30 focus:outline-none transition-colors pr-8 font-code-sm"
-                        />
-                        <span id="github-status-icon" class="material-symbols-outlined text-sm absolute right-2 text-white/30">code</span>
-                    </div>
-                    <span id="github-error-msg" class="text-[9px] text-red-400 hidden font-code-sm">Invalid domain! Only valid https://github.com/ URLs allowed.</span>
+                    <label for="github-url" class="text-[10px] font-code-sm text-on-surface-variant uppercase">GitHub Link</label>
+                    <input 
+                        type="url" 
+                        id="github-url" 
+                        name="github"
+                        placeholder="https://github.com/username/repo" 
+                        required 
+                        class="w-full bg-surface-variant border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-white/30 focus:outline-none transition-colors font-code-sm"
+                    />
                 </div>
 
-                <!-- LinkedIn Link Input -->
+                <!-- LinkedIn Post Link -->
                 <div class="flex flex-col gap-1">
-                    <label class="text-[10px] font-code-sm text-on-surface-variant">LinkedIn Post Link</label>
-                    <div class="relative flex items-center">
-                        <input 
-                            type="url" 
-                            id="linkedin-input" 
-                            placeholder="https://linkedin.com/posts/..." 
-                            required
-                            class="w-full bg-surface-variant border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-white/30 focus:outline-none transition-colors pr-8 font-code-sm"
-                        />
-                        <span id="linkedin-status-icon" class="material-symbols-outlined text-sm absolute right-2 text-white/30">share</span>
-                    </div>
-                    <span id="linkedin-error-msg" class="text-[9px] text-red-400 hidden font-code-sm">Invalid domain! Only valid https://linkedin.com/ URLs allowed.</span>
+                    <label for="linkedin-url" class="text-[10px] font-code-sm text-on-surface-variant uppercase">LinkedIn Post Link</label>
+                    <input 
+                        type="url" 
+                        id="linkedin-url" 
+                        name="linkedin"
+                        placeholder="https://linkedin.com/posts/..." 
+                        required 
+                        class="w-full bg-surface-variant border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-white/30 focus:outline-none transition-colors font-code-sm"
+                    />
                 </div>
 
-                <button type="submit" class="w-full py-2.5 bg-gradient-to-r from-primary-container to-primary text-on-primary rounded-xl font-bold text-xs shadow-md hover:opacity-95 transition-opacity mt-1">
-                    Verify & Submit
+                <button type="submit" class="w-full py-2.5 bg-gradient-to-r from-primary-container to-primary text-on-primary rounded-xl font-bold text-xs shadow-lg hover:opacity-95 transition-opacity mt-1">
+                    Submit Challenge Proof
                 </button>
             </form>
         </section>
 
-        <!-- Top 10 Leaderboard Container (Populated dynamically via dash.js) -->
+        <!-- Top 10 Live Leaderboard Container -->
         <section class="glass-panel p-4 rounded-2xl flex flex-col gap-3">
             <div class="flex items-center justify-between border-b border-white/5 pb-2">
                 <div class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-secondary text-base">emoji_events</span>
-                    <span class="font-code-sm text-xs text-white font-bold uppercase tracking-wider">Top 10 Leaders</span>
+                    <span class="font-code-sm text-xs text-white font-bold uppercase tracking-wider">Top 10 Leaderboard</span>
                 </div>
-                <span class="text-[9px] font-code-sm text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full border border-emerald-400/20">LIVE STANDINGS</span>
+                <span class="text-[9px] font-code-sm text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full border border-emerald-400/20">LIVE Ranks</span>
             </div>
 
-            <!-- Dynamic Leaderboard Entry List (Displays all 10 participants) -->
-            <div id="leaderboard-list" class="flex flex-col gap-1.5 pt-1">
-                <!-- Rendered dynamically by dash.js -->
-            </div>
+            <!-- Injected dynamically by dash.js -->
+            <div id="leaderboard-list" class="flex flex-col gap-1 pt-1"></div>
         </section>
 
     </main>
 
 </div>
 
-<!-- Linked Logic File -->
+<!-- IST Countdown Script -->
+<script>
+    function updateISTCountdown() {
+        const now = new Date();
+        const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+        const ist = new Date(utc + (3600000 * 5.5));
+        
+        const midnight = new Date(ist);
+        midnight.setHours(24, 0, 0, 0);
+        
+        const diff = midnight - ist;
+        
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24).toString().padStart(2, '0');
+        const minutes = Math.floor((diff / (1000 * 60)) % 60).toString().padStart(2, '0');
+        const seconds = Math.floor((diff / 1000) % 60).toString().padStart(2, '0');
+        
+        const timerEl = document.getElementById('ist-countdown');
+        if (timerEl) {
+            timerEl.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+    }
+    setInterval(updateISTCountdown, 1000);
+    updateISTCountdown();
+</script>
+
+<!-- JS File Connection -->
 <script src="./dash.js"></script>
 
 </body>
