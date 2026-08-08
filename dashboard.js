@@ -1,136 +1,115 @@
-/**
- * ABTalks Student Dashboard - Business Logic & State Core
- * Handles mock database, streak calculations, edge-case simulation, and state management.
- */
-
-// 1. Mock Database & Student Profile State
-const MOCK_STUDENT_DATA = {
-    student: {
-        name: "Arnav Bhatia",
-        track: "Full-Stack Web3 / AI",
-        joinedDate: "Day 1",
-        avatarUrl: "https://api.dicebear.com/7.x/bottts/svg?seed=Arnav",
+// Dashboard State Data
+const DASHBOARD_DATA = {
+    user: {
+        rank: 12,
+        name: "You (Student)",
+        streak: 12,
+        xp: 1240
     },
-    challenge: {
-        totalDays: 60,
-        currentDay: 12,
-        startDate: "2026-07-28",
-    },
-    // Interactive State Toggle Modes (Supports Real-World Edge Cases)
-    // Modes: 'NORMAL' (Active Streak) | 'FIRST_DAY' (0 Streak) | 'MISSED_DAY' (Broken Streak)
-    activeMode: "NORMAL", 
-    
-    // State Configurations
-    states: {
-        NORMAL: {
-            currentStreak: 11,
-            longestStreak: 11,
-            completedDaysCount: 11,
-            isTodaySubmitted: false,
-            standingRank: "Top 4%",
-            multiplier: "1.5x XP",
-            shieldActive: true,
-            statusBadge: "On Fire 🔥",
-            todayTask: {
-                dayNumber: 12,
-                title: "Build a Custom Canvas Shader Engine",
-                estimatedTime: "45 mins",
-                difficulty: "Hard",
-                status: "PENDING" // PENDING | COMPLETED
-            }
+    tasks: [
+        {
+            day: 12,
+            route: "/day12",
+            title: "Data Structures: Binary Trees & DFS",
+            description: "Implement Depth-First Search traversal algorithm and publish solution logic on LinkedIn.",
+            isToday: true,
+            status: "Available"
         },
-        FIRST_DAY: {
-            currentStreak: 0,
-            longestStreak: 0,
-            completedDaysCount: 0,
-            isTodaySubmitted: false,
-            standingRank: "Unranked",
-            multiplier: "1.0x XP",
-            shieldActive: false,
-            statusBadge: "Day 1 Recruit 🌱",
-            todayTask: {
-                dayNumber: 1,
-                title: "Initialize Git Repo & Setup Proof Pipeline",
-                estimatedTime: "20 mins",
-                difficulty: "Easy",
-                status: "PENDING"
-            }
-        },
-        MISSED_DAY: {
-            currentStreak: 0,
-            longestStreak: 10,
-            completedDaysCount: 10,
-            isTodaySubmitted: false,
-            standingRank: "Top 15%",
-            multiplier: "1.0x XP",
-            shieldActive: false,
-            statusBadge: "Streak Broken 💔",
-            todayTask: {
-                dayNumber: 12,
-                title: "Build a Custom Canvas Shader Engine",
-                estimatedTime: "45 mins",
-                difficulty: "Hard",
-                status: "PENDING"
-            }
+        {
+            day: 11,
+            route: "/day11",
+            title: "API Design & Webhooks",
+            description: "Build a custom Webhook listener using Express.js and document edge cases.",
+            isToday: false,
+            status: "Completed"
         }
-    }
+    ],
+    leaderboard: [
+        { rank: 1, name: "Alex Chen", streak: 60, xp: 1850 },
+        { rank: 2, name: "Sara Connor", streak: 58, xp: 1790 },
+        { rank: 3, name: "Devon Vance", streak: 55, xp: 1720 },
+        { rank: 12, name: "You (Student)", streak: 12, xp: 1240, isUser: true },
+        { rank: 13, name: "Marcus Brody", streak: 11, xp: 1190 }
+    ]
 };
 
-// 2. Logic Controller API
-class DashboardController {
-    constructor(data) {
-        this.data = data;
-        this.currentMode = data.activeMode;
-    }
+// DOM References
+const openRankBtn = document.getElementById("open-rank-btn");
+const closeModalBtn = document.getElementById("close-modal-btn");
+const leaderboardModal = document.getElementById("leaderboard-modal");
+const tasksContainer = document.getElementById("tasks-container");
+const leaderboardList = document.getElementById("leaderboard-list");
 
-    // Get current active state data
-    getState() {
-        const state = this.data.states[this.currentMode];
-        const progressPercentage = Math.round((state.completedDaysCount / this.data.challenge.totalDays) * 100);
-        
-        return {
-            student: this.data.student,
-            challenge: this.data.challenge,
-            mode: this.currentMode,
-            progressPercentage,
-            ...state
-        };
-    }
+// Render Tasks with `/day12` Routing
+function renderDashboardTasks() {
+    if (!tasksContainer) return;
 
-    // Switch state mode for testing edge cases
-    setMode(newMode) {
-        if (this.data.states[newMode]) {
-            this.currentMode = newMode;
-            this.notifyUI();
-        }
-    }
+    tasksContainer.innerHTML = DASHBOARD_DATA.tasks.map(task => `
+        <a href="${task.route}" class="glass-card p-3.5 rounded-xl hover:border-primary/60 transition-all group relative overflow-hidden block ${!task.isToday ? 'opacity-85' : ''}">
+            ${task.isToday ? `
+                <div class="absolute top-0 right-0 bg-primary/20 text-primary font-code-sm text-[9px] px-2 py-0.5 rounded-bl-lg border-b border-l border-primary/30">
+                    TODAY
+                </div>
+            ` : ''}
+            <div class="flex items-center gap-2 mb-1.5">
+                <span class="font-code-sm text-xs text-primary font-bold">DAY ${task.day}</span>
+                <span class="text-[10px] text-emerald-400 font-medium">● ${task.status}</span>
+            </div>
+            <h3 class="text-xs font-bold text-white mb-1 group-hover:text-primary transition-colors">${task.title}</h3>
+            <p class="text-[11px] text-on-surface-variant mb-2.5 line-clamp-2">${task.description}</p>
+            <div class="flex items-center justify-between text-[10px] text-on-surface-variant pt-2 border-t border-white/5">
+                <div class="flex gap-2">
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">code</span> GitHub</span>
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">share</span> LinkedIn</span>
+                </div>
+                <span class="text-primary font-bold flex items-center gap-0.5 group-hover:translate-x-1 transition-transform">
+                    ${task.isToday ? 'Open' : 'Review'} <span class="material-symbols-outlined text-[12px]">arrow_forward</span>
+                </span>
+            </div>
+        </a>
+    `).join("");
+}
 
-    // Mark today's submission as complete
-    submitTodayProof() {
-        const activeState = this.data.states[this.currentMode];
-        if (!activeState.isTodaySubmitted) {
-            activeState.isTodaySubmitted = true;
-            activeState.todayTask.status = "COMPLETED";
-            activeState.currentStreak += 1;
-            activeState.completedDaysCount += 1;
-            if (activeState.currentStreak > activeState.longestStreak) {
-                activeState.longestStreak = activeState.currentStreak;
-            }
-            this.notifyUI();
-        }
-    }
+// Render Leaderboard Mock Ranks
+function renderLeaderboardModal() {
+    if (!leaderboardList) return;
 
-    // Event listener registration for UI synchronization
-    onStateChange(callback) {
-        this.uiCallback = callback;
-    }
+    leaderboardList.innerHTML = DASHBOARD_DATA.leaderboard.map(item => `
+        <div class="flex items-center justify-between p-2 rounded-lg ${item.isUser ? 'bg-primary/20 border border-primary/50 my-1' : 'bg-surface-container-high/20 border border-white/5'}">
+            <div class="flex items-center gap-2">
+                <span class="font-bold ${item.rank === 1 ? 'text-secondary' : 'text-on-surface-variant'} text-xs w-5">#${item.rank}</span>
+                <span class="text-xs font-semibold ${item.isUser ? 'text-primary' : 'text-white'}">${item.name}</span>
+            </div>
+            <div class="flex items-center gap-2.5 text-[10px]">
+                <span class="text-on-surface-variant">🔥 ${item.streak}d</span>
+                <span class="text-secondary font-bold">${item.xp} XP</span>
+            </div>
+        </div>
+    `).join("");
+}
 
-    notifyUI() {
-        if (typeof this.uiCallback === 'function') {
-            this.uiCallback(this.getState());
-        }
+// Modal Toggle Handlers
+function showRankModal() {
+    leaderboardModal?.classList.remove("hidden");
+}
+
+function hideRankModal() {
+    leaderboardModal?.classList.add("hidden");
+}
+
+// Event Listeners
+function initDashboard() {
+    renderDashboardTasks();
+    renderLeaderboardModal();
+
+    if (openRankBtn) openRankBtn.addEventListener("click", showRankModal);
+    if (closeModalBtn) closeModalBtn.addEventListener("click", hideRankModal);
+
+    if (leaderboardModal) {
+        leaderboardModal.addEventListener("click", (e) => {
+            if (e.target === leaderboardModal) hideRankModal();
+        });
     }
 }
 
-// Global instance initialized
-window.dashboardLogic = new DashboardController(MOCK_STUDENT_DATA);
+document.addEventListener("DOMContentLoaded", initDashboard);
