@@ -84,15 +84,6 @@
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
-
-        .pulse-dot {
-            animation: pulseDot 2s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-        }
-        @keyframes pulseDot {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7); }
-            50% { transform: scale(1.15); box-shadow: 0 0 0 12px rgba(249, 115, 22, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
-        }
     </style>
 </head>
 <body class="relative flex justify-center items-center min-h-screen">
@@ -185,8 +176,6 @@
             </div>
 
             <div class="flex flex-col gap-2">
-
-                <!-- Participant Row #4 -->
                 <div class="glass-panel p-3 rounded-xl flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <span class="text-xs font-bold font-code-sm text-on-surface-variant/70 w-5">#4</span>
@@ -201,7 +190,6 @@
                     <span class="text-xs font-code-sm font-bold text-secondary">1,120</span>
                 </div>
 
-                <!-- Participant Row #5 -->
                 <div class="glass-panel p-3 rounded-xl flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <span class="text-xs font-bold font-code-sm text-on-surface-variant/70 w-5">#5</span>
@@ -216,7 +204,6 @@
                     <span class="text-xs font-code-sm font-bold text-secondary">1,100</span>
                 </div>
 
-                <!-- Participant Row #6 -->
                 <div class="glass-panel p-3 rounded-xl flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <span class="text-xs font-bold font-code-sm text-on-surface-variant/70 w-5">#6</span>
@@ -230,37 +217,6 @@
                     </div>
                     <span class="text-xs font-code-sm font-bold text-secondary">1,080</span>
                 </div>
-
-                <!-- Participant Row #7 -->
-                <div class="glass-panel p-3 rounded-xl flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <span class="text-xs font-bold font-code-sm text-on-surface-variant/70 w-5">#7</span>
-                        <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-xs font-bold text-white">
-                            PM
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-xs font-bold text-white">Pooja Mehta</span>
-                            <span class="text-[9px] font-code-sm text-on-surface-variant">10 Day Streak</span>
-                        </div>
-                    </div>
-                    <span class="text-xs font-code-sm font-bold text-secondary">1,050</span>
-                </div>
-
-                <!-- Participant Row #8 -->
-                <div class="glass-panel p-3 rounded-xl flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <span class="text-xs font-bold font-code-sm text-on-surface-variant/70 w-5">#8</span>
-                        <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-xs font-bold text-white">
-                            KR
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-xs font-bold text-white">Karan Rao</span>
-                            <span class="text-[9px] font-code-sm text-on-surface-variant">10 Day Streak</span>
-                        </div>
-                    </div>
-                    <span class="text-xs font-code-sm font-bold text-secondary">1,020</span>
-                </div>
-
             </div>
         </section>
 
@@ -272,7 +228,7 @@
             <span class="material-symbols-outlined text-xl">dashboard</span>
             <span class="text-[9px] font-code-sm uppercase">Dashboard</span>
         </a>
-        <a href="/leaderboard" class="flex flex-col items-center gap-0.5 text-primary">
+        <a href="/dashboard/leaderboard" class="flex flex-col items-center gap-0.5 text-primary">
             <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
             <span class="text-[9px] font-code-sm font-bold uppercase">Leaderboard</span>
         </a>
