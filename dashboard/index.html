@@ -2,300 +2,178 @@
 <html class="dark" lang="en">
 <head>
     <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-    <title>Dashboard - ABTalks 60-Day Tech Challenge</title>
-
-    <!-- Tailwind CSS with Plugins -->
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>ABTalks Dashboard</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
-    <!-- Tailwind Custom Theme Configuration -->
     <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "secondary": "#ffc640",
-                        "secondary-container": "#e0a100",
-                        "surface-container-high": "#2a2a2c",
-                        "surface-container-highest": "#353437",
-                        "on-surface-variant": "#e0c0b1",
-                        "on-background": "#e5e1e4",
-                        "tertiary": "#c0c1ff",
-                        "primary": "#ffb690",
-                        "primary-container": "#f97316",
-                        "on-primary": "#552100",
-                        "surface": "#131315",
-                        "surface-variant": "#232325"
+                        brand: {
+                            gold: "#f59e0b",
+                            dark: "#0a0a0c",
+                            card: "#121218",
+                            border: "#22222e",
+                            accent: "#1e1b4b"
+                        }
                     },
                     fontFamily: {
-                        "code-sm": ["JetBrains Mono", "monospace"],
-                        "display-sm": ["Geist", "sans-serif"],
-                        "body-md": ["Geist", "sans-serif"]
+                        sans: ["Space Grotesk", "sans-serif"]
                     }
                 }
             }
-        }
+        };
     </script>
-
-    <!-- Typography and Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-
     <style>
-        :root {
-            --bg-color: #131315;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            min-height: 100dvh;
-            background-color: var(--bg-color);
-            color: #e5e1e4;
-            font-family: 'Geist', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            overflow-x: hidden;
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #0a0a0c;
+            color: #f3f4f6;
         }
-
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-border-glow {
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
+        }
         .glass-panel {
-            background: rgba(25, 25, 28, 0.65);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            background: rgba(18, 18, 24, 0.7);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-
-        .glass-card-glow {
-            background: rgba(25, 25, 28, 0.85);
-            backdrop-filter: blur(28px);
-            -webkit-backdrop-filter: blur(28px);
-            border: 1px solid rgba(249, 115, 22, 0.3);
-            box-shadow: 0 0 35px -5px rgba(249, 115, 22, 0.2), 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-        }
-
-        .glass-nav {
-            background: rgba(19, 19, 21, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .pulse-dot {
-            animation: pulseDot 2s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-        }
-        @keyframes pulseDot {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7); }
-            50% { transform: scale(1.15); box-shadow: 0 0 0 12px rgba(249, 115, 22, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
         }
     </style>
 </head>
-<body class="relative flex justify-center items-center min-h-screen">
+<body class="min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-black">
+    <!-- Background Decor -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/3 -left-40 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl"></div>
+    </div>
 
-<!-- Outer Mobile Container -->
-<div class="w-full max-w-[420px] min-h-screen relative z-10 flex flex-col bg-[#131315] border-x border-white/5 shadow-2xl">
-
-    <!-- Header Navigation -->
-    <header class="sticky top-0 w-full z-50 glass-nav flex items-center justify-between px-4 h-16">
-        <a href="/" class="flex items-center gap-2 cursor-pointer">
-            <span class="material-symbols-outlined text-primary text-xl">arrow_back</span>
-            <div class="flex flex-col">
-                <span class="font-display-sm text-sm font-extrabold tracking-tight bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent">ABTalks</span>
-                <span class="text-[8px] font-code-sm text-on-surface-variant/70 tracking-widest -mt-1 uppercase">Student Portal</span>
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-white/10 px-4 lg:px-8 py-3.5">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center font-bold text-black text-xl shadow-lg shadow-amber-500/20">
+                    AB
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight tracking-wide text-white">ABTalks</h1>
+                    <p class="text-xs text-amber-400 font-medium tracking-wider uppercase">Participant Dashboard</p>
+                </div>
             </div>
-        </a>
-
-        <div class="flex items-center gap-2">
-            <span class="text-xs font-code-sm text-emerald-400 bg-emerald-400/10 px-2.5 py-1 rounded-full border border-emerald-400/20 font-bold flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                RANK #2
-            </span>
+            
+            <div class="flex items-center gap-4">
+                <div class="hidden sm:flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full text-xs font-medium">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-gray-300">Daily Reset:</span>
+                    <span id="ist-countdown" class="font-mono text-amber-400 font-semibold">Calculating...</span>
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="flex-1 px-4 pt-5 pb-24 flex flex-col gap-5">
+    <!-- Main Content Grid -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 lg:px-8 py-8 w-full flex-grow grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Left 2 Columns: Main Actions -->
+        <div class="lg:col-span-2 space-y-8">
+            
+            <!-- Welcome Banner -->
+            <section class="glass-panel rounded-2xl p-6 lg:p-8 relative overflow-hidden border border-amber-500/20 gold-border-glow">
+                <div class="relative z-10 space-y-2">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold uppercase tracking-wider">
+                        Active Challenge
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">Daily Execution &amp; Proof Submission</h2>
+                    <p class="text-gray-400 text-sm max-w-xl">
+                        Submit your daily progress links below to secure your spot on the leaderboard.
+                    </p>
+                </div>
+            </section>
 
-        <!-- User Profile & Streak Overview Header -->
-        <section class="glass-panel p-4 rounded-2xl flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-container to-secondary p-0.5 shadow-lg">
-                    <div class="w-full h-full bg-[#131315] rounded-[10px] flex items-center justify-center font-bold text-white text-base">
-                        AB
+            <!-- Proof Submission Form -->
+            <section class="glass-panel rounded-2xl p-6 border border-white/10">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-amber-400">upload_file</span>
+                    Submit Daily Proof
+                </h3>
+                
+                <form id="submission-form" class="flex flex-col gap-4">
+                    <div>
+                        <label for="github-url" class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">
+                            GitHub Repository / Commit Link
+                        </label>
+                        <input 
+                            type="url" 
+                            id="github-url" 
+                            name="github"
+                            placeholder="https://github.com/username/repository" 
+                            class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-400 transition"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label for="linkedin-url" class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">
+                            LinkedIn Post Link
+                        </label>
+                        <input 
+                            type="url" 
+                            id="linkedin-url" 
+                            name="linkedin"
+                            placeholder="https://linkedin.com/in/username/post" 
+                            class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-400 transition"
+                            required
+                        />
+                    </div>
+
+                    <button 
+                        type="submit" 
+                        class="w-full mt-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold py-3.5 px-6 rounded-xl transition duration-200 shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                        <span>Submit Progress</span>
+                        <span class="material-symbols-outlined text-sm">send</span>
+                    </button>
+                </form>
+            </section>
+        </div>
+
+        <!-- Right Column: Top 10 Leaderboard -->
+        <div class="space-y-8">
+            <section class="glass-panel rounded-2xl p-6 border border-white/10">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <span class="material-symbols-outlined text-amber-400">leaderboard</span>
+                        Top 10 Leaderboard
+                    </h3>
+                    <span class="text-xs text-gray-400 font-mono">Live</span>
+                </div>
+
+                <!-- Container rendered directly by dash.js -->
+                <div id="leaderboard-list" class="space-y-1">
+                    <div class="text-center py-8 text-gray-500 text-xs">
+                        Loading Leaderboard...
                     </div>
                 </div>
-                <div class="flex flex-col">
-                    <h2 class="text-sm font-bold text-white">Arnav Bhatia</h2>
-                    <span class="text-[10px] font-code-sm text-on-surface-variant">Cohort #4 • Day 12/60</span>
-                </div>
-            </div>
-
-            <div class="flex flex-col items-end">
-                <div class="flex items-center gap-1 text-primary">
-                    <span class="material-symbols-outlined text-lg pulse-dot" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
-                    <span class="text-lg font-extrabold font-code-sm">12</span>
-                </div>
-                <span class="text-[9px] font-code-sm text-on-surface-variant uppercase">Day Streak</span>
-            </div>
-        </section>
-
-        <!-- Dynamic IST Countdown Clock Widget -->
-        <section class="glass-card-glow p-4 rounded-2xl flex flex-col gap-2">
-            <div class="flex justify-between items-center border-b border-white/10 pb-2">
-                <div class="flex items-center gap-1.5">
-                    <span class="material-symbols-outlined text-primary text-base">schedule</span>
-                    <span class="text-xs font-code-sm text-white font-bold uppercase tracking-wider">Submission Lock</span>
-                </div>
-                <span class="text-[9px] font-code-sm text-secondary bg-secondary/10 px-2 py-0.5 rounded border border-secondary/20">IST (UTC+5:30)</span>
-            </div>
-
-            <div class="flex justify-between items-center pt-1">
-                <span class="text-[10px] font-code-sm text-on-surface-variant">Time remaining until 12:00 AM IST:</span>
-                <span class="text-base font-extrabold font-code-sm text-primary tracking-wider" id="ist-countdown">00h 00m 00s</span>
-            </div>
-        </section>
-
-        <!-- Stats Grid -->
-        <section class="grid grid-cols-3 gap-2">
-            <div class="glass-panel p-3 rounded-xl flex flex-col items-center justify-center text-center gap-1">
-                <span class="text-[9px] font-code-sm text-on-surface-variant uppercase">Total Points</span>
-                <span class="text-base font-extrabold font-code-sm text-secondary">1,200</span>
-            </div>
-            <div class="glass-panel p-3 rounded-xl flex flex-col items-center justify-center text-center gap-1">
-                <span class="text-[9px] font-code-sm text-on-surface-variant uppercase">Completed</span>
-                <span class="text-base font-extrabold font-code-sm text-emerald-400">12/60</span>
-            </div>
-            <div class="glass-panel p-3 rounded-xl flex flex-col items-center justify-center text-center gap-1">
-                <span class="text-[9px] font-code-sm text-on-surface-variant uppercase">Accuracy</span>
-                <span class="text-base font-extrabold font-code-sm text-tertiary">100%</span>
-            </div>
-        </section>
-
-        <!-- Daily Task & Submission Form -->
-        <section class="glass-panel p-4 rounded-2xl flex flex-col gap-3">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 bg-primary-container/20 text-primary text-[10px] font-code-sm font-bold rounded border border-primary-container/30">DAY 12</span>
-                    <span class="text-xs font-bold text-white">Today's Challenge</span>
-                </div>
-                <span class="text-[10px] font-code-sm text-emerald-400 font-bold">+100 PTS</span>
-            </div>
-
-            <h3 class="text-sm font-bold text-white">Implement LRU Cache & System Architecture</h3>
-            <p class="text-xs text-on-surface-variant leading-relaxed">
-                Construct an LRU (Least Recently Used) cache with O(1) time complexity for read/write operations. Push code to GitHub and share a breakdown on LinkedIn.
-            </p>
-
-            <form class="flex flex-col gap-2.5 pt-2" onsubmit="event.preventDefault(); alert('Proof Submitted Successfully!');">
-                <div class="flex flex-col gap-1">
-                    <label class="text-[10px] font-code-sm text-on-surface-variant uppercase">GitHub Commit / Repo URL</label>
-                    <input class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-primary font-code-sm" placeholder="https://github.com/username/repo" required="" type="url"/>
-                </div>
-
-                <div class="flex flex-col gap-1">
-                    <label class="text-[10px] font-code-sm text-on-surface-variant uppercase">LinkedIn Post Link</label>
-                    <input class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-primary font-code-sm" placeholder="https://linkedin.com/posts/..." required="" type="url"/>
-                </div>
-
-                <button class="w-full py-3 mt-1 bg-gradient-to-r from-primary-container via-primary to-secondary text-on-primary rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-primary-container/20 active:scale-[0.98] transition-transform" type="submit">
-                    <span class="material-symbols-outlined text-sm">upload_file</span>
-                    <span>Submit Proof of Work</span>
-                </button>
-            </form>
-        </section>
-
-        <!-- Recent Submissions History Log -->
-        <section class="flex flex-col gap-3 pt-1">
-            <div class="flex items-center justify-between px-1">
-                <span class="font-code-sm text-xs text-on-surface-variant font-semibold uppercase tracking-wider">Recent Activity</span>
-                <a href="/dashboard/submissions" class="text-[10px] font-code-sm text-primary hover:underline">View All</a>
-            </div>
-
-            <div class="flex flex-col gap-2">
-                <div class="glass-panel p-3 rounded-xl flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-                            <span class="material-symbols-outlined text-base">check_circle</span>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-xs font-bold text-white">Day 11 • Binary Tree Traversal</span>
-                            <span class="text-[9px] text-on-surface-variant font-code-sm">Submitted Yesterday • Verified</span>
-                        </div>
-                    </div>
-                    <span class="text-xs font-code-sm font-bold text-secondary">+100</span>
-                </div>
-
-                <div class="glass-panel p-3 rounded-xl flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-                            <span class="material-symbols-outlined text-base">check_circle</span>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-xs font-bold text-white">Day 10 • Dynamic Programming</span>
-                            <span class="text-[9px] text-on-surface-variant font-code-sm">2 days ago • Verified</span>
-                        </div>
-                    </div>
-                    <span class="text-xs font-code-sm font-bold text-secondary">+100</span>
-                </div>
-            </div>
-        </section>
-
+            </section>
+        </div>
     </main>
 
-    <!-- Bottom Navigation Bar -->
-    <nav class="fixed bottom-0 w-full max-w-[420px] glass-nav h-16 z-50 border-t border-white/10 grid grid-cols-3 items-center text-center">
-        <a href="/dashboard" class="flex flex-col items-center gap-0.5 text-primary">
-            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">dashboard</span>
-            <span class="text-[9px] font-code-sm font-bold uppercase">Dashboard</span>
-        </a>
-        <a href="/dashboard/leaderboard" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
-            <span class="material-symbols-outlined text-xl">emoji_events</span>
-            <span class="text-[9px] font-code-sm uppercase">Leaderboard</span>
-        </a>
-        <a href="/dashboard/submissions" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
-            <span class="material-symbols-outlined text-xl">history</span>
-            <span class="text-[9px] font-code-sm uppercase">History</span>
-        </a>
-    </nav>
+    <!-- Footer -->
+    <footer class="glass-panel border-t border-white/10 py-4 px-4 text-center text-xs text-gray-500">
+        <p>&copy; 2026 ABTalks Dashboard. All rights reserved.</p>
+    </footer>
 
-</div>
-
-<script>
-    function updateISTTimer() {
-        const now = new Date();
-        const utcMs = now.getTime() + (now.getTimezoneOffset() * 60000);
-        const istOffsetMs = 5.5 * 60 * 60 * 1000;
-        const istTime = new Date(utcMs + istOffsetMs);
-
-        const nextMidnightIST = new Date(istTime);
-        nextMidnightIST.setHours(24, 0, 0, 0);
-
-        const diff = nextMidnightIST - istTime;
-
-        if (diff <= 0) {
-            document.getElementById('ist-countdown').innerText = "00h 00m 00s";
-            return;
-        }
-
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((diff / (1000 * 60)) % 60);
-        const seconds = Math.floor((diff / 1000) % 60);
-
-        const h = String(hours).padStart(2, '0');
-        const m = String(minutes).padStart(2, '0');
-        const s = String(seconds).padStart(2, '0');
-
-        document.getElementById('ist-countdown').innerText = `${h}h ${m}m ${s}s`;
-    }
-
-    updateISTTimer();
-    setInterval(updateISTTimer, 1000);
-</script>
-
+    <!-- Pure External Script -->
+    <script src="./dash.js"></script>
 </body>
 </html>
