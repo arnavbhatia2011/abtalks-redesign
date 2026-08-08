@@ -154,11 +154,21 @@
             will-change: transform;
         }
 
-        /* Initial Hide State for GSAP Animations */
+        /* Initial Hide State for GSAP Reveal Animations */
         .reveal-item {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(35px);
             will-change: transform, opacity;
+        }
+
+        /* Bouncing Scroll Indicator */
+        .bounce-indicator {
+            animation: bounceSlow 2s infinite;
+        }
+        @keyframes bounceSlow {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(6px); }
+            60% { transform: translateY(3px); }
         }
     </style>
 </head>
@@ -171,7 +181,7 @@
 <div class="w-full max-w-[420px] min-h-screen relative z-10 flex flex-col bg-[#131315]/90 border-x border-white/5 shadow-2xl backdrop-blur-md">
 
     <!-- Sticky Glass Navigation -->
-    <header class="sticky top-0 w-full z-50 glass-nav flex items-center justify-between px-4 h-16">
+    <header class="sticky top-0 w-full z-50 glass-nav flex items-center justify-between px-4 h-16 shrink-0">
         <a href="/" class="flex items-center gap-2 cursor-pointer touch-spring">
             <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-container/40 to-primary/10 border border-primary/40 flex items-center justify-center shadow-md">
                 <span class="material-symbols-outlined text-primary pulse-dot text-lg" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
@@ -191,56 +201,69 @@
     </header>
 
     <!-- Main Content Flow -->
-    <main class="flex-1 px-4 pt-6 pb-28 flex flex-col gap-6">
+    <main class="flex-1 px-4 pb-28 flex flex-col gap-12">
 
-        <!-- Banner Pill -->
-        <div class="flex justify-center reveal-item">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-container/10 border border-primary-container/30 floating-badge">
-                <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                <span class="font-code-sm text-[10px] text-primary font-bold tracking-wider uppercase">Cohort #4 Active • Day 12/60</span>
+        <!-- ================= SECTION 1: HERO ABOVE-THE-FOLD ================= -->
+        <section class="min-h-[calc(100dvh-5rem)] flex flex-col justify-between pt-6 pb-4">
+            
+            <div class="flex flex-col gap-6 items-center">
+                <!-- Banner Pill -->
+                <div class="flex justify-center">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-container/10 border border-primary-container/30 floating-badge">
+                        <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                        <span class="font-code-sm text-[10px] text-primary font-bold tracking-wider uppercase">Cohort #4 Active • Day 12/60</span>
+                    </div>
+                </div>
+
+                <!-- Hero Heading -->
+                <div class="flex flex-col text-center items-center gap-3">
+                    <h1 class="text-3xl font-extrabold text-white tracking-tight leading-tight">
+                        Build Output.<br/>
+                        <span class="bg-gradient-to-r from-primary via-secondary to-tertiary bg-clip-text text-transparent">Prove Your Worth.</span>
+                    </h1>
+
+                    <p class="text-xs text-on-surface-variant leading-relaxed max-w-[320px]">
+                        The ultimate accountability engine for developers. Solve daily algorithmic & system challenges, submit proof on LinkedIn, and climb the global ranks.
+                    </p>
+                </div>
+
+                <!-- CTA Action Section -->
+                <div class="flex flex-col gap-3 w-full pt-2">
+                    <a href="/dashboard" class="w-full py-4 bg-gradient-to-r from-primary-container via-primary to-secondary text-on-primary rounded-2xl font-bold text-sm flex items-center justify-center gap-2 shadow-xl shadow-primary-container/25 touch-spring group">
+                        <span class="material-symbols-outlined text-base">rocket_launch</span>
+                        <span>Enter Student Portal</span>
+                        <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                    </a>
+
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <a href="/dashboard/leaderboard" class="glass-panel p-3.5 rounded-xl flex items-center gap-2 hover:border-secondary/50 transition-colors touch-spring">
+                            <span class="material-symbols-outlined text-secondary text-lg">emoji_events</span>
+                            <div class="flex flex-col">
+                                <span class="text-xs font-bold text-white">Leaderboard</span>
+                                <span class="text-[9px] text-on-surface-variant font-code-sm">View Top 10</span>
+                            </div>
+                        </a>
+                        <a href="/dashboard/submissions" class="glass-panel p-3.5 rounded-xl flex items-center gap-2 hover:border-primary/50 transition-colors touch-spring">
+                            <span class="material-symbols-outlined text-primary text-lg">history</span>
+                            <div class="flex flex-col">
+                                <span class="text-xs font-bold text-white">Proof Logs</span>
+                                <span class="text-[9px] text-on-surface-variant font-code-sm">Day 1 - 12</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- Hero Heading -->
-        <section class="flex flex-col text-center items-center gap-3 pb-2 reveal-item">
-            <h1 class="text-3xl font-extrabold text-white tracking-tight leading-tight">
-                Build Output.<br/>
-                <span class="bg-gradient-to-r from-primary via-secondary to-tertiary bg-clip-text text-transparent">Prove Your Worth.</span>
-            </h1>
+            <!-- Scroll Down Visual Prompt -->
+            <div class="flex flex-col items-center gap-1 opacity-70 bounce-indicator pt-4">
+                <span class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-widest">Scroll to explore</span>
+                <span class="material-symbols-outlined text-primary text-sm">expand_more</span>
+            </div>
 
-            <p class="text-xs text-on-surface-variant leading-relaxed max-w-[340px]">
-                The ultimate accountability engine for developers. Solve daily algorithmic & system challenges, submit proof on LinkedIn, and climb the global ranks.
-            </p>
         </section>
 
-        <!-- CTA Action Section -->
-        <section class="flex flex-col gap-3 reveal-item">
-            <a href="/dashboard" class="w-full py-4 bg-gradient-to-r from-primary-container via-primary to-secondary text-on-primary rounded-2xl font-bold text-sm flex items-center justify-center gap-2 shadow-xl shadow-primary-container/25 touch-spring group">
-                <span class="material-symbols-outlined text-base">rocket_launch</span>
-                <span>Enter Student Portal</span>
-                <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
-            </a>
-
-            <div class="grid grid-cols-2 gap-2">
-                <a href="/dashboard/leaderboard" class="glass-panel p-3 rounded-xl flex items-center gap-2 hover:border-secondary/50 transition-colors touch-spring">
-                    <span class="material-symbols-outlined text-secondary text-lg">emoji_events</span>
-                    <div class="flex flex-col">
-                        <span class="text-xs font-bold text-white">Leaderboard</span>
-                        <span class="text-[9px] text-on-surface-variant font-code-sm">View Top 10</span>
-                    </div>
-                </a>
-                <a href="/dashboard/submissions" class="glass-panel p-3 rounded-xl flex items-center gap-2 hover:border-primary/50 transition-colors touch-spring">
-                    <span class="material-symbols-outlined text-primary text-lg">history</span>
-                    <div class="flex flex-col">
-                        <span class="text-xs font-bold text-white">Proof Logs</span>
-                        <span class="text-[9px] text-on-surface-variant font-code-sm">Day 1 - 12</span>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- Feature Highlight Grid -->
-        <section class="flex flex-col gap-3 pt-2">
+        <!-- ================= SECTION 2: PLATFORM ARCHITECTURE (BELOW THE FOLD) ================= -->
+        <section class="flex flex-col gap-4 pt-4">
             <span class="font-code-sm text-xs text-on-surface-variant font-semibold uppercase tracking-wider px-1 reveal-item">Platform Architecture</span>
 
             <!-- Feature 1 -->
@@ -283,7 +306,7 @@
             </div>
         </section>
 
-        <!-- Live Cohort Statistics Section -->
+        <!-- ================= SECTION 3: LIVE COHORT METRICS ================= -->
         <section class="glass-card-glow p-5 rounded-2xl flex flex-col gap-4 reveal-item">
             <div class="flex justify-between items-center">
                 <span class="font-code-sm text-xs font-bold text-primary uppercase">Cohort Metrics</span>
@@ -306,7 +329,7 @@
             </div>
         </section>
 
-        <!-- Interactive FAQ Accordion Section -->
+        <!-- ================= SECTION 4: FREQUENTLY ASKED QUESTIONS ================= -->
         <section class="flex flex-col gap-3 pt-2">
             <span class="font-code-sm text-xs text-on-surface-variant font-semibold uppercase tracking-wider px-1 reveal-item">Frequently Asked Questions</span>
 
@@ -404,7 +427,7 @@
     const coreSphere = new THREE.Mesh(coreGeo, coreMat);
     scene.add(coreSphere);
 
-    // Particle Swarm Generator (Reduced count for maximum high-FPS mobile optimization)
+    // Particle Swarm Generator
     const particleCount = window.innerWidth < 480 ? 110 : 200;
     const particlesGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
@@ -427,7 +450,7 @@
     const particleSystem = new THREE.Points(particlesGeometry, particleMaterial);
     scene.add(particleSystem);
 
-    // Dynamic Interaction Handling (Mouse + Touch Screen Swipe/Parallax)
+    // Dynamic Interaction Handling
     let targetX = 0;
     let targetY = 0;
 
@@ -473,13 +496,13 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Mobile GSAP Scroll Entrance Stagger Animations
+    // Intersection Observer for Scroll-Triggered GSAP Entrance Animations
     document.addEventListener("DOMContentLoaded", () => {
         const revealElements = document.querySelectorAll('.reveal-item');
         
         const observerOptions = {
-            threshold: 0.15,
-            rootMargin: "0px 0px -20px 0px"
+            threshold: 0.12,
+            rootMargin: "0px 0px -30px 0px"
         };
 
         const observer = new IntersectionObserver((entries, obs) => {
@@ -488,8 +511,8 @@
                     gsap.to(entry.target, {
                         opacity: 1,
                         y: 0,
-                        duration: 0.6,
-                        ease: "back.out(1.2)",
+                        duration: 0.7,
+                        ease: "power3.out",
                         overwrite: "auto"
                     });
 
