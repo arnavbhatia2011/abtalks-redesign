@@ -254,8 +254,8 @@
                 </div>
             </div>
 
-            <!-- Scroll Down Visual Prompt -->
-            <div class="flex flex-col items-center gap-1 opacity-70 bounce-indicator pt-4">
+            <!-- Scroll Down Visual Prompt (Auto-Hides on Scroll) -->
+            <div id="scroll-prompt" class="flex flex-col items-center gap-1 opacity-70 bounce-indicator pt-4 transition-all duration-500 ease-out">
                 <span class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-widest">Scroll to explore</span>
                 <span class="material-symbols-outlined text-primary text-sm">expand_more</span>
             </div>
@@ -495,6 +495,18 @@
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
+
+    // Auto-Hide "Scroll to explore" Prompt on Scroll
+    const scrollPrompt = document.getElementById('scroll-prompt');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 40) {
+            scrollPrompt.classList.add('opacity-0', '-translate-y-2', 'pointer-events-none');
+            scrollPrompt.classList.remove('opacity-70', 'bounce-indicator');
+        } else {
+            scrollPrompt.classList.remove('opacity-0', '-translate-y-2', 'pointer-events-none');
+            scrollPrompt.classList.add('opacity-70', 'bounce-indicator');
+        }
+    }, { passive: true });
 
     // Intersection Observer for Scroll-Triggered GSAP Entrance Animations
     document.addEventListener("DOMContentLoaded", () => {
