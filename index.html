@@ -2,621 +2,491 @@
 <html class="dark" lang="en">
 <head>
     <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>ABTalks - 60-Day Student Challenge</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <title>ABTalks - 60-Day Tech Challenge</title>
 
-    <!-- 1. Load Tailwind CDN -->
+    <!-- Tailwind CSS with Plugins -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-    <!-- 2. Configure Tailwind Theme Immediately -->
+    <!-- Tailwind Custom Theme Configuration -->
     <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "inverse-primary": "#9d4300",
                         "secondary": "#ffc640",
-                        "on-secondary": "#402d00",
-                        "tertiary-container": "#8c8fff",
-                        "on-secondary-fixed-variant": "#5c4300",
-                        "surface-container-low": "#1c1b1d",
-                        "inverse-surface": "#e5e1e4",
-                        "error-container": "#93000a",
-                        "secondary-container": "#e3aa00",
-                        "on-primary-fixed-variant": "#783200",
-                        "surface-container-highest": "#353437",
-                        "on-error-container": "#ffdad6",
-                        "surface-dim": "#131315",
-                        "tertiary": "#c0c1ff",
-                        "on-surface-variant": "#e0c0b1",
-                        "tertiary-fixed-dim": "#c0c1ff",
-                        "outline-variant": "#584237",
-                        "secondary-fixed-dim": "#f9bd22",
-                        "on-background": "#e5e1e4",
-                        "on-secondary-container": "#5a4100",
-                        "on-primary-fixed": "#341100",
-                        "error": "#ffb4ab",
-                        "on-tertiary-fixed-variant": "#2f2ebe",
+                        "secondary-container": "#e0a100",
                         "surface-container-high": "#2a2a2c",
-                        "surface-container-lowest": "#0e0e10",
-                        "outline": "#a78b7d",
-                        "primary-fixed": "#ffdbca",
-                        "on-tertiary-fixed": "#07006c",
-                        "surface-variant": "#353437",
-                        "surface-tint": "#ffb690",
-                        "secondary-fixed": "#ffdf9f",
-                        "primary-fixed-dim": "#ffb690",
-                        "on-surface": "#e5e1e4",
-                        "on-tertiary": "#1000a9",
-                        "surface-container": "#201f22",
-                        "inverse-on-surface": "#313032",
-                        "on-secondary-fixed": "#261a00",
-                        "tertiary-fixed": "#e1e0ff",
-                        "background": "#131315",
+                        "surface-container-highest": "#353437",
+                        "on-surface-variant": "#e0c0b1",
+                        "on-background": "#e5e1e4",
+                        "tertiary": "#c0c1ff",
                         "primary": "#ffb690",
-                        "on-error": "#690005",
-                        "surface": "#131315",
                         "primary-container": "#f97316",
                         "on-primary": "#552100",
-                        "on-tertiary-container": "#1304ac",
-                        "on-primary-container": "#582200",
-                        "surface-bright": "#39393b"
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
-                    },
-                    spacing: {
-                        "container-padding-desktop": "24px",
-                        "unit": "4px",
-                        "stack-md": "16px",
-                        "gutter": "16px",
-                        "stack-lg": "32px",
-                        "container-padding-mobile": "16px",
-                        "stack-sm": "8px"
+                        "surface": "#131315",
+                        "surface-variant": "#232325"
                     },
                     fontFamily: {
                         "code-sm": ["JetBrains Mono", "monospace"],
                         "display-sm": ["Geist", "sans-serif"],
-                        "display-lg": ["Geist", "sans-serif"],
-                        "headline-lg": ["Geist", "sans-serif"],
-                        "label-caps": ["Geist", "sans-serif"],
-                        "body-md": ["Geist", "sans-serif"],
-                        "headline-lg-mobile": ["Geist", "sans-serif"]
+                        "body-md": ["Geist", "sans-serif"]
                     }
                 }
             }
         }
     </script>
 
-    <!-- 3. Fonts and Libraries -->
+    <!-- Typography and Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+    <!-- Three.js Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <style>
-        /* Base styles */
+        :root {
+            --bg-color: #131315;
+            --primary-glow: rgba(249, 115, 22, 0.35);
+            --secondary-glow: rgba(255, 198, 64, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            min-height: max(884px, 100dvh);
-            background-color: #131315; /* Fallback for canvas */
-        }
-        
-        /* Tactical Overhaul Styles */
-        .glass-card {
-            background: rgba(19, 19, 21, 0.4);
-            backdrop-filter: blur(60px);
-            -webkit-backdrop-filter: blur(60px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            min-height: 100dvh;
+            background-color: var(--bg-color);
+            color: #e5e1e4;
+            font-family: 'Geist', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
         }
 
-        .glow-button {
-            position: relative;
-            background: rgba(249, 115, 22, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(249, 115, 22, 0.5);
-            box-shadow: 0 0 20px rgba(249, 115, 22, 0.2), inset 0 0 20px rgba(249, 115, 22, 0.1);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .glow-button::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(249, 115, 22, 0.8), transparent 30%);
-            animation: rotateBorder 4s linear infinite;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .glow-button::after {
-            content: '';
-            position: absolute;
-            inset: 2px;
-            background: #131315;
-            border-radius: inherit;
-            z-index: -1;
-            transition: background 0.3s;
-        }
-
-        .glow-button:hover::before {
-            opacity: 1;
-        }
-        .glow-button:hover::after {
-            background: rgba(249, 115, 22, 0.1);
-        }
-
-        .glow-button:hover {
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 10px 40px rgba(249, 115, 22, 0.4);
-        }
-        
-        .glow-button:active {
-            transform: scale(0.95);
-        }
-
-        /* Nav Sign In Button Dynamic Glow */
-        .nav-glow-button {
-            position: relative;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
-        }
-        .nav-glow-button:hover {
-            transform: translateY(-1px) scale(1.03);
-            box-shadow: 0 0 25px rgba(249, 115, 22, 0.6);
-        }
-
-        @keyframes rotateBorder {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .badge-border {
-            border: 1px solid rgba(249, 115, 22, 0.3);
-            background: rgba(249, 115, 22, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .fade-up-enter {
-            opacity: 0;
-            transform: translateY(30px) scale(0.98);
-            animation: tacticalFadeUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        
-        @keyframes tacticalFadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .stagger-1 { animation-delay: 0.1s; }
-        .stagger-2 { animation-delay: 0.2s; }
-        .stagger-3 { animation-delay: 0.3s; }
-        .stagger-4 { animation-delay: 0.4s; }
-        
-        .pulse-dot {
-            animation: pulseDot 2s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-        }
-        @keyframes pulseDot {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7); }
-            50% { transform: scale(1.2); box-shadow: 0 0 0 10px rgba(249, 115, 22, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
-        }
-
-        .scanlines {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 4px, 3px 100%;
-            z-index: 9999;
-            pointer-events: none;
-            opacity: 0.05;
-            animation: flicker 0.15s infinite;
-        }
-
-        @keyframes flicker {
-            0% { opacity: 0.05; }
-            50% { opacity: 0.04; }
-            100% { opacity: 0.05; }
-        }
-
-        .hero-text-glow {
-            background: linear-gradient(135deg, #e5e1e4 0%, #c0c1ff 40%, #ffb690 80%, #f97316 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 40px rgba(249, 115, 22, 0.4), 0 0 80px rgba(255, 182, 144, 0.2);
-        }
-
-        #bg-canvas {
+        /* WebGL Background Container */
+        #webgl-canvas-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: -2;
-        }
-
-        #threejs-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 120%;
-            z-index: -1;
+            z-index: 0;
             pointer-events: none;
-        }
-        
-        .nav-blur {
-            background: rgba(19, 19, 21, 0.2);
-            backdrop-filter: blur(30px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            opacity: 0.85;
         }
 
-        /* Spring transitions for global elements */
-        * {
-            transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(25, 25, 28, 0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-card-glow {
+            background: rgba(25, 25, 28, 0.75);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            box-shadow: 0 0 35px -5px rgba(249, 115, 22, 0.2), 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-nav {
+            background: rgba(19, 19, 21, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Glowing Pulse Animation */
+        .pulse-dot {
+            animation: pulseDot 2s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+        }
+        @keyframes pulseDot {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7); }
+            50% { transform: scale(1.15); box-shadow: 0 0 0 12px rgba(249, 115, 22, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
+        }
+
+        .floating-badge {
+            animation: floatBadge 4s ease-in-out infinite;
+        }
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* Custom Scrollbar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Accordion transition */
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+        }
+        .faq-item.active .faq-content {
+            max-height: 300px;
+            transition: max-height 0.3s cubic-bezier(1, 0, 1, 0);
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
         }
     </style>
 </head>
-<body class="text-on-background min-h-screen font-body-md overflow-x-hidden relative">
-<canvas id="bg-canvas"></canvas>
-<div class="scanlines"></div>
+<body class="relative flex justify-center items-center min-h-screen">
 
-<!-- TopAppBar -->
-<header class="fixed top-0 w-full z-50 nav-blur shadow-none flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop h-16 max-w-7xl mx-auto transition-transform duration-300">
-    <div class="flex items-center gap-2">
-        <span class="material-symbols-outlined text-primary dark:text-primary pulse-dot" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
-        <span class="font-display-sm text-display-sm bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent drop-shadow-[0_0_8px_rgba(255,182,144,0.5)]">ABTalks</span>
-    </div>
-    <div class="flex items-center gap-4">
-        <!-- Sign In Button linked to /dashboard -->
-        <a href="/dashboard" class="bg-gradient-to-r from-primary to-primary-container text-on-primary font-label-caps text-label-caps font-bold px-5 py-2 rounded-full nav-glow-button active:scale-95 inline-block">
-            Sign In
-        </a>
-    </div>
-</header>
+<!-- WebGL Background -->
+<div id="webgl-canvas-container"></div>
 
-<main class="pt-24 pb-32 px-container-padding-mobile md:px-container-padding-desktop max-w-7xl mx-auto flex flex-col gap-stack-lg relative z-10 overflow-hidden">
-    <!-- Hero Section -->
-    <section class="flex flex-col items-center justify-center text-center mt-12 relative min-h-[50vh] w-full max-w-[390px] mx-auto md:max-w-none">
-        <div id="threejs-container"></div>
-        <div class="badge-border rounded-full px-4 py-1 mb-6 flex items-center gap-2 shadow-[0_0_15px_rgba(249,115,22,0.2)] fade-up-enter stagger-1">
-            <span class="material-symbols-outlined text-primary text-sm pulse-dot" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
-            <span class="font-label-caps text-label-caps text-primary">60-Day Student Challenge</span>
-        </div>
-        <h1 class="font-display-lg text-[40px] md:text-[64px] leading-[1.1] md:leading-tight font-extrabold hero-text-glow mb-6 w-full relative z-10 fade-up-enter stagger-2">
-            Build Consistency.<br/>Get Hired.
-        </h1>
-        <p class="font-body-md text-body-md text-on-surface-variant w-full mb-8 relative z-10 drop-shadow-md fade-up-enter stagger-3 px-2">
-            The elite proof-of-work engine for high-performance students. Commit to the daily grind, build public credibility, and get noticed by top recruiters.
-        </p>
-        <!-- Start Challenge Button linked to /dashboard -->
-        <a href="/dashboard" class="text-primary font-headline-lg-mobile text-headline-lg-mobile px-8 py-4 rounded-full glow-button active:scale-95 flex items-center gap-2 group relative z-10 fade-up-enter stagger-4 inline-flex">
-            Start Challenge
-            <span class="material-symbols-outlined group-hover:translate-x-2 transition-transform duration-300">arrow_forward</span>
-        </a>
-    </section>
+<!-- Outer Frame Container -->
+<div class="w-full max-w-[420px] min-h-screen relative z-10 flex flex-col bg-[#131315]/90 border-x border-white/5 shadow-2xl backdrop-blur-md">
 
-    <!-- Proof-of-Work Engine -->
-    <section class="mt-16 relative z-10">
-        <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-center mb-8 fade-up-enter text-white/90">Tactical Briefs</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-stack-md">
-            <!-- Step 1 -->
-            <div class="glass-card p-6 rounded-xl fade-up-enter stagger-1 relative overflow-hidden group">
-                <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div class="flex items-center justify-between mb-4">
-                    <span class="font-code-sm text-code-sm text-on-surface-variant tracking-wider">STEP 01</span>
-                    <span class="material-symbols-outlined text-primary text-2xl drop-shadow-[0_0_8px_rgba(249,115,22,0.5)]">terminal</span>
-                </div>
-                <h3 class="font-headline-lg-mobile text-headline-lg-mobile mb-2 text-white">Daily Briefing</h3>
-                <p class="text-sm text-on-surface-variant">Receive a tactical task focused on core CS concepts or real-world building.</p>
+    <!-- Sticky Glass Navigation -->
+    <header class="sticky top-0 w-full z-50 glass-nav flex items-center justify-between px-4 h-16">
+        <a href="index.html" class="flex items-center gap-2 cursor-pointer">
+            <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-container/40 to-primary/10 border border-primary/40 flex items-center justify-center shadow-md">
+                <span class="material-symbols-outlined text-primary pulse-dot text-lg" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
             </div>
-            <!-- Step 2 -->
-            <div class="glass-card p-6 rounded-xl fade-up-enter stagger-2 relative overflow-hidden group">
-                <div class="absolute inset-0 bg-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div class="flex items-center justify-between mb-4">
-                    <span class="font-code-sm text-code-sm text-on-surface-variant tracking-wider">STEP 02</span>
-                    <div class="flex gap-2">
-                        <span class="material-symbols-outlined text-secondary text-2xl drop-shadow-[0_0_8px_rgba(255,198,64,0.5)]">code</span>
-                        <span class="material-symbols-outlined text-secondary text-2xl drop-shadow-[0_0_8px_rgba(255,198,64,0.5)]">link</span>
+            <div class="flex flex-col">
+                <span class="font-display-sm text-base font-extrabold tracking-tight bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent">ABTalks</span>
+                <span class="text-[8px] font-code-sm text-on-surface-variant/70 tracking-widest -mt-1 uppercase">60-Day Challenge</span>
+            </div>
+        </a>
+
+        <div class="flex items-center gap-2">
+            <a href="dashboard/dashboard.html" class="px-3 py-1.5 rounded-full bg-gradient-to-r from-primary-container to-primary text-on-primary font-bold text-xs shadow-md shadow-primary-container/20 flex items-center gap-1 active:scale-95 transition-transform">
+                <span>Dashboard</span>
+                <span class="material-symbols-outlined text-xs">arrow_forward</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Flow -->
+    <main class="flex-1 px-4 pt-6 pb-24 flex flex-col gap-6">
+
+        <!-- Banner Pill -->
+        <div class="flex justify-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-container/10 border border-primary-container/30 floating-badge">
+                <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                <span class="font-code-sm text-[10px] text-primary font-bold tracking-wider uppercase">Cohort #4 Active • Day 12/60</span>
+            </div>
+        </div>
+
+        <!-- Hero Heading -->
+        <section class="flex flex-col text-center items-center gap-3">
+            <h1 class="text-3xl font-extrabold text-white tracking-tight leading-tight">
+                Build Output.<br/>
+                <span class="bg-gradient-to-r from-primary via-secondary to-tertiary bg-clip-text text-transparent">Prove Your Worth.</span>
+            </h1>
+
+            <p class="text-xs text-on-surface-variant leading-relaxed max-w-[340px]">
+                The ultimate accountability engine for developers. Solve daily algorithmic & system challenges, submit proof on LinkedIn, and climb the global ranks.
+            </p>
+
+            <!-- Dynamic Countdown Timer -->
+            <div class="glass-panel p-3 rounded-2xl w-full flex justify-around items-center mt-2 border border-white/10">
+                <div class="flex flex-col items-center">
+                    <span id="timer-hours" class="font-code-sm text-lg font-extrabold text-white">06</span>
+                    <span class="text-[9px] font-code-sm text-on-surface-variant uppercase">Hours</span>
+                </div>
+                <span class="text-primary font-bold text-lg">:</span>
+                <div class="flex flex-col items-center">
+                    <span id="timer-minutes" class="font-code-sm text-lg font-extrabold text-white">24</span>
+                    <span class="text-[9px] font-code-sm text-on-surface-variant uppercase">Mins</span>
+                </div>
+                <span class="text-primary font-bold text-lg">:</span>
+                <div class="flex flex-col items-center">
+                    <span id="timer-seconds" class="font-code-sm text-lg font-extrabold text-white">45</span>
+                    <span class="text-[9px] font-code-sm text-on-surface-variant uppercase">Secs</span>
+                </div>
+                <div class="h-6 w-[1px] bg-white/10"></div>
+                <div class="flex flex-col text-left">
+                    <span class="text-[10px] text-amber-400 font-bold uppercase font-code-sm">Day 12 Lock</span>
+                    <span class="text-[9px] text-on-surface-variant">Trees & DFS</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Action Section -->
+        <section class="flex flex-col gap-3">
+            <a href="dashboard/dashboard.html" class="w-full py-4 bg-gradient-to-r from-primary-container via-primary to-secondary text-on-primary rounded-2xl font-bold text-sm flex items-center justify-center gap-2 shadow-xl shadow-primary-container/25 active:scale-[0.98] transition-all group">
+                <span class="material-symbols-outlined text-base">rocket_launch</span>
+                <span>Enter Student Portal</span>
+                <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            </a>
+
+            <div class="grid grid-cols-2 gap-2">
+                <a href="dashboard/leaderboard.html" class="glass-panel p-3 rounded-xl flex items-center gap-2 hover:border-secondary/50 transition-colors">
+                    <span class="material-symbols-outlined text-secondary text-lg">emoji_events</span>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-bold text-white">Leaderboard</span>
+                        <span class="text-[9px] text-on-surface-variant font-code-sm">View Top 100</span>
+                    </div>
+                </a>
+                <a href="dashboard/submissions.html" class="glass-panel p-3 rounded-xl flex items-center gap-2 hover:border-primary/50 transition-colors">
+                    <span class="material-symbols-outlined text-primary text-lg">history</span>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-bold text-white">Proof Logs</span>
+                        <span class="text-[9px] text-on-surface-variant font-code-sm">Day 1 - 12</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Feature Highlight Grid -->
+        <section class="flex flex-col gap-3 pt-2">
+            <span class="font-code-sm text-xs text-on-surface-variant font-semibold uppercase tracking-wider px-1">Platform Architecture</span>
+
+            <!-- Feature 1 -->
+            <div class="glass-panel p-4 rounded-2xl flex items-start gap-3">
+                <div class="w-10 h-10 rounded-xl bg-primary-container/20 border border-primary-container/30 flex items-center justify-center shrink-0 text-primary">
+                    <span class="material-symbols-outlined text-xl">code_blocks</span>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <h3 class="text-xs font-bold text-white">Daily Algorithmic Challenges</h3>
+                    <p class="text-[11px] text-on-surface-variant leading-relaxed">
+                        Curated Data Structures & System Design problems updated daily at midnight. Test cases included.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="glass-panel p-4 rounded-2xl flex items-start gap-3">
+                <div class="w-10 h-10 rounded-xl bg-secondary/20 border border-secondary/30 flex items-center justify-center shrink-0 text-secondary">
+                    <span class="material-symbols-outlined text-xl">verified</span>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <h3 class="text-xs font-bold text-white">Proof-of-Work Verification</h3>
+                    <p class="text-[11px] text-on-surface-variant leading-relaxed">
+                        Submit dual-proof via GitHub public repository and LinkedIn social post to maintain streak status.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="glass-panel p-4 rounded-2xl flex items-start gap-3">
+                <div class="w-10 h-10 rounded-xl bg-tertiary/20 border border-tertiary/30 flex items-center justify-center shrink-0 text-tertiary">
+                    <span class="material-symbols-outlined text-xl">military_tech</span>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <h3 class="text-xs font-bold text-white">Live Cohort Leaderboard</h3>
+                    <p class="text-[11px] text-on-surface-variant leading-relaxed">
+                        Transparent point distribution based on execution speed, code efficiency, and consistency.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Cohort Statistics Section -->
+        <section class="glass-card-glow p-5 rounded-2xl flex flex-col gap-4">
+            <div class="flex justify-between items-center">
+                <span class="font-code-sm text-xs font-bold text-primary uppercase">Cohort Metrics</span>
+                <span class="text-[10px] font-code-sm text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full border border-emerald-400/20">LIVE DATA</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 text-center">
+                <div class="flex flex-col items-center">
+                    <span class="text-xl font-extrabold text-white font-code-sm">1,240</span>
+                    <span class="text-[9px] text-on-surface-variant font-code-sm">STUDENTS</span>
+                </div>
+                <div class="flex flex-col items-center border-x border-white/10">
+                    <span class="text-xl font-extrabold text-secondary font-code-sm">12,890</span>
+                    <span class="text-[9px] text-on-surface-variant font-code-sm">PROOFS</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span class="text-xl font-extrabold text-emerald-400 font-code-sm">94.2%</span>
+                    <span class="text-[9px] text-on-surface-variant font-code-sm">RETENTION</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive FAQ Accordion Section -->
+        <section class="flex flex-col gap-3 pt-2">
+            <span class="font-code-sm text-xs text-on-surface-variant font-semibold uppercase tracking-wider px-1">Frequently Asked Questions</span>
+
+            <div class="flex flex-col gap-2">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item glass-panel rounded-xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-3.5 flex justify-between items-center">
+                        <span class="text-xs font-bold text-white">How do I submit my daily challenge?</span>
+                        <span class="material-symbols-outlined text-sm text-primary faq-icon transition-transform">expand_more</span>
+                    </div>
+                    <div class="faq-content px-3.5 pb-3 text-[11px] text-on-surface-variant leading-relaxed">
+                        You submit by pushing code to your public GitHub repository and posting your key learnings on LinkedIn. Paste both links into your Student Dashboard before the daily lock timer expires.
                     </div>
                 </div>
-                <h3 class="font-headline-lg-mobile text-headline-lg-mobile mb-2 text-white">Dual Proof</h3>
-                <p class="text-sm text-on-surface-variant">Commit code to GitHub and share the insight publicly on LinkedIn.</p>
-            </div>
-            <!-- Step 3 -->
-            <div class="glass-card p-6 rounded-xl fade-up-enter stagger-3 relative overflow-hidden group">
-                <div class="absolute inset-0 bg-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div class="flex items-center justify-between mb-4">
-                    <span class="font-code-sm text-code-sm text-on-surface-variant tracking-wider">STEP 03</span>
-                    <span class="material-symbols-outlined text-tertiary text-2xl drop-shadow-[0_0_8px_rgba(192,193,255,0.5)]" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
-                </div>
-                <h3 class="font-headline-lg-mobile text-headline-lg-mobile mb-2 text-white">Visibility</h3>
-                <p class="text-sm text-on-surface-variant">Climb the ranks. Top performers are highlighted directly to hiring partners.</p>
-            </div>
-        </div>
-    </section>
 
-    <!-- Live Stats Grid -->
-    <section class="mt-16 fade-up-enter relative z-10" id="stats-section">
-        <div class="glass-card rounded-2xl p-8 relative overflow-hidden transition-transform duration-200 ease-out" id="stats-card">
-            <div class="absolute top-4 right-4 flex items-center gap-2">
-                <div class="w-2 h-2 rounded-full bg-primary pulse-dot"></div>
-                <span class="font-code-sm text-code-sm text-primary tracking-widest">LIVE STATUS</span>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-6">
-                <div>
-                    <div class="font-display-sm text-display-sm text-white mb-1 drop-shadow-md">1,250+</div>
-                    <div class="font-label-caps text-label-caps text-on-surface-variant tracking-wider">Active Students</div>
+                <!-- FAQ Item 2 -->
+                <div class="faq-item glass-panel rounded-xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-3.5 flex justify-between items-center">
+                        <span class="text-xs font-bold text-white">What happens if I miss a deadline?</span>
+                        <span class="material-symbols-outlined text-sm text-primary faq-icon transition-transform">expand_more</span>
+                    </div>
+                    <div class="faq-content px-3.5 pb-3 text-[11px] text-on-surface-variant leading-relaxed">
+                        Missing a daily deadline breaks your active streak and locks points for that specific day. You can still complete missed days in History mode for partial credit.
+                    </div>
                 </div>
-                <div>
-                    <div class="font-display-sm text-display-sm text-secondary mb-1 drop-shadow-[0_0_10px_rgba(255,198,64,0.3)]">75k</div>
-                    <div class="font-label-caps text-label-caps text-on-surface-variant tracking-wider">Proofs Submitted</div>
-                </div>
-                <div>
-                    <div class="font-display-sm text-display-sm text-tertiary mb-1 drop-shadow-[0_0_10px_rgba(192,193,255,0.3)]">Top 5%</div>
-                    <div class="font-label-caps text-label-caps text-on-surface-variant tracking-wider">Hired Cohort</div>
-                </div>
-            </div>
-        </div>
-    </section>
-</main>
 
-<footer class="relative z-10 mt-16 border-t border-white/5 bg-surface-container-lowest pt-16 pb-8 px-container-padding-mobile md:px-container-padding-desktop">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-        <!-- Brand Section -->
-        <div class="flex flex-col gap-4">
-            <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary pulse-dot" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
-                <span class="font-display-sm text-headline-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">ABTalks</span>
+                <!-- FAQ Item 3 -->
+                <div class="faq-item glass-panel rounded-xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-3.5 flex justify-between items-center">
+                        <span class="text-xs font-bold text-white">How is leaderboard ranking calculated?</span>
+                        <span class="material-symbols-outlined text-sm text-primary faq-icon transition-transform">expand_more</span>
+                    </div>
+                    <div class="faq-content px-3.5 pb-3 text-[11px] text-on-surface-variant leading-relaxed">
+                        Points are awarded based on completion speed (+100 max per day), code submission quality, and active streak multipliers.
+                    </div>
+                </div>
             </div>
-            <p class="text-sm text-on-surface-variant leading-relaxed">
-                The elite proof-of-work engine for high-performance students. Build consistency, gain visibility, and get hired.
-            </p>
+        </section>
+
+    </main>
+
+    <!-- Bottom Sticky Launch Banner -->
+    <div class="fixed bottom-0 w-full max-w-[420px] glass-nav p-3 z-50 border-t border-white/10 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <div class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></div>
+            <span class="text-xs font-code-sm text-white font-bold">Day 12 Submission Live</span>
         </div>
-        <!-- Challenge Links -->
-        <div>
-            <h4 class="font-label-caps text-label-caps text-white mb-6 tracking-widest">Challenge</h4>
-            <ul class="flex flex-col gap-3">
-                <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Daily Briefing</a></li>
-                <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Proof-of-Work</a></li>
-                <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Leaderboard</a></li>
-                <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">FAQ</a></li>
-            </ul>
-        </div>
-        <!-- Community Links -->
-        <div>
-            <h4 class="font-label-caps text-label-caps text-white mb-6 tracking-widest">Community</h4>
-            <ul class="flex flex-col gap-3">
-                <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Discord</a></li>
-                <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">LinkedIn</a></li>
-                <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">GitHub</a></li>
-                <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Success Stories</a></li>
-            </ul>
-        </div>
-        <!-- Legal Links -->
-        <div>
-            <h4 class="font-label-caps text-label-caps text-white mb-6 tracking-widest">Legal</h4>
-            <ul class="flex flex-col gap-3">
-                <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
-                <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a></li>
-                <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Honor Code</a></li>
-            </ul>
-        </div>
+        <a href="dashboard/dashboard.html" class="px-4 py-2 bg-gradient-to-r from-primary-container to-primary text-on-primary rounded-xl font-bold text-xs flex items-center gap-1 shadow-md">
+            <span>Enter Now</span>
+            <span class="material-symbols-outlined text-sm">chevron_right</span>
+        </a>
     </div>
-    <!-- Bottom Bar -->
-    <div class="max-w-7xl mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-        <p class="text-[10px] font-label-caps text-on-surface-variant/60 tracking-widest">
-            © 2026 ABTALKS. ALL RIGHTS RESERVED.
-        </p>
-        <div class="flex gap-6">
-            <a class="text-on-surface-variant/60 hover:text-primary transition-colors" href="#">
-                <span class="material-symbols-outlined text-xl">brand_awareness</span>
-            </a>
-            <a class="text-on-surface-variant/60 hover:text-primary transition-colors" href="#">
-                <span class="material-symbols-outlined text-xl">terminal</span>
-            </a>
-            <a class="text-on-surface-variant/60 hover:text-primary transition-colors" href="#">
-                <span class="material-symbols-outlined text-xl">share</span>
-            </a>
-        </div>
-    </div>
-</footer>
 
+</div>
+
+<!-- Three.js 3D Interactive Flame & Particle Engine -->
 <script>
-    // Intersection Observer for fade-up animations
-    document.addEventListener('DOMContentLoaded', () => {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationPlayState = 'running';
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
+    // WebGL Canvas Scene Setup
+    const container = document.getElementById('webgl-canvas-container');
+    const scene = new THREE.Scene();
 
-        document.querySelectorAll('.fade-up-enter').forEach(el => {
-            el.style.animationPlayState = 'paused';
-            observer.observe(el);
-        });
+    const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 4.5;
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    // Dynamic Central 3D Flame Object Shader / Wireframe Mesh
+    const geometry = new THREE.IcosahedronGeometry(2.2, 3);
+    const material = new THREE.MeshBasicMaterial({
+        color: 0xf97316,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.22
+    });
+    const mainSphere = new THREE.Mesh(geometry, material);
+    scene.add(mainSphere);
+
+    // Inner Secondary Core
+    const coreGeo = new THREE.IcosahedronGeometry(1.2, 2);
+    const coreMat = new THREE.MeshBasicMaterial({
+        color: 0xffc640,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.35
+    });
+    const coreSphere = new THREE.Mesh(coreGeo, coreMat);
+    scene.add(coreSphere);
+
+    // Particle Swarm Generator
+    const particleCount = 200;
+    const particlesGeometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const scales = new Float32Array(particleCount);
+
+    for (let i = 0; i < particleCount * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 10;
+        positions[i + 1] = (Math.random() - 0.5) * 10;
+        positions[i + 2] = (Math.random() - 0.5) * 10;
+        scales[i / 3] = Math.random();
+    }
+
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    
+    const particleMaterial = new THREE.PointsMaterial({
+        color: 0xffb690,
+        size: 0.04,
+        transparent: true,
+        opacity: 0.5
     });
 
-    // WebGL Background Shader
-    const canvas = document.getElementById('bg-canvas');
-    const gl = canvas.getContext('webgl');
+    const particleSystem = new THREE.Points(particlesGeometry, particleMaterial);
+    scene.add(particleSystem);
 
-    if (gl) {
-        const vertexShaderSource = `
-            attribute vec2 position;
-            varying vec2 v_texCoord;
-            void main() {
-                gl_Position = vec4(position, 0.0, 1.0);
-                v_texCoord = position * 0.5 + 0.5;
-            }
-        `;
+    // Mouse Interaction Tracking
+    let mouseX = 0;
+    let mouseY = 0;
+    window.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth) - 0.5;
+        mouseY = (e.clientY / window.innerHeight) - 0.5;
+    });
 
-        const fragmentShaderSource = `
-            precision highp float;
-            varying vec2 v_texCoord;
-            uniform float u_time;
-            uniform vec2 u_resolution;
+    // Main Animation Loop
+    let clock = new THREE.Clock();
+    function animate() {
+        requestAnimationFrame(animate);
+        const elapsedTime = clock.getElapsedTime();
 
-            float noise(vec2 p) {
-                return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
-            }
+        // Rotate Meshes
+        mainSphere.rotation.x = elapsedTime * 0.15;
+        mainSphere.rotation.y = elapsedTime * 0.2;
 
-            void main() {
-                vec2 uv = v_texCoord;
-                vec3 color = vec3(0.04, 0.04, 0.05);
-                float pulse = sin(u_time * 0.8) * 0.5 + 0.5;
-                float t = u_time * 0.3;
-                
-                vec3 orange = vec3(0.976, 0.451, 0.086);
-                float ambientGlow = smoothstep(0.2, 0.8, uv.y + sin(t)*0.2);
-                color += orange * ambientGlow * 0.05;
-                
-                float streaks = smoothstep(0.45, 0.55, sin(uv.x * 12.0 + uv.y * 2.0 + t));
-                color += orange * streaks * 0.08 * pulse;
-                color += (noise(uv + u_time * 0.01) - 0.5) * 0.02;
-                
-                gl_FragColor = vec4(color, 1.0);
-            }
-        `;
+        coreSphere.rotation.x = -elapsedTime * 0.25;
+        coreSphere.rotation.y = -elapsedTime * 0.3;
 
-        function createShader(gl, type, source) {
-            const shader = gl.createShader(type);
-            gl.shaderSource(shader, source);
-            gl.compileShader(shader);
-            return shader;
-        }
+        // Interactive Parallax
+        mainSphere.position.x += (mouseX * 0.5 - mainSphere.position.x) * 0.05;
+        mainSphere.position.y += (-mouseY * 0.5 - mainSphere.position.y) * 0.05;
 
-        const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-        const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+        particleSystem.rotation.y = elapsedTime * 0.05;
 
-        const program = gl.createProgram();
-        gl.attachShader(program, vertexShader);
-        gl.attachShader(program, fragmentShader);
-        gl.linkProgram(program);
-        gl.useProgram(program);
+        renderer.render(scene, camera);
+    }
+    animate();
 
-        const positionBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-        const positions = [
-            -1.0, -1.0,
-             1.0, -1.0,
-            -1.0,  1.0,
-            -1.0,  1.0,
-             1.0, -1.0,
-             1.0,  1.0,
-        ];
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+    // Responsive Resize Handler
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
 
-        const positionAttributeLocation = gl.getAttribLocation(program, "position");
-        gl.enableVertexAttribArray(positionAttributeLocation);
-        gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
-
-        const timeLocation = gl.getUniformLocation(program, "u_time");
-        const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            gl.viewport(0, 0, canvas.width, canvas.height);
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        function render(time) {
-            gl.uniform1f(timeLocation, time * 0.001);
-            gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
-            gl.drawArrays(gl.TRIANGLES, 0, 6);
-            requestAnimationFrame(render);
-        }
-        requestAnimationFrame(render);
+    // Accordion Toggle Helper
+    function toggleFaq(element) {
+        element.classList.toggle('active');
     }
 
-    // Three.js Hero Scene
-    if (typeof THREE !== 'undefined') {
-        (function() {
-          const container = document.getElementById('threejs-container');
-          if(!container) return;
-          
-          const width = container.clientWidth || window.innerWidth;
-          const height = container.clientHeight || window.innerHeight;
-          
-          const scene = new THREE.Scene();
-          const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-          const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    // Timer Countdown System
+    let secondsLeft = (6 * 3600) + (24 * 60) + 45;
+    setInterval(() => {
+        if (secondsLeft > 0) {
+            secondsLeft--;
+            const hrs = Math.floor(secondsLeft / 3600);
+            const mins = Math.floor((secondsLeft % 3600) / 60);
+            const secs = secondsLeft % 60;
 
-          renderer.setSize(width, height);
-          renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-          container.appendChild(renderer.domElement);
-
-          const group = new THREE.Group();
-
-          const orangeMaterial = new THREE.MeshPhongMaterial({ 
-              color: 0xf97316, 
-              emissive: 0xf97316,
-              emissiveIntensity: 0.6,
-              transparent: true,
-              opacity: 0.95,
-              shininess: 100
-          });
-
-          const coreGeo = new THREE.SphereGeometry(0.6, 32, 32);
-          const core = new THREE.Mesh(coreGeo, orangeMaterial);
-          group.add(core);
-
-          const tipGeo = new THREE.ConeGeometry(0.6, 1.4, 32);
-          const tip = new THREE.Mesh(tipGeo, orangeMaterial);
-          tip.position.y = 0.6;
-          group.add(tip);
-
-          scene.add(group);
-
-          const light = new THREE.PointLight(0xf97316, 2, 10);
-          light.position.set(2, 2, 2);
-          scene.add(light);
-          scene.add(new THREE.AmbientLight(0xffffff, 0.4));
-
-          camera.position.z = 3.5;
-
-          function animate() {
-              requestAnimationFrame(animate);
-              
-              const time = Date.now() * 0.001;
-              
-              group.rotation.y = time * 0.5;
-              group.rotation.z = Math.sin(time * 0.7) * 0.1;
-              group.position.y = Math.sin(time) * 0.1;
-              
-              const s = 1.0 + Math.sin(time * 2.0) * 0.05;
-              group.scale.set(s, s, s);
-              
-              renderer.render(scene, camera);
-          }
-
-          window.addEventListener('resize', () => {
-              const w = container.clientWidth || window.innerWidth;
-              const h = container.clientHeight || window.innerHeight;
-              camera.aspect = w / h;
-              camera.updateProjectionMatrix();
-              renderer.setSize(w, h);
-          });
-
-          animate();
-        })();
-    }
+            document.getElementById('timer-hours').innerText = hrs.toString().padStart(2, '0');
+            document.getElementById('timer-minutes').innerText = mins.toString().padStart(2, '0');
+            document.getElementById('timer-seconds').innerText = secs.toString().padStart(2, '0');
+        }
+    }, 1000);
 </script>
+
 </body>
 </html>
