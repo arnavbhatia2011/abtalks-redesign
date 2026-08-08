@@ -155,7 +155,7 @@
 
     <!-- Sticky Glass Navigation -->
     <header class="sticky top-0 w-full z-50 glass-nav flex items-center justify-between px-4 h-16">
-        <a href="index.html" class="flex items-center gap-2 cursor-pointer">
+        <a href="/" class="flex items-center gap-2 cursor-pointer">
             <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-container/40 to-primary/10 border border-primary/40 flex items-center justify-center shadow-md">
                 <span class="material-symbols-outlined text-primary pulse-dot text-lg" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
             </div>
@@ -166,7 +166,7 @@
         </a>
 
         <div class="flex items-center gap-2">
-            <a href="dashboard/dashboard.html" class="px-3 py-1.5 rounded-full bg-gradient-to-r from-primary-container to-primary text-on-primary font-bold text-xs shadow-md shadow-primary-container/20 flex items-center gap-1 active:scale-95 transition-transform">
+            <a href="/dashboard" class="px-3 py-1.5 rounded-full bg-gradient-to-r from-primary-container to-primary text-on-primary font-bold text-xs shadow-md shadow-primary-container/20 flex items-center gap-1 active:scale-95 transition-transform">
                 <span>Dashboard</span>
                 <span class="material-symbols-outlined text-xs">arrow_forward</span>
             </a>
@@ -185,7 +185,7 @@
         </div>
 
         <!-- Hero Heading -->
-        <section class="flex flex-col text-center items-center gap-3">
+        <section class="flex flex-col text-center items-center gap-3 pb-2">
             <h1 class="text-3xl font-extrabold text-white tracking-tight leading-tight">
                 Build Output.<br/>
                 <span class="bg-gradient-to-r from-primary via-secondary to-tertiary bg-clip-text text-transparent">Prove Your Worth.</span>
@@ -194,48 +194,25 @@
             <p class="text-xs text-on-surface-variant leading-relaxed max-w-[340px]">
                 The ultimate accountability engine for developers. Solve daily algorithmic & system challenges, submit proof on LinkedIn, and climb the global ranks.
             </p>
-
-            <!-- Dynamic Countdown Timer -->
-            <div class="glass-panel p-3 rounded-2xl w-full flex justify-around items-center mt-2 border border-white/10">
-                <div class="flex flex-col items-center">
-                    <span id="timer-hours" class="font-code-sm text-lg font-extrabold text-white">06</span>
-                    <span class="text-[9px] font-code-sm text-on-surface-variant uppercase">Hours</span>
-                </div>
-                <span class="text-primary font-bold text-lg">:</span>
-                <div class="flex flex-col items-center">
-                    <span id="timer-minutes" class="font-code-sm text-lg font-extrabold text-white">24</span>
-                    <span class="text-[9px] font-code-sm text-on-surface-variant uppercase">Mins</span>
-                </div>
-                <span class="text-primary font-bold text-lg">:</span>
-                <div class="flex flex-col items-center">
-                    <span id="timer-seconds" class="font-code-sm text-lg font-extrabold text-white">45</span>
-                    <span class="text-[9px] font-code-sm text-on-surface-variant uppercase">Secs</span>
-                </div>
-                <div class="h-6 w-[1px] bg-white/10"></div>
-                <div class="flex flex-col text-left">
-                    <span class="text-[10px] text-amber-400 font-bold uppercase font-code-sm">Day 12 Lock</span>
-                    <span class="text-[9px] text-on-surface-variant">Trees & DFS</span>
-                </div>
-            </div>
         </section>
 
         <!-- CTA Action Section -->
         <section class="flex flex-col gap-3">
-            <a href="dashboard/dashboard.html" class="w-full py-4 bg-gradient-to-r from-primary-container via-primary to-secondary text-on-primary rounded-2xl font-bold text-sm flex items-center justify-center gap-2 shadow-xl shadow-primary-container/25 active:scale-[0.98] transition-all group">
+            <a href="/dashboard" class="w-full py-4 bg-gradient-to-r from-primary-container via-primary to-secondary text-on-primary rounded-2xl font-bold text-sm flex items-center justify-center gap-2 shadow-xl shadow-primary-container/25 active:scale-[0.98] transition-all group">
                 <span class="material-symbols-outlined text-base">rocket_launch</span>
                 <span>Enter Student Portal</span>
                 <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </a>
 
             <div class="grid grid-cols-2 gap-2">
-                <a href="dashboard/leaderboard.html" class="glass-panel p-3 rounded-xl flex items-center gap-2 hover:border-secondary/50 transition-colors">
+                <a href="/leaderboard" class="glass-panel p-3 rounded-xl flex items-center gap-2 hover:border-secondary/50 transition-colors">
                     <span class="material-symbols-outlined text-secondary text-lg">emoji_events</span>
                     <div class="flex flex-col">
                         <span class="text-xs font-bold text-white">Leaderboard</span>
                         <span class="text-[9px] text-on-surface-variant font-code-sm">View Top 100</span>
                     </div>
                 </a>
-                <a href="dashboard/submissions.html" class="glass-panel p-3 rounded-xl flex items-center gap-2 hover:border-primary/50 transition-colors">
+                <a href="/submissions" class="glass-panel p-3 rounded-xl flex items-center gap-2 hover:border-primary/50 transition-colors">
                     <span class="material-symbols-outlined text-primary text-lg">history</span>
                     <div class="flex flex-col">
                         <span class="text-xs font-bold text-white">Proof Logs</span>
@@ -360,7 +337,7 @@
             <div class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></div>
             <span class="text-xs font-code-sm text-white font-bold">Day 12 Submission Live</span>
         </div>
-        <a href="dashboard/dashboard.html" class="px-4 py-2 bg-gradient-to-r from-primary-container to-primary text-on-primary rounded-xl font-bold text-xs flex items-center gap-1 shadow-md">
+        <a href="/dashboard" class="px-4 py-2 bg-gradient-to-r from-primary-container to-primary text-on-primary rounded-xl font-bold text-xs flex items-center gap-1 shadow-md">
             <span>Enter Now</span>
             <span class="material-symbols-outlined text-sm">chevron_right</span>
         </a>
@@ -471,21 +448,6 @@
     function toggleFaq(element) {
         element.classList.toggle('active');
     }
-
-    // Timer Countdown System
-    let secondsLeft = (6 * 3600) + (24 * 60) + 45;
-    setInterval(() => {
-        if (secondsLeft > 0) {
-            secondsLeft--;
-            const hrs = Math.floor(secondsLeft / 3600);
-            const mins = Math.floor((secondsLeft % 3600) / 60);
-            const secs = secondsLeft % 60;
-
-            document.getElementById('timer-hours').innerText = hrs.toString().padStart(2, '0');
-            document.getElementById('timer-minutes').innerText = mins.toString().padStart(2, '0');
-            document.getElementById('timer-seconds').innerText = secs.toString().padStart(2, '0');
-        }
-    }, 1000);
 </script>
 
 </body>
