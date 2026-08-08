@@ -7,10 +7,7 @@ const DASHBOARD_STATE = {
         name: "You (Student)",
         currentDay: 12,
         streak: 12,
-        xp: 1240,
-        city: "Mumbai",
-        state: "Maharashtra",
-        country: "India"
+        xp: 1240
     },
     activePane: "today", 
     paneLeaderboardScope: "city", 
@@ -59,7 +56,9 @@ const DASHBOARD_STATE = {
     }
 };
 
-// Toast Notification
+/**
+ * Toast Notification Function
+ */
 function showToast(message, icon = "info") {
     const toastBanner = document.getElementById("toast-banner");
     const toastMsg = document.getElementById("toast-msg");
@@ -79,15 +78,13 @@ function showToast(message, icon = "info") {
 }
 
 /**
- * Tab/Pane Switcher Logic
+ * Switch Active View Pane
  */
 function switchPane(paneId) {
     DASHBOARD_STATE.activePane = paneId;
 
-    const paneTabs = document.querySelectorAll(".pane-tab");
-    const paneContents = document.querySelectorAll(".pane-content");
-
-    paneTabs.forEach(tab => {
+    // Update Tab Styles
+    document.querySelectorAll(".pane-tab").forEach(tab => {
         if (tab.dataset.pane === paneId) {
             tab.classList.add("active", "text-primary", "bg-white/10", "font-bold");
             tab.classList.remove("text-on-surface-variant", "font-medium");
@@ -97,13 +94,14 @@ function switchPane(paneId) {
         }
     });
 
-    paneContents.forEach(pane => {
+    // Toggle View Content Panes
+    document.querySelectorAll(".pane-content").forEach(pane => {
         if (pane.id === `pane-${paneId}`) {
-            pane.classList.remove("hidden");
-            pane.classList.add("flex");
+            pane.classList.remove("pane-hidden");
+            pane.classList.add("pane-visible");
         } else {
-            pane.classList.add("hidden");
-            pane.classList.remove("flex");
+            pane.classList.remove("pane-visible");
+            pane.classList.add("pane-hidden");
         }
     });
 
@@ -112,7 +110,7 @@ function switchPane(paneId) {
 }
 
 /**
- * Render Day 1 to 12 Submissions Log
+ * Render Day 1-12 Submissions Log
  */
 function renderSubmissionsLog() {
     const submissionsLogContainer = document.getElementById("submissions-log-container");
@@ -150,10 +148,10 @@ function renderSubmissionsLog() {
             <h3 class="text-xs font-bold text-white leading-tight">${item.title}</h3>
 
             <div class="flex gap-3 text-[10px] pt-1.5 border-t border-white/5 text-on-surface-variant">
-                <a href="https://${item.githubUrl}" target="_blank" class="flex items-center gap-1 hover:text-primary transition-colors">
+                <a href="https://${item.githubUrl}" target="_blank" rel="noopener" class="flex items-center gap-1 hover:text-primary transition-colors">
                     <span class="material-symbols-outlined text-xs">code</span> GitHub
                 </a>
-                <a href="https://${item.linkedinUrl}" target="_blank" class="flex items-center gap-1 hover:text-primary transition-colors">
+                <a href="https://${item.linkedinUrl}" target="_blank" rel="noopener" class="flex items-center gap-1 hover:text-primary transition-colors">
                     <span class="material-symbols-outlined text-xs">share</span> LinkedIn
                 </a>
             </div>
@@ -162,7 +160,7 @@ function renderSubmissionsLog() {
 }
 
 /**
- * Leaderboard Item Generator
+ * Leaderboard HTML Builder
  */
 function buildLeaderboardRowsHtml(data, searchQuery) {
     const filtered = data.filter(item => 
@@ -236,15 +234,27 @@ function closeModal() {
 }
 
 /**
- * Initialize Dashboard
+ * Initialize Event Handlers
  */
 function initDashboard() {
-    // 1. Tab Listeners
+    // 1. Navigation Brand Header Button -> Return to Today Pane
+    const brandBtn = document.getElementById("nav-dashboard-brand");
+    if (brandBtn) {
+        brandBtn.addEventListener("click", () => {
+            switchPane("today");
+            showToast("Returned to Dashboard", "dashboard");
+        });
+    }
+
+    // 2. Tab Navigation Click Handlers
     document.querySelectorAll(".pane-tab").forEach(tab => {
-        tab.addEventListener("click", () => switchPane(tab.dataset.pane));
+        tab.addEventListener("click", (e) => {
+            e.preventDefault();
+            switchPane(tab.dataset.pane);
+        });
     });
 
-    // 2. History Search Listener
+    // 3. Search Bar for History
     const historySearchInput = document.getElementById("history-search-input");
     if (historySearchInput) {
         historySearchInput.addEventListener("input", (e) => {
@@ -253,7 +263,7 @@ function initDashboard() {
         });
     }
 
-    // 3. Main Pane Scope Filters
+    // 4. Pane Scope Filter Buttons (City / State / Country)
     document.querySelectorAll(".pane-scope-btn").forEach(btn => {
         btn.addEventListener("click", () => {
             document.querySelectorAll(".pane-scope-btn").forEach(b => {
@@ -269,7 +279,7 @@ function initDashboard() {
         });
     });
 
-    // 4. Main Pane Leaderboard Search
+    // 5. Pane Leaderboard Search Bar
     const paneLeaderboardSearch = document.getElementById("pane-leaderboard-search");
     if (paneLeaderboardSearch) {
         paneLeaderboardSearch.addEventListener("input", (e) => {
@@ -278,7 +288,7 @@ function initDashboard() {
         });
     }
 
-    // 5. Modal Triggers & Scope Filters
+    // 6. Modal Open/Close Controls
     const openModalRankBtn = document.getElementById("open-modal-rank-btn");
     const closeModalBtn = document.getElementById("close-modal-btn");
     const leaderboardModal = document.getElementById("leaderboard-modal");
@@ -315,7 +325,7 @@ function initDashboard() {
         });
     }
 
-    // 6. Action Button Toasts
+    // 7. Quick Stat Action Cards
     const day13LockedBtn = document.getElementById("day13-locked-btn");
     const statProofBtn = document.getElementById("stat-proof-btn");
     const streakBadgeBtn = document.getElementById("streak-badge-btn");
@@ -337,9 +347,13 @@ function initDashboard() {
         userProfileBtn.addEventListener("click", () => showToast("Logged in as Student (Day 12)", "account_circle"));
     }
 
-    // Pre-render
-    renderSubmissionsLog();
-    renderPaneLeaderboard();
+    // Initial Active View Load
+    switchPane("today");
 }
 
-document.addEventListener("DOMContentLoaded", initDashboard);
+// Execute listener setup once DOM ready
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initDashboard);
+} else {
+    initDashboard();
+}
