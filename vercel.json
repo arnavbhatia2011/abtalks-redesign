@@ -3,6 +3,7 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/dashboard", "destination": "/dashboard/index.html" },
+    { "source": "/leaderboard", "destination": "/dashboard/leaderboard.html" },
     { "source": "/day/12", "destination": "/day12.html" }
   ]
 }
