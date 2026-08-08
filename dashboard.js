@@ -1,13 +1,12 @@
 /**
- * Dashboard Application State
+ * Application State
  */
 const DASHBOARD_STATE = {
-    paneLeaderboardScope: "city", 
-    modalLeaderboardScope: "city",
+    currentPane: "pane-today",
+    leaderboardScope: "city",
     historySearchQuery: "",
-    paneSearchQuery: "",
-    modalSearchQuery: "",
-    
+    leaderboardSearchQuery: "",
+
     submissionsLog: [
         { day: 12, title: "Binary Trees & DFS Traversal", submittedAt: "Today, 10:14 AM", githubUrl: "github.com/student/day12", linkedinUrl: "linkedin.com/posts/day12" },
         { day: 11, title: "API Design & Webhooks Handler", submittedAt: "Yesterday", githubUrl: "github.com/student/day11", linkedinUrl: "linkedin.com/posts/day11" },
@@ -49,7 +48,7 @@ const DASHBOARD_STATE = {
 };
 
 /**
- * Toast Notification
+ * Toast Helper
  */
 function showToast(message, icon = "info") {
     const toastBanner = document.getElementById("toast-banner");
@@ -70,69 +69,97 @@ function showToast(message, icon = "info") {
 }
 
 /**
- * Direct Tab/Pane Switcher
+ * MAIN SWITCH PANE FUNCTION (Attached globally to window)
  */
-function switchTabPane(targetPaneId) {
+window.switchPane = function(targetPaneId) {
+    DASHBOARD_STATE.currentPane = targetPaneId;
+
     // 1. Hide all panes
-    const allPanes = document.querySelectorAll(".tab-pane");
-    allPanes.forEach(pane => {
-        pane.classList.remove("active-pane");
+    const panes = document.querySelectorAll(".dashboard-pane");
+    panes.forEach(pane => {
+        pane.classList.remove("pane-visible");
+        pane.classList.add("pane-hidden");
     });
 
-    // 2. Show target pane
-    const selectedPane = document.getElementById(targetPaneId);
-    if (selectedPane) {
-        selectedPane.classList.add("active-pane");
+    // 2. Show selected pane
+    const targetPane = document.getElementById(targetPaneId);
+    if (targetPane) {
+        targetPane.classList.remove("pane-hidden");
+        targetPane.classList.add("pane-visible");
     }
 
-    // 3. Highlight active tab
-    const allTabs = document.querySelectorAll(".pane-tab");
-    allTabs.forEach(tab => {
-        if (tab.getAttribute("data-target") === targetPaneId) {
-            tab.classList.add("text-primary", "bg-white/10", "font-bold");
-            tab.classList.remove("text-on-surface-variant", "font-medium");
-        } else {
-            tab.classList.remove("text-primary", "bg-white/10", "font-bold");
-            tab.classList.add("text-on-surface-variant", "font-medium");
-        }
+    // 3. Highlight Top Nav Button
+    const tabButtons = document.querySelectorAll(".pane-tab-btn");
+    tabButtons.forEach(btn => {
+        btn.classList.remove("text-primary", "bg-white/10", "font-bold");
+        btn.classList.add("text-on-surface-variant", "font-medium");
     });
 
-    // 4. Render Dynamic Contents
-    if (targetPaneId === "pane-submissions") {
+    if (targetPaneId === "pane-today") {
+        const activeBtn = document.getElementById("btn-tab-today");
+        if (activeBtn) {
+            activeBtn.classList.add("text-primary", "bg-white/10", "font-bold");
+            activeBtn.classList.remove("text-on-surface-variant", "font-medium");
+        }
+    } else if (targetPaneId === "pane-submissions") {
+        const activeBtn = document.getElementById("btn-tab-submissions");
+        if (activeBtn) {
+            activeBtn.classList.add("text-primary", "bg-white/10", "font-bold");
+            activeBtn.classList.remove("text-on-surface-variant", "font-medium");
+        }
         renderSubmissionsLog();
     } else if (targetPaneId === "pane-ranks") {
-        renderPaneLeaderboard();
+        const activeBtn = document.getElementById("btn-tab-ranks");
+        if (activeBtn) {
+            activeBtn.classList.add("text-primary", "bg-white/10", "font-bold");
+            activeBtn.classList.remove("text-on-surface-variant", "font-medium");
+        }
+        renderLeaderboard();
     }
-}
+};
 
 /**
- * Render Day 1-12 Submissions Log
+ * Filter Scope Switcher
+ */
+window.changeLeaderboardScope = function(scope, clickedBtn) {
+    DASHBOARD_STATE.leaderboardScope = scope;
+
+    const buttons = document.querySelectorAll(".pane-scope-btn");
+    buttons.forEach(b => {
+        b.classList.remove("active", "bg-secondary", "text-surface", "font-bold");
+        b.classList.add("bg-white/5", "border", "border-white/10", "text-on-surface-variant");
+    });
+
+    if (clickedBtn) {
+        clickedBtn.classList.remove("bg-white/5", "border", "border-white/10", "text-on-surface-variant");
+        clickedBtn.classList.add("active", "bg-secondary", "text-surface", "font-bold");
+    }
+
+    renderLeaderboard();
+};
+
+/**
+ * Render Submissions History
  */
 function renderSubmissionsLog() {
-    const submissionsLogContainer = document.getElementById("submissions-log-container");
-    const submissionsCountBadge = document.getElementById("submissions-count-badge");
-    if (!submissionsLogContainer) return;
+    const container = document.getElementById("submissions-log-container");
+    const countBadge = document.getElementById("submissions-count-badge");
+    if (!container) return;
 
     const filtered = DASHBOARD_STATE.submissionsLog.filter(item => 
         item.title.toLowerCase().includes(DASHBOARD_STATE.historySearchQuery.toLowerCase()) ||
         `day ${item.day}`.includes(DASHBOARD_STATE.historySearchQuery.toLowerCase())
     );
 
-    if (submissionsCountBadge) {
-        submissionsCountBadge.textContent = `${filtered.length} / 12 Verified`;
-    }
+    if (countBadge) countBadge.textContent = `${filtered.length} / 12 Verified`;
 
     if (filtered.length === 0) {
-        submissionsLogContainer.innerHTML = `
-            <div class="glass-card p-6 rounded-xl text-center text-on-surface-variant text-xs">
-                No matching submission history found.
-            </div>
-        `;
+        container.innerHTML = `<div class="glass-card p-6 rounded-xl text-center text-on-surface-variant text-xs">No submission history found.</div>`;
         return;
     }
 
-    submissionsLogContainer.innerHTML = filtered.map(item => `
-        <div class="glass-card p-3 rounded-xl flex flex-col gap-1.5 border border-white/5 active:scale-[0.99] transition-transform">
+    container.innerHTML = filtered.map(item => `
+        <div class="glass-card p-3 rounded-xl flex flex-col gap-1.5 border border-white/5">
             <div class="flex justify-between items-center">
                 <div class="flex items-center gap-1.5">
                     <span class="font-code-sm text-xs font-bold text-primary">DAY ${item.day}</span>
@@ -140,14 +167,12 @@ function renderSubmissionsLog() {
                 </div>
                 <span class="text-[9px] text-on-surface-variant font-code-sm">${item.submittedAt}</span>
             </div>
-
             <h3 class="text-xs font-bold text-white leading-tight">${item.title}</h3>
-
             <div class="flex gap-3 text-[10px] pt-1.5 border-t border-white/5 text-on-surface-variant">
-                <a href="https://${item.githubUrl}" target="_blank" rel="noopener" class="flex items-center gap-1 hover:text-primary transition-colors">
+                <a href="https://${item.githubUrl}" target="_blank" rel="noopener" class="flex items-center gap-1 hover:text-primary">
                     <span class="material-symbols-outlined text-xs">code</span> GitHub
                 </a>
-                <a href="https://${item.linkedinUrl}" target="_blank" rel="noopener" class="flex items-center gap-1 hover:text-primary transition-colors">
+                <a href="https://${item.linkedinUrl}" target="_blank" rel="noopener" class="flex items-center gap-1 hover:text-primary">
                     <span class="material-symbols-outlined text-xs">share</span> LinkedIn
                 </a>
             </div>
@@ -156,18 +181,21 @@ function renderSubmissionsLog() {
 }
 
 /**
- * Leaderboard Dynamic Rows
+ * Render Leaderboard Pane
  */
-function buildLeaderboardRowsHtml(data, searchQuery) {
-    const filtered = data.filter(item => 
-        item.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+function renderLeaderboard() {
+    const container = document.getElementById("pane-leaderboard-list");
+    if (!container) return;
+
+    const data = DASHBOARD_STATE.leaderboards[DASHBOARD_STATE.leaderboardScope] || [];
+    const filtered = data.filter(item => item.name.toLowerCase().includes(DASHBOARD_STATE.leaderboardSearchQuery.toLowerCase()));
 
     if (filtered.length === 0) {
-        return `<div class="text-center py-6 text-xs text-on-surface-variant">No builders found.</div>`;
+        container.innerHTML = `<div class="text-center py-6 text-xs text-on-surface-variant">No builders found.</div>`;
+        return;
     }
 
-    return filtered.map(item => {
+    container.innerHTML = filtered.map(item => {
         let badge = `#${item.rank}`;
         if (item.rank === 1) badge = "🏆";
         if (item.rank === 2) badge = "🥈";
@@ -188,71 +216,10 @@ function buildLeaderboardRowsHtml(data, searchQuery) {
     }).join("");
 }
 
-function renderPaneLeaderboard() {
-    const paneLeaderboardList = document.getElementById("pane-leaderboard-list");
-    if (!paneLeaderboardList) return;
-    const data = DASHBOARD_STATE.leaderboards[DASHBOARD_STATE.paneLeaderboardScope] || [];
-    paneLeaderboardList.innerHTML = buildLeaderboardRowsHtml(data, DASHBOARD_STATE.paneSearchQuery);
-}
-
-function renderModalLeaderboard() {
-    const modalLeaderboardList = document.getElementById("modal-leaderboard-list");
-    if (!modalLeaderboardList) return;
-    const data = DASHBOARD_STATE.leaderboards[DASHBOARD_STATE.modalLeaderboardScope] || [];
-    modalLeaderboardList.innerHTML = buildLeaderboardRowsHtml(data, DASHBOARD_STATE.modalSearchQuery);
-}
-
-function openModal() {
-    const leaderboardModal = document.getElementById("leaderboard-modal");
-    const modalCard = document.getElementById("modal-card");
-    if (!leaderboardModal || !modalCard) return;
-
-    renderModalLeaderboard();
-    leaderboardModal.classList.remove("hidden");
-    setTimeout(() => {
-        leaderboardModal.classList.remove("opacity-0");
-        modalCard.classList.remove("scale-95");
-        modalCard.classList.add("scale-100");
-    }, 10);
-}
-
-function closeModal() {
-    const leaderboardModal = document.getElementById("leaderboard-modal");
-    const modalCard = document.getElementById("modal-card");
-    if (!leaderboardModal || !modalCard) return;
-
-    leaderboardModal.classList.add("opacity-0");
-    modalCard.classList.remove("scale-100");
-    modalCard.classList.add("scale-95");
-    setTimeout(() => {
-        leaderboardModal.classList.add("hidden");
-    }, 200);
-}
-
 /**
- * Initialize Everything Function
+ * Setup input listeners
  */
-function initApp() {
-    // 1. Tab Event Listeners
-    const tabs = document.querySelectorAll(".pane-tab");
-    tabs.forEach(tab => {
-        tab.addEventListener("click", function(e) {
-            e.preventDefault();
-            const target = this.getAttribute("data-target");
-            switchTabPane(target);
-        });
-    });
-
-    // 2. Brand Return Button
-    const brandBtn = document.getElementById("nav-dashboard-brand");
-    if (brandBtn) {
-        brandBtn.addEventListener("click", () => {
-            switchTabPane("pane-today");
-            showToast("Returned to Main Workspace", "dashboard");
-        });
-    }
-
-    // 3. Search Inputs
+document.addEventListener("DOMContentLoaded", () => {
     const historySearchInput = document.getElementById("history-search-input");
     if (historySearchInput) {
         historySearchInput.addEventListener("input", (e) => {
@@ -264,85 +231,11 @@ function initApp() {
     const paneLeaderboardSearch = document.getElementById("pane-leaderboard-search");
     if (paneLeaderboardSearch) {
         paneLeaderboardSearch.addEventListener("input", (e) => {
-            DASHBOARD_STATE.paneSearchQuery = e.target.value.trim();
-            renderPaneLeaderboard();
+            DASHBOARD_STATE.leaderboardSearchQuery = e.target.value.trim();
+            renderLeaderboard();
         });
     }
 
-    // 4. Pane Scope Filter Buttons (City / State / Country)
-    document.querySelectorAll(".pane-scope-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            document.querySelectorAll(".pane-scope-btn").forEach(b => {
-                b.classList.remove("active", "bg-secondary", "text-surface", "font-bold");
-                b.classList.add("bg-white/5", "border", "border-white/10", "text-on-surface-variant");
-            });
-
-            btn.classList.remove("bg-white/5", "border", "border-white/10", "text-on-surface-variant");
-            btn.classList.add("active", "bg-secondary", "text-surface", "font-bold");
-
-            DASHBOARD_STATE.paneLeaderboardScope = btn.dataset.scope;
-            renderPaneLeaderboard();
-        });
-    });
-
-    // 5. Modal Trigger Handlers
-    const openModalRankBtn = document.getElementById("open-modal-rank-btn");
-    const closeModalBtn = document.getElementById("close-modal-btn");
-    const leaderboardModal = document.getElementById("leaderboard-modal");
-
-    if (openModalRankBtn) openModalRankBtn.addEventListener("click", openModal);
-    if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
-
-    if (leaderboardModal) {
-        leaderboardModal.addEventListener("click", (e) => {
-            if (e.target === leaderboardModal) closeModal();
-        });
-    }
-
-    document.querySelectorAll(".modal-scope-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            document.querySelectorAll(".modal-scope-btn").forEach(b => {
-                b.classList.remove("active", "bg-secondary", "text-surface", "font-bold");
-                b.classList.add("bg-white/5", "border", "border-white/10", "text-on-surface-variant");
-            });
-
-            btn.classList.remove("bg-white/5", "border", "border-white/10", "text-on-surface-variant");
-            btn.classList.add("active", "bg-secondary", "text-surface", "font-bold");
-
-            DASHBOARD_STATE.modalLeaderboardScope = btn.dataset.scope;
-            renderModalLeaderboard();
-        });
-    });
-
-    const modalLeaderboardSearch = document.getElementById("modal-leaderboard-search");
-    if (modalLeaderboardSearch) {
-        modalLeaderboardSearch.addEventListener("input", (e) => {
-            DASHBOARD_STATE.modalSearchQuery = e.target.value.trim();
-            renderModalLeaderboard();
-        });
-    }
-
-    // 6. Quick Action Badges
-    const statProofBtn = document.getElementById("stat-proof-btn");
-    if (statProofBtn) {
-        statProofBtn.addEventListener("click", () => {
-            switchTabPane("pane-submissions");
-            showToast("Switched to History Log", "history");
-        });
-    }
-
-    const day13LockedBtn = document.getElementById("day13-locked-btn");
-    if (day13LockedBtn) {
-        day13LockedBtn.addEventListener("click", () => showToast("Day 13 unlocks tomorrow at 00:00 UTC!", "lock"));
-    }
-
-    // Default View Load
-    switchTabPane("pane-today");
-}
-
-// Bind load listener safely
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initApp);
-} else {
-    initApp();
-}
+    // Default load pane
+    window.switchPane("pane-today");
+});
