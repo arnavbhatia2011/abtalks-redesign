@@ -8,7 +8,7 @@
     <!-- Tailwind CSS with Plugins -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-    <!-- Custom Tailwind Theme Configuration -->
+    <!-- Tailwind Custom Theme Configuration -->
     <script>
         tailwind.config = {
             darkMode: "class",
@@ -38,14 +38,13 @@
         }
     </script>
 
-    <!-- Typography and Material Symbols -->
+    <!-- Typography & Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700" rel="stylesheet"/>
 
     <style>
         :root {
             --bg-color: #131315;
-            --primary-glow: rgba(249, 115, 22, 0.35);
         }
 
         body {
@@ -94,7 +93,7 @@
 </head>
 <body class="relative flex justify-center items-center min-h-screen">
 
-<!-- Mobile Frame Outer Container (390px Viewport Focus) -->
+<!-- Mobile Frame Shell Container (390px Viewport Focus) -->
 <div class="w-full max-w-[420px] min-h-screen relative z-10 flex flex-col bg-[#131315] border-x border-white/5 shadow-2xl">
 
     <!-- Sticky Navigation Header with Live IST Countdown Timer -->
@@ -119,7 +118,7 @@
         </div>
     </header>
 
-    <!-- Dashboard Content Stream -->
+    <!-- Main Dashboard Scrollable Stream -->
     <main class="flex-1 px-4 pt-5 pb-16 flex flex-col gap-5">
 
         <!-- Student Profile Summary & Streak Card -->
@@ -144,7 +143,7 @@
             </div>
         </section>
 
-        <!-- Daily Task & Link Verification Module -->
+        <!-- Task Proof Submission Form -->
         <section class="glass-panel p-4 rounded-2xl flex flex-col gap-3">
             <div class="flex items-center justify-between border-b border-white/5 pb-2.5">
                 <div class="flex items-center gap-2">
@@ -155,7 +154,7 @@
             </div>
 
             <form id="submission-form" class="flex flex-col gap-3 pt-1">
-                <!-- GitHub Submission Link -->
+                <!-- GitHub Link Input -->
                 <div class="flex flex-col gap-1">
                     <label for="github-url" class="text-[10px] font-code-sm text-on-surface-variant flex justify-between">
                         <span>GITHUB REPOSITORY LINK</span>
@@ -174,7 +173,7 @@
                     </div>
                 </div>
 
-                <!-- LinkedIn Post Link -->
+                <!-- LinkedIn Post Link Input -->
                 <div class="flex flex-col gap-1">
                     <label for="linkedin-url" class="text-[10px] font-code-sm text-on-surface-variant flex justify-between">
                         <span>LINKEDIN PROOF POST LINK</span>
@@ -200,7 +199,7 @@
             </form>
         </section>
 
-        <!-- Top 10 Live Leaderboard Container -->
+        <!-- Leaderboard Target Container -->
         <section class="glass-panel p-4 rounded-2xl flex flex-col gap-3">
             <div class="flex items-center justify-between border-b border-white/5 pb-2">
                 <div class="flex items-center gap-2">
@@ -210,11 +209,11 @@
                 <span class="text-[9px] font-code-sm text-secondary bg-secondary/10 px-2 py-0.5 rounded-full border border-secondary/20">GLOBAL RANKINGS</span>
             </div>
 
-            <!-- Population Target for dash.js -->
+            <!-- Injected by dash.js -->
             <div id="leaderboard-list" class="flex flex-col gap-1.5 pt-1"></div>
         </section>
 
-        <!-- Recent Submissions Log Preview Module -->
+        <!-- Recent Submissions History Log Section -->
         <section class="glass-panel p-4 rounded-2xl flex flex-col gap-3">
             <div class="flex items-center justify-between border-b border-white/5 pb-2">
                 <div class="flex items-center gap-2">
@@ -253,7 +252,7 @@
 
 </div>
 
-<!-- Real-time IST Countdown Timer Implementation -->
+<!-- IST Countdown Timer Script -->
 <script>
     function runISTClock() {
         const now = new Date();
