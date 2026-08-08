@@ -35,7 +35,7 @@
         }
     </script>
 
-    <!-- Fonts & Material Icons -->
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
 
@@ -55,7 +55,7 @@
         }
 
         .nav-blur {
-            background: rgba(19, 19, 21, 0.8);
+            background: rgba(19, 19, 21, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -86,23 +86,15 @@
             -webkit-backdrop-filter: blur(12px);
         }
 
-        /* Custom scrollbars */
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 4px;
-        }
+        /* Hide scrollbars */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="text-on-background min-h-screen font-body-md overflow-x-hidden relative flex justify-center">
 <div class="scanlines"></div>
 
-<!-- Mobile-First Container (Optimized for 390px) -->
+<!-- Mobile Container (390px Viewport Target) -->
 <div class="w-full max-w-[390px] min-h-screen relative flex flex-col bg-[#131315]">
 
     <!-- Fixed Header -->
@@ -113,174 +105,107 @@
         </a>
         
         <div class="flex items-center gap-2">
-            <!-- Streak Badge -->
             <div class="flex items-center gap-1 glass-card px-2.5 py-1 rounded-full border border-primary/20">
                 <span class="material-symbols-outlined text-primary text-xs">local_fire_department</span>
-                <span class="font-code-sm text-[10px] text-white font-bold" id="header-streak-count">12 DAYS</span>
+                <span class="font-code-sm text-[10px] text-white font-bold">12 DAYS</span>
             </div>
-            
-            <!-- User Avatar -->
-            <button id="profile-avatar-btn" class="w-8 h-8 rounded-full bg-primary-container/20 border border-primary/40 flex items-center justify-center font-bold text-xs text-primary active:scale-90 transition-transform">
+            <div class="w-8 h-8 rounded-full bg-primary-container/20 border border-primary/40 flex items-center justify-center font-bold text-xs text-primary">
                 ST
-            </button>
+            </div>
         </div>
     </header>
 
-    <!-- Main Content Stream -->
+    <!-- Content Area -->
     <main class="pt-16 pb-24 px-4 flex flex-col gap-4">
         
-        <!-- User Greeting & Progress -->
-        <section class="flex flex-col gap-2 pt-2">
-            <div class="flex justify-between items-start">
-                <div>
-                    <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-1.5">
-                        Hey, Student <span class="inline-block animate-bounce text-sm">👋</span>
-                    </h1>
-                    <p class="text-on-surface-variant text-[11px] leading-snug">
-                        Day <span class="text-primary font-semibold">12</span> of 60 • Consistency is key.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Global Progress Bar -->
-            <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden p-0.5 border border-white/5">
-                <div class="bg-gradient-to-r from-primary to-secondary h-full rounded-full transition-all duration-500" style="width: 20%;"></div>
+        <!-- User Greeting -->
+        <section class="flex flex-col gap-1.5 pt-1">
+            <h1 class="text-base font-bold text-white tracking-tight flex items-center justify-between">
+                <span>Student Workspace</span>
+                <span class="text-[10px] font-code-sm text-primary font-normal">Day 12 / 60</span>
+            </h1>
+            <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-gradient-to-r from-primary to-secondary h-full rounded-full" style="width: 20%;"></div>
             </div>
         </section>
 
-        <!-- Dynamic Quick Stats Grid -->
-        <section class="grid grid-cols-2 gap-2" id="stats-grid">
-            <!-- Global Rank Card (Clickable) -->
-            <button id="open-rank-btn" class="glass-card p-3 rounded-xl hover:border-secondary/50 active:scale-[0.98] transition-all text-left flex flex-col justify-between relative overflow-hidden group">
-                <div class="absolute -right-2 -bottom-2 text-secondary/5 text-4xl font-extrabold group-hover:text-secondary/10 transition-colors">
-                    #12
-                </div>
-                <div class="flex justify-between items-center mb-1">
-                    <span class="font-code-sm text-[9px] text-on-surface-variant uppercase tracking-wider">RANK</span>
-                    <span class="material-symbols-outlined text-secondary text-sm">emoji_events</span>
-                </div>
-                <div>
-                    <div class="text-lg font-extrabold text-white" id="stat-rank">#12</div>
-                    <div class="text-[9px] text-emerald-400 flex items-center gap-0.5 font-medium">
-                        <span class="material-symbols-outlined text-[10px]">trending_up</span> Top 2% Cohort
-                    </div>
-                </div>
+        <!-- Dynamic Navigation Tabs (Panes Switcher) -->
+        <nav class="flex rounded-xl bg-surface-container-high/40 p-1 border border-white/5 text-xs">
+            <button data-pane="today" class="pane-tab active flex-1 py-1.5 rounded-lg font-bold text-center text-primary bg-white/10 transition-all">
+                Today
             </button>
+            <button data-pane="submissions" class="pane-tab flex-1 py-1.5 rounded-lg font-medium text-center text-on-surface-variant hover:text-white transition-all">
+                History (Day 1-12)
+            </button>
+            <button data-pane="ranks" class="pane-tab flex-1 py-1.5 rounded-lg font-medium text-center text-on-surface-variant hover:text-white transition-all">
+                Leaderboard
+            </button>
+        </nav>
 
-            <!-- Proof Submissions -->
-            <div class="glass-card p-3 rounded-xl flex flex-col justify-between">
-                <div class="flex justify-between items-center mb-1">
-                    <span class="font-code-sm text-[9px] text-on-surface-variant uppercase tracking-wider">PROOF</span>
-                    <span class="material-symbols-outlined text-primary text-sm">verified</span>
-                </div>
-                <div>
-                    <div class="text-lg font-extrabold text-white" id="stat-proof">24 / 120</div>
-                    <div class="text-[9px] text-on-surface-variant font-medium">12 GitHub • 12 LinkedIn</div>
-                </div>
-            </div>
-
-            <!-- Current Streak -->
-            <div class="glass-card p-3 rounded-xl flex flex-col justify-between">
-                <div class="flex justify-between items-center mb-1">
-                    <span class="font-code-sm text-[9px] text-on-surface-variant uppercase tracking-wider">STREAK</span>
-                    <span class="material-symbols-outlined text-primary pulse-dot text-sm">local_fire_department</span>
-                </div>
-                <div>
-                    <div class="text-lg font-extrabold text-white" id="stat-streak">12 Days</div>
-                    <div class="text-[9px] text-primary font-medium">Active Streak</div>
-                </div>
-            </div>
-
-            <!-- XP Points -->
-            <div class="glass-card p-3 rounded-xl flex flex-col justify-between">
-                <div class="flex justify-between items-center mb-1">
-                    <span class="font-code-sm text-[9px] text-on-surface-variant uppercase tracking-wider">XP POINTS</span>
-                    <span class="material-symbols-outlined text-tertiary text-sm">stars</span>
-                </div>
-                <div>
-                    <div class="text-lg font-extrabold text-white" id="stat-xp">1,240 XP</div>
-                    <div class="text-[9px] text-tertiary font-medium">+100 XP Today</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tasks Section Header & Search/Filter Controls -->
-        <section class="flex flex-col gap-2.5 mt-1">
-            <div class="flex justify-between items-center">
-                <h2 class="text-xs font-bold text-white uppercase tracking-wider font-code-sm flex items-center gap-1.5">
-                    <span class="material-symbols-outlined text-sm text-primary">task_alt</span>
-                    Daily Tasks
-                </h2>
-                <span class="text-[10px] text-on-surface-variant font-code-sm" id="task-count-label">Loading...</span>
-            </div>
-
-            <!-- Interactive Search Input -->
-            <div class="relative">
-                <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm pointer-events-none">search</span>
-                <input type="text" id="task-search-input" placeholder="Search tasks by topic..." class="w-full bg-surface-container-high/40 border border-white/10 rounded-xl pl-8 pr-3 py-1.5 text-xs text-white placeholder:text-on-surface-variant/60 focus:outline-none focus:border-primary/50 transition-colors">
-            </div>
-
-            <!-- Task Category Filters -->
-            <div class="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar text-[10px]" id="filter-pills-container">
-                <button data-filter="all" class="filter-btn active px-3 py-1 rounded-full bg-primary text-on-primary font-bold transition-all">All</button>
-                <button data-filter="available" class="filter-btn px-3 py-1 rounded-full bg-white/5 border border-white/10 text-on-surface-variant hover:text-white transition-all">Available</button>
-                <button data-filter="completed" class="filter-btn px-3 py-1 rounded-full bg-white/5 border border-white/10 text-on-surface-variant hover:text-white transition-all">Completed</button>
-            </div>
-
-            <!-- Dynamic Tasks Container -->
-            <div class="flex flex-col gap-2.5" id="tasks-container">
-                <!-- Javascript mounts render Task Cards here -->
-            </div>
-        </section>
-    </main>
-
-    <!-- Leaderboard Modal -->
-    <div id="leaderboard-modal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-3 opacity-0 transition-opacity duration-200">
-        <div class="glass-card w-full max-w-[360px] rounded-2xl p-4 relative max-h-[82vh] flex flex-col border border-white/20 shadow-2xl scale-95 transition-transform duration-200" id="modal-card">
+        <!-- ================= PANE 1: TODAY & UPCOMING ================= -->
+        <div id="pane-today" class="pane-content flex flex-col gap-3">
             
-            <!-- Close Modal Button -->
-            <button id="close-modal-btn" class="absolute top-3 right-3 text-on-surface-variant hover:text-white active:scale-90 transition-all p-1">
-                <span class="material-symbols-outlined text-lg">close</span>
-            </button>
-
-            <!-- Modal Header -->
-            <div class="mb-3 pr-6">
-                <div class="flex items-center gap-1.5 mb-0.5">
-                    <span class="material-symbols-outlined text-secondary text-base">emoji_events</span>
-                    <h3 class="text-base font-bold text-white">Cohort Standings</h3>
+            <!-- Today's Action Banner -->
+            <div class="glass-card p-3.5 rounded-xl border-l-4 border-l-primary relative overflow-hidden">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="font-code-sm text-[9px] text-primary font-bold uppercase tracking-wider">ACTION REQUIRED TODAY</span>
+                    <span class="text-[9px] bg-primary/20 text-primary px-2 py-0.5 rounded-full font-bold">DAY 12</span>
                 </div>
-                <p class="text-[10px] text-on-surface-variant">Live builder rankings based on daily proof submissions.</p>
+                <h2 class="text-sm font-bold text-white mb-1">Data Structures: Binary Trees & DFS</h2>
+                <p class="text-[11px] text-on-surface-variant mb-3">Implement Depth-First Search traversal and upload proof links below.</p>
+                
+                <a href="/day12" class="w-full py-2 bg-primary text-on-primary rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform">
+                    <span>Submit Day 12 Work</span>
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                </a>
             </div>
 
-            <!-- User Standings Card -->
-            <div class="bg-primary/10 border border-primary/30 p-2.5 rounded-xl flex items-center justify-between mb-3 shrink-0">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-7 h-7 rounded-full bg-primary-container text-on-primary font-bold flex items-center justify-center text-[11px] shadow-sm">
-                        #12
-                    </div>
-                    <div>
-                        <div class="text-xs font-bold text-white">You (Student)</div>
-                        <div class="text-[9px] text-primary">12-Day Streak • 1,240 XP</div>
-                    </div>
+            <!-- Day 13 Coming Soon Lock Card -->
+            <div class="glass-card p-3 rounded-xl opacity-75 border-dashed border-white/20 relative">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="font-code-sm text-[9px] text-on-surface-variant font-bold">DAY 13</span>
+                    <span class="text-[9px] bg-white/10 text-on-surface-variant px-2 py-0.5 rounded-full flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[10px]">lock</span> Out Soon
+                    </span>
                 </div>
-                <span class="text-[9px] font-bold bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/30">Top 2%</span>
-            </div>
-
-            <!-- Leaderboard Search Bar -->
-            <div class="relative mb-2.5 shrink-0">
-                <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-xs pointer-events-none">search</span>
-                <input type="text" id="leaderboard-search-input" placeholder="Search student name..." class="w-full bg-surface-container-high/40 border border-white/10 rounded-lg pl-7 pr-2.5 py-1 text-[11px] text-white placeholder:text-on-surface-variant/60 focus:outline-none focus:border-secondary/50">
-            </div>
-
-            <!-- Leaderboard List -->
-            <div class="overflow-y-auto pr-1 flex-1 space-y-1.5" id="leaderboard-list">
-                <!-- Javascript populates leaderboard rows here -->
+                <h3 class="text-xs font-bold text-white/80 mb-0.5">Dynamic Programming & Memoization</h3>
+                <p class="text-[10px] text-on-surface-variant/70">Unlocks tomorrow at 00:00 UTC</p>
             </div>
         </div>
-    </div>
+
+        <!-- ================= PANE 2: DAY 1 - 12 SUBMISSIONS LOG ================= -->
+        <div id="pane-submissions" class="pane-content hidden flex flex-col gap-2.5">
+            <div class="flex justify-between items-center mb-1">
+                <h2 class="text-xs font-bold text-white uppercase font-code-sm">Submitted Proofs (12/12)</h2>
+                <span class="text-[10px] text-emerald-400 font-bold">100% Completion</span>
+            </div>
+
+            <!-- Submitted Items List (Rendered via JS) -->
+            <div class="flex flex-col gap-2" id="submissions-log-container">
+                <!-- Javascript populates submitted entries from Day 1 to Day 12 -->
+            </div>
+        </div>
+
+        <!-- ================= PANE 3: CITY, STATE & COUNTRY LEADERBOARD ================= -->
+        <div id="pane-ranks" class="pane-content hidden flex flex-col gap-3">
+            
+            <!-- Scope Filter Tabs (City, State, Country) -->
+            <div class="flex gap-1.5 overflow-x-auto text-[10px]" id="leaderboard-scope-filters">
+                <button data-scope="city" class="scope-btn active px-3 py-1 rounded-full bg-secondary text-surface font-bold">City (Mumbai)</button>
+                <button data-scope="state" class="scope-btn px-3 py-1 rounded-full bg-white/5 border border-white/10 text-on-surface-variant hover:text-white">State (MH)</button>
+                <button data-scope="country" class="scope-btn px-3 py-1 rounded-full bg-white/5 border border-white/10 text-on-surface-variant hover:text-white">Country (India)</button>
+            </div>
+
+            <!-- Standings List -->
+            <div class="flex flex-col gap-1.5" id="leaderboard-scope-list">
+                <!-- Javascript renders scoped rankings -->
+            </div>
+        </div>
+
+    </main>
 </div>
 
-<!-- Main Script Logic -->
+<!-- Dashboard Logic -->
 <script src="dashboard.js"></script>
 </body>
 </html>
