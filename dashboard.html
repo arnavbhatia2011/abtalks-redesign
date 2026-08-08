@@ -76,11 +76,11 @@
             -webkit-backdrop-filter: blur(12px);
         }
 
-        /* Explicit Display Helper Classes */
-        .pane-hidden {
+        /* Strict Tab Pane Utility Styles */
+        .tab-pane {
             display: none !important;
         }
-        .pane-visible {
+        .tab-pane.active-pane {
             display: flex !important;
         }
     </style>
@@ -149,21 +149,21 @@
             </button>
         </section>
 
-        <!-- Dynamic View Tabs -->
+        <!-- Navigation Tabs -->
         <nav class="flex rounded-xl bg-surface-container-high/40 p-1 border border-white/5 text-xs">
-            <button data-pane="today" class="pane-tab active flex-1 py-2 rounded-lg font-bold text-center text-primary bg-white/10 transition-all cursor-pointer">
+            <button id="tab-btn-today" data-target="pane-today" class="pane-tab flex-1 py-2 rounded-lg font-bold text-center text-primary bg-white/10 transition-all cursor-pointer">
                 Today
             </button>
-            <button data-pane="submissions" class="pane-tab flex-1 py-2 rounded-lg font-medium text-center text-on-surface-variant hover:text-white transition-all cursor-pointer">
+            <button id="tab-btn-submissions" data-target="pane-submissions" class="pane-tab flex-1 py-2 rounded-lg font-medium text-center text-on-surface-variant hover:text-white transition-all cursor-pointer">
                 History (1-12)
             </button>
-            <button data-pane="ranks" class="pane-tab flex-1 py-2 rounded-lg font-medium text-center text-on-surface-variant hover:text-white transition-all cursor-pointer">
+            <button id="tab-btn-ranks" data-target="pane-ranks" class="pane-tab flex-1 py-2 rounded-lg font-medium text-center text-on-surface-variant hover:text-white transition-all cursor-pointer">
                 Leaderboard
             </button>
         </nav>
 
         <!-- PANE 1: TODAY -->
-        <div id="pane-today" class="pane-content pane-visible flex-col gap-3">
+        <div id="pane-today" class="tab-pane active-pane flex-col gap-3">
             <div class="glass-card p-3.5 rounded-xl border-l-4 border-l-primary relative overflow-hidden">
                 <div class="flex items-center justify-between mb-1">
                     <span class="font-code-sm text-[9px] text-primary font-bold uppercase tracking-wider">ACTION REQUIRED TODAY</span>
@@ -191,7 +191,7 @@
         </div>
 
         <!-- PANE 2: HISTORY (SUBMISSIONS LOG) -->
-        <div id="pane-submissions" class="pane-content pane-hidden flex-col gap-2.5">
+        <div id="pane-submissions" class="tab-pane flex-col gap-2.5">
             <div class="flex flex-col gap-2">
                 <div class="flex justify-between items-center">
                     <h2 class="text-xs font-bold text-white uppercase font-code-sm">Submitted Proofs</h2>
@@ -205,12 +205,12 @@
             </div>
 
             <div class="flex flex-col gap-2" id="submissions-log-container">
-                <!-- JS dynamically injects items -->
+                <!-- Dynamic Items -->
             </div>
         </div>
 
         <!-- PANE 3: LEADERBOARD -->
-        <div id="pane-ranks" class="pane-content pane-hidden flex-col gap-3">
+        <div id="pane-ranks" class="tab-pane flex-col gap-3">
             <div class="flex gap-1.5 overflow-x-auto text-[10px]" id="pane-scope-filters">
                 <button data-scope="city" class="pane-scope-btn active px-3 py-1 rounded-full bg-secondary text-surface font-bold transition-all cursor-pointer">City (Mumbai)</button>
                 <button data-scope="state" class="pane-scope-btn px-3 py-1 rounded-full bg-white/5 border border-white/10 text-on-surface-variant hover:text-white transition-all cursor-pointer">State (Maharashtra)</button>
@@ -223,13 +223,13 @@
             </div>
 
             <div class="flex flex-col gap-1.5" id="pane-leaderboard-list">
-                <!-- JS dynamically injects items -->
+                <!-- Dynamic Leaderboard Rows -->
             </div>
         </div>
 
     </main>
 
-    <!-- Leaderboard Modal Popup -->
+    <!-- Modal Popup -->
     <div id="leaderboard-modal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-3 opacity-0 transition-opacity duration-200">
         <div class="glass-card w-full max-w-[360px] rounded-2xl p-4 relative max-h-[82vh] flex flex-col border border-white/20 shadow-2xl scale-95 transition-transform duration-200" id="modal-card">
             
@@ -270,7 +270,7 @@
             </div>
 
             <div class="overflow-y-auto pr-1 flex-1 space-y-1.5" id="modal-leaderboard-list">
-                <!-- JS dynamically injects modal items -->
+                <!-- Modal Leaderboard Items -->
             </div>
         </div>
     </div>
