@@ -1,12 +1,8 @@
 {
-  "version": 2,
   "cleanUrls": true,
-  "builds": [
-    { "src": "*.html", "use": "@vercel/static" }
-  ],
-  "routes": [
-    { "source": "/", "dest": "/homepage.html" },
-    { "source": "/dashboard", "dest": "/dashboard.html" },
-    { "source": "/day/12", "dest": "/day12.html" }
+  "rewrites": [
+    { "source": "/", "destination": "/homepage.html" },
+    { "source": "/dashboard", "destination": "/dashboard.html" },
+    { "source": "/day/12", "destination": "/day12.html" }
   ]
 }
