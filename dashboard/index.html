@@ -3,12 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-    <title>ABTalks - Student Dashboard</title>
+    <title>Student Dashboard - ABTalks</title>
 
-    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
-    <!-- Tailwind Theme Config -->
     <script>
         tailwind.config = {
             darkMode: "class",
@@ -18,8 +15,6 @@
                         "secondary": "#ffc640",
                         "surface-container-high": "#2a2a2c",
                         "on-surface-variant": "#e0c0b1",
-                        "on-background": "#e5e1e4",
-                        "tertiary": "#c0c1ff",
                         "primary": "#ffb690",
                         "primary-container": "#f97316",
                         "on-primary": "#552100",
@@ -27,166 +22,145 @@
                     },
                     fontFamily: {
                         "code-sm": ["JetBrains Mono", "monospace"],
-                        "display-sm": ["Geist", "sans-serif"],
-                        "body-md": ["Geist", "sans-serif"]
+                        "display-sm": ["Geist", "sans-serif"]
                     }
                 }
             }
         }
     </script>
 
-    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 
     <style>
         body {
-            min-height: 100dvh;
             background-color: #131315;
-            -webkit-tap-highlight-color: transparent;
+            color: #e5e1e4;
+            font-family: 'Geist', sans-serif;
         }
 
-        .glass-card {
-            background: rgba(19, 19, 21, 0.5);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+        .glass-panel {
+            background: rgba(25, 25, 28, 0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
-        .nav-blur {
+        .glass-card-glow {
+            background: rgba(25, 25, 28, 0.85);
+            backdrop-filter: blur(28px);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            box-shadow: 0 0 30px -5px rgba(249, 115, 22, 0.25);
+        }
+
+        .glass-nav {
             background: rgba(19, 19, 21, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .pulse-dot {
-            animation: pulseDot 2s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-        }
-        @keyframes pulseDot {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7); }
-            50% { transform: scale(1.15); box-shadow: 0 0 0 8px rgba(249, 115, 22, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
         }
     </style>
 </head>
-<body class="text-on-background min-h-screen font-body-md overflow-x-hidden relative flex justify-center">
+<body class="relative flex justify-center items-center min-h-screen">
 
-<!-- Toast Banner -->
-<div id="toast-banner" class="fixed top-4 z-50 transition-all duration-300 transform -translate-y-16 opacity-0 pointer-events-none bg-surface-container-high/90 border border-white/20 text-white px-4 py-2 rounded-full text-xs font-semibold shadow-2xl flex items-center gap-2">
-    <span id="toast-icon" class="material-symbols-outlined text-primary text-sm">info</span>
-    <span id="toast-msg">Notification</span>
-</div>
+<div class="w-full max-w-[420px] min-h-screen relative z-10 flex flex-col bg-[#131315] border-x border-white/5 shadow-2xl">
 
-<!-- Mobile Web-App Container -->
-<div class="w-full max-w-[390px] min-h-screen relative flex flex-col bg-[#131315]">
-
-    <!-- Header -->
-    <header class="fixed top-0 w-full max-w-[390px] z-40 nav-blur flex justify-between items-center px-4 h-14">
-        <a href="dashboard.html" class="flex items-center gap-2 cursor-pointer">
-            <span class="material-symbols-outlined text-primary pulse-dot text-lg" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
-            <span class="font-display-sm text-base bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent font-extrabold tracking-tight">ABTalks</span>
+    <!-- Header Navigation -->
+    <header class="sticky top-0 w-full z-50 glass-nav flex items-center justify-between px-4 h-16">
+        <a href="/" class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-xl">arrow_back</span>
+            <span class="font-display-sm text-sm font-bold text-white">Back to Home</span>
         </a>
-        
-        <div class="flex items-center gap-2">
-            <div class="flex items-center gap-1 glass-card px-2.5 py-1 rounded-full border border-primary/20">
-                <span class="material-symbols-outlined text-primary text-xs">local_fire_department</span>
-                <span class="font-code-sm text-[10px] text-white font-bold">12 DAYS</span>
-            </div>
-            <div class="w-8 h-8 rounded-full bg-primary-container/20 border border-primary/40 flex items-center justify-center font-bold text-xs text-primary">
-                ST
-            </div>
-        </div>
+        <span class="text-xs font-code-sm text-primary font-bold">STUDENT PORTAL</span>
     </header>
 
-    <!-- Main Content -->
-    <main class="pt-16 pb-20 px-4 flex flex-col gap-4">
-        
-        <!-- Greeting -->
-        <section class="flex flex-col gap-1.5 pt-1">
-            <h1 class="text-base font-bold text-white tracking-tight flex items-center justify-between">
-                <span>Student Workspace</span>
-                <span class="text-[10px] font-code-sm text-primary font-normal">Day 12 / 60</span>
-            </h1>
-            <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                <div class="bg-gradient-to-r from-primary to-secondary h-full rounded-full" style="width: 20%;"></div>
-            </div>
-        </section>
+    <main class="flex-1 px-4 pt-6 pb-12 flex flex-col gap-5">
 
-        <!-- Stats Quick Navigation Grid -->
-        <section class="grid grid-cols-2 gap-2">
-            <!-- Global Rank Quick Button -> Opens Leaderboard Page -->
-            <a href="leaderboard.html" class="glass-card p-3 rounded-xl hover:border-secondary/50 active:scale-[0.98] transition-all text-left relative overflow-hidden block">
-                <div class="flex justify-between items-center mb-1">
-                    <span class="font-code-sm text-[9px] text-on-surface-variant uppercase">GLOBAL RANK</span>
-                    <span class="material-symbols-outlined text-secondary text-sm">emoji_events</span>
+        <!-- IST Countdown Timer Banner -->
+        <section class="glass-card-glow p-5 rounded-2xl flex flex-col gap-3">
+            <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                <div class="flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-primary text-sm">schedule</span>
+                    <span class="text-xs font-code-sm text-white font-bold uppercase">Daily Submission Deadline</span>
                 </div>
-                <div class="text-base font-extrabold text-white">#12</div>
-                <div class="text-[9px] text-emerald-400 font-medium flex items-center justify-between">
-                    <span>Top 2% Cohort</span>
-                    <span class="material-symbols-outlined text-xs">chevron_right</span>
-                </div>
-            </a>
-
-            <!-- Proofs Quick Button -> Opens Submissions Page -->
-            <a href="submissions.html" class="glass-card p-3 rounded-xl hover:border-primary/50 active:scale-[0.98] transition-all text-left block">
-                <div class="flex justify-between items-center mb-1">
-                    <span class="font-code-sm text-[9px] text-on-surface-variant uppercase">PROOFS</span>
-                    <span class="material-symbols-outlined text-primary text-sm">verified</span>
-                </div>
-                <div class="text-base font-extrabold text-white">12 / 12</div>
-                <div class="text-[9px] text-emerald-400 font-medium flex items-center justify-between">
-                    <span>100% Completed</span>
-                    <span class="material-symbols-outlined text-xs">chevron_right</span>
-                </div>
-            </a>
-        </section>
-
-        <!-- MAIN PAGE NAVIGATION BUTTON TABS -->
-        <nav class="flex rounded-xl bg-surface-container-high/40 p-1 border border-white/5 text-xs gap-1">
-            <a href="dashboard.html" class="flex-1 py-2 rounded-lg font-bold text-center text-primary bg-white/10 transition-all block">
-                Today
-            </a>
-            <a href="submissions.html" class="flex-1 py-2 rounded-lg font-medium text-center text-on-surface-variant hover:text-white transition-all block">
-                History (1-12)
-            </a>
-            <a href="leaderboard.html" class="flex-1 py-2 rounded-lg font-medium text-center text-on-surface-variant hover:text-white transition-all block">
-                Leaderboard
-            </a>
-        </nav>
-
-        <!-- TODAY WORKSPACE -->
-        <div class="flex flex-col gap-3">
-            <div class="glass-card p-3.5 rounded-xl border-l-4 border-l-primary relative overflow-hidden">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="font-code-sm text-[9px] text-primary font-bold uppercase tracking-wider">ACTION REQUIRED TODAY</span>
-                    <span class="text-[9px] bg-primary/20 text-primary px-2 py-0.5 rounded-full font-bold">DAY 12</span>
-                </div>
-                <h2 class="text-sm font-bold text-white mb-1">Data Structures: Binary Trees & DFS</h2>
-                <p class="text-[11px] text-on-surface-variant mb-3 leading-relaxed">Implement Depth-First Search traversal algorithm and submit your solution proof on LinkedIn and GitHub.</p>
-                
-                <a href="submissions.html" class="w-full py-2 bg-primary text-on-primary rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform">
-                    <span>Submit Day 12 Work</span>
-                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                </a>
+                <span class="text-[9px] font-code-sm text-secondary bg-secondary/10 px-2 py-0.5 rounded border border-secondary/20">IST (UTC+5:30)</span>
             </div>
 
-            <button type="button" id="day13-locked-btn" class="glass-card p-3 rounded-xl opacity-80 border-dashed border-white/20 text-left relative active:scale-[0.99] transition-transform cursor-pointer w-full">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="font-code-sm text-[9px] text-on-surface-variant font-bold">DAY 13</span>
-                    <span class="text-[9px] bg-white/10 text-on-surface-variant px-2 py-0.5 rounded-full flex items-center gap-1 font-semibold">
-                        <span class="material-symbols-outlined text-[10px]">lock</span> Out Soon
-                    </span>
+            <div class="flex flex-col items-center py-2">
+                <span class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-widest mb-1">Time Remaining Until Midnight IST</span>
+                <div class="text-3xl font-extrabold font-code-sm text-primary tracking-wider" id="ist-timer">
+                    00h 00m 00s
                 </div>
-                <h3 class="text-xs font-bold text-white/90 mb-0.5">Dynamic Programming & Memoization</h3>
-                <p class="text-[10px] text-on-surface-variant/70">Unlocks tomorrow at 00:00 UTC • Tap to set reminder</p>
-            </button>
-        </div>
+            </div>
+
+            <p class="text-[10px] text-center text-on-surface-variant/80">
+                Resets daily at 12:00 AM Indian Standard Time (IST).
+            </p>
+        </section>
+
+        <!-- Daily Task Container -->
+        <section class="glass-panel p-4 rounded-2xl flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-white">Day 12 Challenge</span>
+                <span class="text-[10px] font-code-sm text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded">Active</span>
+            </div>
+
+            <h2 class="text-sm font-bold text-white">Implement LRU Cache & System Architecture</h2>
+            <p class="text-xs text-on-surface-variant leading-relaxed">
+                Build an LRU cache with $O(1)$ operations in your language of choice. Submit GitHub commit link & LinkedIn post.
+            </p>
+
+            <form class="flex flex-col gap-2 pt-2" onsubmit="event.preventDefault(); alert('Proof Submitted!');">
+                <input class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-white/30 focus:outline-none focus:border-primary" placeholder="GitHub Repository URL" required="" type="url"/>
+                <input class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-white/30 focus:outline-none focus:border-primary" placeholder="LinkedIn Post URL" required="" type="url"/>
+                <button class="w-full py-3 bg-gradient-to-r from-primary-container to-primary text-on-primary rounded-xl font-bold text-xs shadow-lg shadow-primary-container/20 active:scale-[0.98] transition-transform" type="submit">
+                    Submit Daily Proof
+                </button>
+            </form>
+        </section>
 
     </main>
+
 </div>
 
-<script src="dashboard.js"></script>
+<!-- IST Timer Script -->
+<script>
+    function updateISTTimer() {
+        const now = new Date();
+        
+        // Convert current time to UTC milliseconds
+        const utcTimestamp = now.getTime() + (now.getTimezoneOffset() * 60000);
+        
+        // Add 5.5 hours for IST (5 hours and 30 minutes = 19,800,000 ms)
+        const istOffset = 5.5 * 60 * 60 * 1000;
+        const istNow = new Date(utcTimestamp + istOffset);
+
+        // Get midnight IST of the next day
+        const istMidnight = new Date(istNow);
+        istMidnight.setHours(24, 0, 0, 0);
+
+        // Difference in milliseconds
+        const diff = istMidnight - istNow;
+
+        if (diff <= 0) {
+            document.getElementById('ist-timer').innerText = "00h 00m 00s";
+            return;
+        }
+
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        const hStr = String(hours).padStart(2, '0');
+        const mStr = String(minutes).padStart(2, '0');
+        const sStr = String(seconds).padStart(2, '0');
+
+        document.getElementById('ist-timer').innerText = `${hStr}h ${mStr}m ${sStr}s`;
+    }
+
+    // Run timer immediately and update every second
+    updateISTTimer();
+    setInterval(updateISTTimer, 1000);
+</script>
+
 </body>
 </html>
