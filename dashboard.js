@@ -5,186 +5,142 @@ const DASHBOARD_STATE = {
     user: {
         id: "usr_01",
         name: "You (Student)",
-        rank: 12,
-        totalCohort: 1250,
+        currentDay: 12,
         streak: 12,
-        xp: 1240,
-        proofSubmitted: 24,
-        proofTotal: 120
+        city: "Mumbai",
+        state: "Maharashtra",
+        country: "India"
     },
-    filter: "all", // "all" | "available" | "completed"
-    searchQuery: "",
-    tasks: [
-        {
-            day: 12,
-            route: "/day12",
-            title: "Data Structures: Binary Trees & DFS",
-            description: "Implement Depth-First Search traversal algorithm and publish solution logic on LinkedIn.",
-            isToday: true,
-            status: "available", // "available" | "completed"
-            github: true,
-            linkedin: true
-        },
-        {
-            day: 11,
-            route: "/day11",
-            title: "API Design & Webhooks Handler",
-            description: "Build a custom Webhook listener using Express.js and document edge-case handlers.",
-            isToday: false,
-            status: "completed",
-            github: true,
-            linkedin: true
-        },
-        {
-            day: 10,
-            route: "/day10",
-            title: "Database Indexing & Query Optimization",
-            description: "Optimize SQL queries using B-Tree indexing and measure execution times.",
-            isToday: false,
-            status: "completed",
-            github: true,
-            linkedin: true
-        }
+    activePane: "today", // "today" | "submissions" | "ranks"
+    activeLeaderboardScope: "city", // "city" | "state" | "country"
+    
+    // Day 1 to 12 Historical Submissions Log
+    submissionsLog: [
+        { day: 12, title: "Binary Trees & DFS Traversal", submittedAt: "Today, 10:14 AM", githubUrl: "github.com/student/day12", linkedinUrl: "linkedin.com/posts/day12" },
+        { day: 11, title: "API Design & Webhooks Handler", submittedAt: "Yesterday", githubUrl: "github.com/student/day11", linkedinUrl: "linkedin.com/posts/day11" },
+        { day: 10, title: "Database Indexing & Querying", submittedAt: "2 days ago", githubUrl: "github.com/student/day10", linkedinUrl: "linkedin.com/posts/day10" },
+        { day: 9,  title: "REST Architecture Patterns", submittedAt: "3 days ago", githubUrl: "github.com/student/day9",  linkedinUrl: "linkedin.com/posts/day9" },
+        { day: 8,  title: "Authentication & JWT Tokens", submittedAt: "4 days ago", githubUrl: "github.com/student/day8",  linkedinUrl: "linkedin.com/posts/day8" },
+        { day: 7,  title: "State Management & React Context", submittedAt: "5 days ago", githubUrl: "github.com/student/day7", linkedinUrl: "linkedin.com/posts/day7" },
+        { day: 6,  title: "DOM Manipulation & Async JS", submittedAt: "6 days ago", githubUrl: "github.com/student/day6",  linkedinUrl: "linkedin.com/posts/day6" },
+        { day: 5,  title: "Tailwind CSS Grid & Flexbox", submittedAt: "7 days ago", githubUrl: "github.com/student/day5",  linkedinUrl: "linkedin.com/posts/day5" },
+        { day: 4,  title: "JavaScript ES6+ Fundamentals", submittedAt: "8 days ago", githubUrl: "github.com/student/day4", linkedinUrl: "linkedin.com/posts/day4" },
+        { day: 3,  title: "HTML5 Semantic Structure", submittedAt: "9 days ago", githubUrl: "github.com/student/day3",     linkedinUrl: "linkedin.com/posts/day3" },
+        { day: 2,  title: "Git & GitHub Branching Workflow", submittedAt: "10 days ago", githubUrl: "github.com/student/day2", linkedinUrl: "linkedin.com/posts/day2" },
+        { day: 1,  title: "Development Environment Setup", submittedAt: "11 days ago", githubUrl: "github.com/student/day1", linkedinUrl: "linkedin.com/posts/day1" }
     ],
-    leaderboard: [
-        { rank: 1, name: "Alex Chen", streak: 60, xp: 1850, isUser: false },
-        { rank: 2, name: "Sara Connor", streak: 58, xp: 1790, isUser: false },
-        { rank: 3, name: "Devon Vance", streak: 55, xp: 1720, isUser: false },
-        { rank: 4, name: "Elena Rostova", streak: 48, xp: 1610, isUser: false },
-        { rank: 5, name: "Liam Patel", streak: 42, xp: 1540, isUser: false },
-        { rank: 12, name: "You (Student)", streak: 12, xp: 1240, isUser: true },
-        { rank: 13, name: "Marcus Brody", streak: 11, xp: 1190, isUser: false },
-        { rank: 14, name: "Aria Montgomery", streak: 10, xp: 1120, isUser: false }
-    ]
+
+    // Scoped Regional Mock Leaderboard Data
+    leaderboards: {
+        city: [
+            { rank: 1, name: "Rohan Mehta", streak: 12, xp: 1350 },
+            { rank: 2, name: "You (Student)", streak: 12, xp: 1240, isUser: true },
+            { rank: 3, name: "Priya Sharma", streak: 11, xp: 1180 },
+            { rank: 4, name: "Karan Verma", streak: 10, xp: 1050 }
+        ],
+        state: [
+            { rank: 1, name: "Aditya Patil", streak: 12, xp: 1420 },
+            { rank: 2, name: "Rohan Mehta", streak: 12, xp: 1350 },
+            { rank: 5, name: "You (Student)", streak: 12, xp: 1240, isUser: true },
+            { rank: 6, name: "Sneha Kulkarni", streak: 11, xp: 1210 }
+        ],
+        country: [
+            { rank: 1, name: "Alex Chen", streak: 60, xp: 1850 },
+            { rank: 2, name: "Aarav Gupta", streak: 45, xp: 1690 },
+            { rank: 12, name: "You (Student)", streak: 12, xp: 1240, isUser: true },
+            { rank: 13, name: "Vikram Malhotra", streak: 12, xp: 1220 }
+        ]
+    }
 };
 
 // DOM References
-const tasksContainer = document.getElementById("tasks-container");
-const taskCountLabel = document.getElementById("task-count-label");
-const taskSearchInput = document.getElementById("task-search-input");
-const filterPills = document.querySelectorAll(".filter-btn");
-
-const openRankBtn = document.getElementById("open-rank-btn");
-const closeModalBtn = document.getElementById("close-modal-btn");
-const leaderboardModal = document.getElementById("leaderboard-modal");
-const modalCard = document.getElementById("modal-card");
-const leaderboardList = document.getElementById("leaderboard-list");
-const leaderboardSearchInput = document.getElementById("leaderboard-search-input");
+const paneTabs = document.querySelectorAll(".pane-tab");
+const paneContents = document.querySelectorAll(".pane-content");
+const submissionsLogContainer = document.getElementById("submissions-log-container");
+const leaderboardScopeList = document.getElementById("leaderboard-scope-list");
+const scopeFilters = document.querySelectorAll(".scope-btn");
 
 /**
- * Render Dynamic Tasks List
+ * Tab Switching (Panes) Controller
  */
-function renderTasks() {
-    if (!tasksContainer) return;
+function switchPane(paneId) {
+    DASHBOARD_STATE.activePane = paneId;
 
-    // Filter Tasks by Search Query and Category
-    const filteredTasks = DASHBOARD_STATE.tasks.filter(task => {
-        const matchesCategory = 
-            DASHBOARD_STATE.filter === "all" || task.status === DASHBOARD_STATE.filter;
-        
-        const matchesSearch = 
-            task.title.toLowerCase().includes(DASHBOARD_STATE.searchQuery.toLowerCase()) ||
-            task.description.toLowerCase().includes(DASHBOARD_STATE.searchQuery.toLowerCase()) ||
-            `day ${task.day}`.includes(DASHBOARD_STATE.searchQuery.toLowerCase());
-
-        return matchesCategory && matchesSearch;
+    paneTabs.forEach(tab => {
+        if (tab.dataset.pane === paneId) {
+            tab.classList.add("active", "text-primary", "bg-white/10", "font-bold");
+            tab.classList.remove("text-on-surface-variant", "font-medium");
+        } else {
+            tab.classList.remove("active", "text-primary", "bg-white/10", "font-bold");
+            tab.classList.add("text-on-surface-variant", "font-medium");
+        }
     });
 
-    // Update Counter Label
-    if (taskCountLabel) {
-        taskCountLabel.textContent = `${filteredTasks.length} ${filteredTasks.length === 1 ? 'task' : 'tasks'}`;
-    }
+    paneContents.forEach(pane => {
+        if (pane.id === `pane-${paneId}`) {
+            pane.classList.remove("hidden");
+        } else {
+            pane.classList.add("hidden");
+        }
+    });
 
-    // Empty Search State
-    if (filteredTasks.length === 0) {
-        tasksContainer.innerHTML = `
-            <div class="glass-card p-6 rounded-xl text-center flex flex-col items-center justify-center gap-2">
-                <span class="material-symbols-outlined text-on-surface-variant text-2xl">search_off</span>
-                <p class="text-xs font-bold text-white">No tasks found</p>
-                <p class="text-[10px] text-on-surface-variant">Try adjusting your search terms or filters.</p>
-            </div>
-        `;
-        return;
-    }
-
-    // Render Cards
-    tasksContainer.innerHTML = filteredTasks.map(task => {
-        const isCompleted = task.status === "completed";
-        
-        return `
-            <a href="${task.route}" class="glass-card p-3.5 rounded-xl hover:border-primary/50 active:scale-[0.99] transition-all group relative overflow-hidden block ${isCompleted ? 'opacity-85 hover:opacity-100' : ''}">
-                ${task.isToday ? `
-                    <div class="absolute top-0 right-0 bg-primary/20 text-primary font-code-sm text-[8px] font-bold px-2 py-0.5 rounded-bl-lg border-b border-l border-primary/30 uppercase tracking-widest">
-                        TODAY
-                    </div>
-                ` : ''}
-
-                <div class="flex items-center gap-2 mb-1.5">
-                    <span class="font-code-sm text-xs text-primary font-extrabold">DAY ${task.day}</span>
-                    <span class="text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 ${isCompleted ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-primary/10 text-primary border border-primary/20'}">
-                        <span class="material-symbols-outlined text-[10px]">${isCompleted ? 'check_circle' : 'pending_actions'}</span>
-                        ${isCompleted ? 'Completed' : 'Available'}
-                    </span>
-                </div>
-
-                <h3 class="text-xs font-bold text-white mb-1 group-hover:text-primary transition-colors leading-tight">${task.title}</h3>
-                <p class="text-[10px] text-on-surface-variant mb-3 line-clamp-2 leading-relaxed">${task.description}</p>
-
-                <div class="flex items-center justify-between text-[10px] text-on-surface-variant pt-2 border-t border-white/5">
-                    <div class="flex gap-2 text-[9px]">
-                        <span class="flex items-center gap-0.5 ${task.github ? 'text-emerald-400 font-medium' : ''}">
-                            <span class="material-symbols-outlined text-[11px]">code</span> GitHub
-                        </span>
-                        <span class="flex items-center gap-0.5 ${task.linkedin ? 'text-emerald-400 font-medium' : ''}">
-                            <span class="material-symbols-outlined text-[11px]">share</span> LinkedIn
-                        </span>
-                    </div>
-
-                    <span class="text-primary font-bold flex items-center gap-0.5 text-[10px] group-hover:translate-x-1 transition-transform">
-                        ${task.isToday ? 'Open Brief' : 'Review'}
-                        <span class="material-symbols-outlined text-[11px]">arrow_forward</span>
-                    </span>
-                </div>
-            </a>
-        `;
-    }).join("");
+    if (paneId === "submissions") renderSubmissionsLog();
+    if (paneId === "ranks") renderScopedLeaderboard();
 }
 
 /**
- * Render Leaderboard Rows inside Modal
+ * Render Day 1 to Day 12 Submissions History Log
  */
-function renderLeaderboard(filterQuery = "") {
-    if (!leaderboardList) return;
+function renderSubmissionsLog() {
+    if (!submissionsLogContainer) return;
 
-    const filteredList = DASHBOARD_STATE.leaderboard.filter(item => 
-        item.name.toLowerCase().includes(filterQuery.toLowerCase())
-    );
-
-    if (filteredList.length === 0) {
-        leaderboardList.innerHTML = `
-            <div class="text-center py-6 text-xs text-on-surface-variant">
-                No matching builders found.
+    submissionsLogContainer.innerHTML = DASHBOARD_STATE.submissionsLog.map(item => `
+        <div class="glass-card p-3 rounded-xl flex flex-col gap-1.5 border border-white/5">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-1.5">
+                    <span class="font-code-sm text-xs font-bold text-primary">DAY ${item.day}</span>
+                    <span class="material-symbols-outlined text-emerald-400 text-xs">check_circle</span>
+                </div>
+                <span class="text-[9px] text-on-surface-variant font-code-sm">${item.submittedAt}</span>
             </div>
-        `;
-        return;
-    }
 
-    leaderboardList.innerHTML = filteredList.map(item => {
-        let rankBadge = `#${item.rank}`;
-        if (item.rank === 1) rankBadge = "🏆";
-        if (item.rank === 2) rankBadge = "🥈";
-        if (item.rank === 3) rankBadge = "🥉";
+            <h3 class="text-xs font-bold text-white leading-tight">${item.title}</h3>
+
+            <div class="flex gap-3 text-[10px] pt-1 border-t border-white/5 text-on-surface-variant">
+                <a href="https://${item.githubUrl}" target="_blank" class="flex items-center gap-1 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-xs">code</span> GitHub
+                </a>
+                <a href="https://${item.linkedinUrl}" target="_blank" class="flex items-center gap-1 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-xs">share</span> LinkedIn
+                </a>
+            </div>
+        </div>
+    `).join("");
+}
+
+/**
+ * Render Scoped Regional Leaderboards (City, State, Country)
+ */
+function renderScopedLeaderboard() {
+    if (!leaderboardScopeList) return;
+
+    const data = DASHBOARD_STATE.leaderboards[DASHBOARD_STATE.activeLeaderboardScope] || [];
+
+    leaderboardScopeList.innerHTML = data.map(item => {
+        let badge = `#${item.rank}`;
+        if (item.rank === 1) badge = "🏆";
+        if (item.rank === 2) badge = "🥈";
+        if (item.rank === 3) badge = "🥉";
 
         return `
-            <div class="flex items-center justify-between p-2 rounded-xl transition-all ${item.isUser ? 'bg-primary/20 border border-primary/40 shadow-sm' : 'bg-surface-container-high/30 border border-white/5 hover:bg-surface-container-high/50'}">
-                <div class="flex items-center gap-2">
-                    <span class="font-bold text-xs w-6 text-center ${item.rank <= 3 ? 'text-base' : 'text-on-surface-variant font-code-sm'}">${rankBadge}</span>
+            <div class="flex items-center justify-between p-2.5 rounded-xl ${item.isUser ? 'bg-primary/20 border border-primary/40' : 'bg-surface-container-high/30 border border-white/5'}">
+                <div class="flex items-center gap-2.5">
+                    <span class="font-bold text-xs w-5 text-center ${item.rank <= 3 ? 'text-base' : 'text-on-surface-variant font-code-sm'}">${badge}</span>
                     <span class="text-xs font-semibold ${item.isUser ? 'text-primary font-bold' : 'text-white'}">${item.name}</span>
                 </div>
-
-                <div class="flex items-center gap-2 text-[10px]">
-                    <span class="text-on-surface-variant font-code-sm">🔥 ${item.streak}d</span>
-                    <span class="text-secondary font-bold font-code-sm">${item.xp} XP</span>
+                <div class="flex items-center gap-2 text-[10px] font-code-sm">
+                    <span class="text-on-surface-variant">🔥 ${item.streak}d</span>
+                    <span class="text-secondary font-bold">${item.xp} XP</span>
                 </div>
             </div>
         `;
@@ -192,80 +148,32 @@ function renderLeaderboard(filterQuery = "") {
 }
 
 /**
- * Modal Open & Close Animations
- */
-function openModal() {
-    if (!leaderboardModal || !modalCard) return;
-    renderLeaderboard();
-    leaderboardModal.classList.remove("hidden");
-    
-    // Trigger CSS Fade & Scale animation
-    setTimeout(() => {
-        leaderboardModal.classList.remove("opacity-0");
-        modalCard.classList.remove("scale-95");
-        modalCard.classList.add("scale-100");
-    }, 10);
-}
-
-function closeModal() {
-    if (!leaderboardModal || !modalCard) return;
-    leaderboardModal.classList.add("opacity-0");
-    modalCard.classList.remove("scale-100");
-    modalCard.classList.add("scale-95");
-
-    setTimeout(() => {
-        leaderboardModal.classList.add("hidden");
-    }, 200);
-}
-
-/**
- * Event Listeners & Initializers
+ * Attach Event Listeners
  */
 function initDashboard() {
-    renderTasks();
+    // Pane Switcher Listeners
+    paneTabs.forEach(tab => {
+        tab.addEventListener("click", () => switchPane(tab.dataset.pane));
+    });
 
-    // Task Search Listener
-    if (taskSearchInput) {
-        taskSearchInput.addEventListener("input", (e) => {
-            DASHBOARD_STATE.searchQuery = e.target.value.trim();
-            renderTasks();
-        });
-    }
-
-    // Filter Pills Listener
-    filterPills.forEach(btn => {
+    // Leaderboard Scope Filter Listeners
+    scopeFilters.forEach(btn => {
         btn.addEventListener("click", () => {
-            filterPills.forEach(p => {
-                p.classList.remove("active", "bg-primary", "text-on-primary", "font-bold");
-                p.classList.add("bg-white/5", "border", "border-white/10", "text-on-surface-variant");
+            scopeFilters.forEach(b => {
+                b.classList.remove("active", "bg-secondary", "text-surface", "font-bold");
+                b.classList.add("bg-white/5", "border", "border-white/10", "text-on-surface-variant");
             });
 
             btn.classList.remove("bg-white/5", "border", "border-white/10", "text-on-surface-variant");
-            btn.classList.add("active", "bg-primary", "text-on-primary", "font-bold");
+            btn.classList.add("active", "bg-secondary", "text-surface", "font-bold");
 
-            DASHBOARD_STATE.filter = btn.dataset.filter;
-            renderTasks();
+            DASHBOARD_STATE.activeLeaderboardScope = btn.dataset.scope;
+            renderScopedLeaderboard();
         });
     });
 
-    // Modal Trigger Listeners
-    if (openRankBtn) openRankBtn.addEventListener("click", openModal);
-    if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
-
-    // Leaderboard Live Search
-    if (leaderboardSearchInput) {
-        leaderboardSearchInput.addEventListener("input", (e) => {
-            renderLeaderboard(e.target.value.trim());
-        });
-    }
-
-    // Close Modal on Backdrop Click
-    if (leaderboardModal) {
-        leaderboardModal.addEventListener("click", (e) => {
-            if (e.target === leaderboardModal) closeModal();
-        });
-    }
+    // Initial Load
+    renderSubmissionsLog();
 }
 
-// Bind DOM Ready Event
 document.addEventListener("DOMContentLoaded", initDashboard);
