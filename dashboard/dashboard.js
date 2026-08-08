@@ -1,15 +1,15 @@
 /**
- * ABTalks Student Dashboard Engine (dash.js)
- * Controls Top 10 Leaderboard rendering & strict GitHub/LinkedIn URL verification.
+ * ABTalks Dashboard Controller (dash.js)
+ * Plugs directly into your existing UI.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    renderTop10Leaderboard();
-    bindUrlValidation();
+    renderTop10Leaders();
+    attachStrictUrlValidation();
 });
 
-// Guaranteed dataset of Top 10 Leaders
-const top10Leaders = [
+// Guaranteed Top 10 Participants
+const top10Data = [
     { rank: 1, name: "Alex Rivers", points: 1200 },
     { rank: 2, name: "Sarah Chen", points: 1180 },
     { rank: 3, name: "Michael Vance", points: 1150 },
@@ -23,45 +23,30 @@ const top10Leaders = [
 ];
 
 /**
- * Renders all 10 items into the leaderboard-list container
+ * Renders all 10 participants into your leaderboard element.
  */
-function renderTop10Leaderboard() {
-    const container = document.getElementById('leaderboard-list');
+function renderTop10Leaders() {
+    // Looks for your existing leaderboard wrapper ID
+    const container = document.getElementById('leaderboard-list') || document.getElementById('leaderboard');
     if (!container) return;
 
-    container.innerHTML = top10Leaders.map(leader => {
-        const isTop3 = leader.rank <= 3;
-        
-        let rankBadgeStyle = 'bg-white/5 text-on-surface-variant';
-        let rowStyle = 'bg-surface-variant/50 border-white/5';
-
-        if (leader.rank === 1) {
-            rankBadgeStyle = 'bg-secondary text-on-primary';
-            rowStyle = 'bg-secondary/10 border-secondary/30';
-        } else if (leader.rank === 2) {
-            rankBadgeStyle = 'bg-white/20 text-white';
-            rowStyle = 'bg-white/5 border-white/10';
-        } else if (leader.rank === 3) {
-            rankBadgeStyle = 'bg-white/10 text-white';
-            rowStyle = 'bg-white/5 border-white/10';
-        }
-
-        return `
-            <div class="flex items-center justify-between p-2 rounded-xl ${rowStyle} border transition-all">
-                <div class="flex items-center gap-2.5">
-                    <span class="w-5 h-5 rounded-full ${rankBadgeStyle} font-bold font-code-sm text-[10px] flex items-center justify-center">${leader.rank}</span>
-                    <span class="text-xs font-bold text-white">${leader.name}</span>
-                </div>
-                <span class="text-xs font-code-sm ${isTop3 ? 'text-secondary font-bold' : 'text-on-surface-variant'}">${leader.points} pts</span>
+    container.innerHTML = top10Data.map(user => `
+        <div class="leaderboard-item flex items-center justify-between p-2.5 rounded-xl bg-white/5 border border-white/10 mb-2">
+            <div class="flex items-center gap-3">
+                <span class="rank-badge w-6 h-6 rounded-full ${user.rank <= 3 ? 'bg-amber-400 text-black font-bold' : 'bg-white/10 text-white'} text-xs flex items-center justify-center">
+                    ${user.rank}
+                </span>
+                <span class="user-name text-xs font-semibold text-white">${user.name}</span>
             </div>
-        `;
-    }).join('');
+            <span class="user-points text-xs font-mono font-bold text-amber-400">${user.points} pts</span>
+        </div>
+    `).join('');
 }
 
 /**
- * Domain-checking helpers
+ * Strict URL Validation Helpers
  */
-function isGitHubUrl(url) {
+function isStrictGitHubUrl(url) {
     try {
         const parsed = new URL(url);
         return parsed.hostname === 'github.com' || parsed.hostname === 'www.github.com';
@@ -70,7 +55,7 @@ function isGitHubUrl(url) {
     }
 }
 
-function isLinkedInUrl(url) {
+function isStrictLinkedInUrl(url) {
     try {
         const parsed = new URL(url);
         return parsed.hostname === 'linkedin.com' || parsed.hostname.endsWith('.linkedin.com');
@@ -80,75 +65,53 @@ function isLinkedInUrl(url) {
 }
 
 /**
- * Event binding and visual validation handler
+ * Binds strict validation to your form & link input fields
  */
-function bindUrlValidation() {
-    const githubInput = document.getElementById('github-input');
-    const linkedinInput = document.getElementById('linkedin-input');
-    const submitForm = document.getElementById('dashboard-submit-form');
+function attachStrictUrlValidation() {
+    // Selects by ID or generic fallback selectors
+    const ghInput = document.getElementById('github-url') || document.querySelector('input[name="github"]') || document.querySelector('input[placeholder*="github"]');
+    const liInput = document.getElementById('linkedin-url') || document.querySelector('input[name="linkedin"]') || document.querySelector('input[placeholder*="linkedin"]');
+    const form = document.getElementById('submission-form') || document.querySelector('form');
 
-    if (githubInput) {
-        githubInput.addEventListener('input', () => validateInput(githubInput, 'github'));
+    function validateField(input, type) {
+        if (!input) return false;
+        const val = input.value.trim();
+        
+        if (val === '') {
+            input.classList.remove('border-red-500', 'border-emerald-500');
+            return false;
+        }
+
+        const isValid = type === 'github' ? isStrictGitHubUrl(val) : isStrictLinkedInUrl(val);
+
+        if (isValid) {
+            input.classList.remove('border-red-500');
+            input.classList.add('border-emerald-500');
+            return true;
+        } else {
+            input.classList.remove('border-emerald-500');
+            input.classList.add('border-red-500');
+            return false;
+        }
     }
 
-    if (linkedinInput) {
-        linkedinInput.addEventListener('input', () => validateInput(linkedinInput, 'linkedin'));
+    if (ghInput) {
+        ghInput.addEventListener('input', () => validateField(ghInput, 'github'));
     }
 
-    if (submitForm) {
-        submitForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const ghValid = validateInput(githubInput, 'github');
-            const liValid = validateInput(linkedinInput, 'linkedin');
+    if (liInput) {
+        liInput.addEventListener('input', () => validateField(liInput, 'linkedin'));
+    }
 
-            if (ghValid && liValid) {
-                alert('Proof submitted successfully! GitHub & LinkedIn URLs verified.');
-                submitForm.reset();
-                validateInput(githubInput, 'github');
-                validateInput(linkedinInput, 'linkedin');
-            } else {
-                alert('Submission blocked. Ensure your links are valid GitHub and LinkedIn URLs.');
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            const ghValid = ghInput ? validateField(ghInput, 'github') : true;
+            const liValid = liInput ? validateField(liInput, 'linkedin') : true;
+
+            if (!ghValid || !liValid) {
+                e.preventDefault();
+                alert('Invalid URL! GitHub inputs must be a github.com link and LinkedIn inputs must be a linkedin.com link.');
             }
         });
-    }
-}
-
-function validateInput(inputEl, fieldType) {
-    if (!inputEl) return false;
-    
-    const value = inputEl.value.trim();
-    const errorEl = document.getElementById(`${fieldType}-error-msg`);
-    const iconEl = document.getElementById(`${fieldType}-status-icon`);
-
-    if (value === '') {
-        if (errorEl) errorEl.classList.add('hidden');
-        inputEl.classList.remove('border-red-500', 'border-emerald-500');
-        if (iconEl) {
-            iconEl.className = 'material-symbols-outlined text-sm absolute right-2 text-white/30';
-            iconEl.textContent = fieldType === 'github' ? 'code' : 'share';
-        }
-        return false;
-    }
-
-    const isValid = fieldType === 'github' ? isGitHubUrl(value) : isLinkedInUrl(value);
-
-    if (isValid) {
-        if (errorEl) errorEl.classList.add('hidden');
-        inputEl.classList.remove('border-red-500');
-        inputEl.classList.add('border-emerald-500');
-        if (iconEl) {
-            iconEl.className = 'material-symbols-outlined text-sm absolute right-2 text-emerald-400';
-            iconEl.textContent = 'check_circle';
-        }
-        return true;
-    } else {
-        if (errorEl) errorEl.classList.remove('hidden');
-        inputEl.classList.remove('border-emerald-500');
-        inputEl.classList.add('border-red-500');
-        if (iconEl) {
-            iconEl.className = 'material-symbols-outlined text-sm absolute right-2 text-red-400';
-            iconEl.textContent = 'cancel';
-        }
-        return false;
     }
 }
