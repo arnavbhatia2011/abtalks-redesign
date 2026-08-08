@@ -12,14 +12,13 @@ const DASHBOARD_STATE = {
         state: "Maharashtra",
         country: "India"
     },
-    activePane: "today", // "today" | "submissions" | "ranks"
-    paneLeaderboardScope: "city", // "city" | "state" | "country"
+    activePane: "today", 
+    paneLeaderboardScope: "city", 
     modalLeaderboardScope: "city",
     historySearchQuery: "",
     paneSearchQuery: "",
     modalSearchQuery: "",
     
-    // Complete Day 1 to 12 Submissions Log
     submissionsLog: [
         { day: 12, title: "Binary Trees & DFS Traversal", submittedAt: "Today, 10:14 AM", githubUrl: "github.com/student/day12", linkedinUrl: "linkedin.com/posts/day12" },
         { day: 11, title: "API Design & Webhooks Handler", submittedAt: "Yesterday", githubUrl: "github.com/student/day11", linkedinUrl: "linkedin.com/posts/day11" },
@@ -35,7 +34,6 @@ const DASHBOARD_STATE = {
         { day: 1,  title: "Development Environment Setup", submittedAt: "11 days ago", githubUrl: "github.com/student/day1", linkedinUrl: "linkedin.com/posts/day1" }
     ],
 
-    // Regional Mock Leaderboard Data
     leaderboards: {
         city: [
             { rank: 1, name: "Rohan Mehta", streak: 12, xp: 1350 },
@@ -61,43 +59,13 @@ const DASHBOARD_STATE = {
     }
 };
 
-// DOM References
-const paneTabs = document.querySelectorAll(".pane-tab");
-const paneContents = document.querySelectorAll(".pane-content");
-
-// Submissions Log Elements
-const submissionsLogContainer = document.getElementById("submissions-log-container");
-const historySearchInput = document.getElementById("history-search-input");
-const submissionsCountBadge = document.getElementById("submissions-count-badge");
-
-// Leaderboard Pane Elements
-const paneLeaderboardList = document.getElementById("pane-leaderboard-list");
-const paneLeaderboardSearch = document.getElementById("pane-leaderboard-search");
-const paneScopeBtns = document.querySelectorAll(".pane-scope-btn");
-
-// Leaderboard Modal Elements
-const leaderboardModal = document.getElementById("leaderboard-modal");
-const modalCard = document.getElementById("modal-card");
-const openModalRankBtn = document.getElementById("open-modal-rank-btn");
-const closeModalBtn = document.getElementById("close-modal-btn");
-const modalLeaderboardList = document.getElementById("modal-leaderboard-list");
-const modalLeaderboardSearch = document.getElementById("modal-leaderboard-search");
-const modalScopeBtns = document.querySelectorAll(".modal-scope-btn");
-
-// Extra Action Buttons & Toast Elements
-const day13LockedBtn = document.getElementById("day13-locked-btn");
-const statProofBtn = document.getElementById("stat-proof-btn");
-const streakBadgeBtn = document.getElementById("streak-badge-btn");
-const userProfileBtn = document.getElementById("user-profile-btn");
-const toastBanner = document.getElementById("toast-banner");
-const toastMsg = document.getElementById("toast-msg");
-const toastIcon = document.getElementById("toast-icon");
-
-/**
- * Toast Notification Utility
- */
+// Toast Notification
 function showToast(message, icon = "info") {
+    const toastBanner = document.getElementById("toast-banner");
+    const toastMsg = document.getElementById("toast-msg");
+    const toastIcon = document.getElementById("toast-icon");
     if (!toastBanner || !toastMsg) return;
+
     toastMsg.textContent = message;
     if (toastIcon) toastIcon.textContent = icon;
 
@@ -107,14 +75,17 @@ function showToast(message, icon = "info") {
     setTimeout(() => {
         toastBanner.classList.remove("translate-y-0", "opacity-100");
         toastBanner.classList.add("-translate-y-16", "opacity-0", "pointer-events-none");
-    }, 3000);
+    }, 2500);
 }
 
 /**
- * Pane Switching Controller
+ * Tab/Pane Switcher Logic
  */
 function switchPane(paneId) {
     DASHBOARD_STATE.activePane = paneId;
+
+    const paneTabs = document.querySelectorAll(".pane-tab");
+    const paneContents = document.querySelectorAll(".pane-content");
 
     paneTabs.forEach(tab => {
         if (tab.dataset.pane === paneId) {
@@ -129,8 +100,10 @@ function switchPane(paneId) {
     paneContents.forEach(pane => {
         if (pane.id === `pane-${paneId}`) {
             pane.classList.remove("hidden");
+            pane.classList.add("flex");
         } else {
             pane.classList.add("hidden");
+            pane.classList.remove("flex");
         }
     });
 
@@ -142,6 +115,8 @@ function switchPane(paneId) {
  * Render Day 1 to 12 Submissions Log
  */
 function renderSubmissionsLog() {
+    const submissionsLogContainer = document.getElementById("submissions-log-container");
+    const submissionsCountBadge = document.getElementById("submissions-count-badge");
     if (!submissionsLogContainer) return;
 
     const filtered = DASHBOARD_STATE.submissionsLog.filter(item => 
@@ -150,7 +125,7 @@ function renderSubmissionsLog() {
     );
 
     if (submissionsCountBadge) {
-        submissionsCountBadge.textContent = `${filtered.length} / 12 Showing`;
+        submissionsCountBadge.textContent = `${filtered.length} / 12 Verified`;
     }
 
     if (filtered.length === 0) {
@@ -175,10 +150,10 @@ function renderSubmissionsLog() {
             <h3 class="text-xs font-bold text-white leading-tight">${item.title}</h3>
 
             <div class="flex gap-3 text-[10px] pt-1.5 border-t border-white/5 text-on-surface-variant">
-                <a href="https://${item.githubUrl}" target="_blank" rel="noopener" class="flex items-center gap-1 hover:text-primary transition-colors">
+                <a href="https://${item.githubUrl}" target="_blank" class="flex items-center gap-1 hover:text-primary transition-colors">
                     <span class="material-symbols-outlined text-xs">code</span> GitHub
                 </a>
-                <a href="https://${item.linkedinUrl}" target="_blank" rel="noopener" class="flex items-center gap-1 hover:text-primary transition-colors">
+                <a href="https://${item.linkedinUrl}" target="_blank" class="flex items-center gap-1 hover:text-primary transition-colors">
                     <span class="material-symbols-outlined text-xs">share</span> LinkedIn
                 </a>
             </div>
@@ -187,7 +162,7 @@ function renderSubmissionsLog() {
 }
 
 /**
- * Helper to render leaderboard rows
+ * Leaderboard Item Generator
  */
 function buildLeaderboardRowsHtml(data, searchQuery) {
     const filtered = data.filter(item => 
@@ -195,11 +170,7 @@ function buildLeaderboardRowsHtml(data, searchQuery) {
     );
 
     if (filtered.length === 0) {
-        return `
-            <div class="text-center py-6 text-xs text-on-surface-variant">
-                No builders found.
-            </div>
-        `;
+        return `<div class="text-center py-6 text-xs text-on-surface-variant">No builders found.</div>`;
     }
 
     return filtered.map(item => {
@@ -209,7 +180,7 @@ function buildLeaderboardRowsHtml(data, searchQuery) {
         if (item.rank === 3) badge = "🥉";
 
         return `
-            <div class="flex items-center justify-between p-2 rounded-xl transition-all ${item.isUser ? 'bg-primary/20 border border-primary/40' : 'bg-surface-container-high/30 border border-white/5'}">
+            <div class="flex items-center justify-between p-2.5 rounded-xl ${item.isUser ? 'bg-primary/20 border border-primary/40' : 'bg-surface-container-high/30 border border-white/5'}">
                 <div class="flex items-center gap-2.5">
                     <span class="font-bold text-xs w-5 text-center ${item.rank <= 3 ? 'text-base' : 'text-on-surface-variant font-code-sm'}">${badge}</span>
                     <span class="text-xs font-semibold ${item.isUser ? 'text-primary font-bold' : 'text-white'}">${item.name}</span>
@@ -223,29 +194,25 @@ function buildLeaderboardRowsHtml(data, searchQuery) {
     }).join("");
 }
 
-/**
- * Render Pane Leaderboard
- */
 function renderPaneLeaderboard() {
+    const paneLeaderboardList = document.getElementById("pane-leaderboard-list");
     if (!paneLeaderboardList) return;
     const data = DASHBOARD_STATE.leaderboards[DASHBOARD_STATE.paneLeaderboardScope] || [];
     paneLeaderboardList.innerHTML = buildLeaderboardRowsHtml(data, DASHBOARD_STATE.paneSearchQuery);
 }
 
-/**
- * Render Modal Leaderboard
- */
 function renderModalLeaderboard() {
+    const modalLeaderboardList = document.getElementById("modal-leaderboard-list");
     if (!modalLeaderboardList) return;
     const data = DASHBOARD_STATE.leaderboards[DASHBOARD_STATE.modalLeaderboardScope] || [];
     modalLeaderboardList.innerHTML = buildLeaderboardRowsHtml(data, DASHBOARD_STATE.modalSearchQuery);
 }
 
-/**
- * Modal Visibility Control
- */
 function openModal() {
+    const leaderboardModal = document.getElementById("leaderboard-modal");
+    const modalCard = document.getElementById("modal-card");
     if (!leaderboardModal || !modalCard) return;
+
     renderModalLeaderboard();
     leaderboardModal.classList.remove("hidden");
     setTimeout(() => {
@@ -256,7 +223,10 @@ function openModal() {
 }
 
 function closeModal() {
+    const leaderboardModal = document.getElementById("leaderboard-modal");
+    const modalCard = document.getElementById("modal-card");
     if (!leaderboardModal || !modalCard) return;
+
     leaderboardModal.classList.add("opacity-0");
     modalCard.classList.remove("scale-100");
     modalCard.classList.add("scale-95");
@@ -266,15 +236,16 @@ function closeModal() {
 }
 
 /**
- * Event Binding & Init
+ * Initialize Dashboard
  */
 function initDashboard() {
-    // 1. Pane Switching
-    paneTabs.forEach(tab => {
+    // 1. Tab Listeners
+    document.querySelectorAll(".pane-tab").forEach(tab => {
         tab.addEventListener("click", () => switchPane(tab.dataset.pane));
     });
 
-    // 2. History Search
+    // 2. History Search Listener
+    const historySearchInput = document.getElementById("history-search-input");
     if (historySearchInput) {
         historySearchInput.addEventListener("input", (e) => {
             DASHBOARD_STATE.historySearchQuery = e.target.value.trim();
@@ -282,10 +253,10 @@ function initDashboard() {
         });
     }
 
-    // 3. Pane Leaderboard Scope Buttons & Search
-    paneScopeBtns.forEach(btn => {
+    // 3. Main Pane Scope Filters
+    document.querySelectorAll(".pane-scope-btn").forEach(btn => {
         btn.addEventListener("click", () => {
-            paneScopeBtns.forEach(b => {
+            document.querySelectorAll(".pane-scope-btn").forEach(b => {
                 b.classList.remove("active", "bg-secondary", "text-surface", "font-bold");
                 b.classList.add("bg-white/5", "border", "border-white/10", "text-on-surface-variant");
             });
@@ -298,6 +269,8 @@ function initDashboard() {
         });
     });
 
+    // 4. Main Pane Leaderboard Search
+    const paneLeaderboardSearch = document.getElementById("pane-leaderboard-search");
     if (paneLeaderboardSearch) {
         paneLeaderboardSearch.addEventListener("input", (e) => {
             DASHBOARD_STATE.paneSearchQuery = e.target.value.trim();
@@ -305,13 +278,17 @@ function initDashboard() {
         });
     }
 
-    // 4. Modal Triggers & Scope Buttons
+    // 5. Modal Triggers & Scope Filters
+    const openModalRankBtn = document.getElementById("open-modal-rank-btn");
+    const closeModalBtn = document.getElementById("close-modal-btn");
+    const leaderboardModal = document.getElementById("leaderboard-modal");
+
     if (openModalRankBtn) openModalRankBtn.addEventListener("click", openModal);
     if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
 
-    modalScopeBtns.forEach(btn => {
+    document.querySelectorAll(".modal-scope-btn").forEach(btn => {
         btn.addEventListener("click", () => {
-            modalScopeBtns.forEach(b => {
+            document.querySelectorAll(".modal-scope-btn").forEach(b => {
                 b.classList.remove("active", "bg-secondary", "text-surface", "font-bold");
                 b.classList.add("bg-white/5", "border", "border-white/10", "text-on-surface-variant");
             });
@@ -324,6 +301,7 @@ function initDashboard() {
         });
     });
 
+    const modalLeaderboardSearch = document.getElementById("modal-leaderboard-search");
     if (modalLeaderboardSearch) {
         modalLeaderboardSearch.addEventListener("input", (e) => {
             DASHBOARD_STATE.modalSearchQuery = e.target.value.trim();
@@ -337,34 +315,31 @@ function initDashboard() {
         });
     }
 
-    // 5. Extra Buttons Interactivity & Toast Triggers
-    if (day13LockedBtn) {
-        day13LockedBtn.addEventListener("click", () => {
-            showToast("Day 13 unlocks tomorrow at 00:00 UTC!", "lock");
-        });
-    }
+    // 6. Action Button Toasts
+    const day13LockedBtn = document.getElementById("day13-locked-btn");
+    const statProofBtn = document.getElementById("stat-proof-btn");
+    const streakBadgeBtn = document.getElementById("streak-badge-btn");
+    const userProfileBtn = document.getElementById("user-profile-btn");
 
+    if (day13LockedBtn) {
+        day13LockedBtn.addEventListener("click", () => showToast("Day 13 unlocks tomorrow at 00:00 UTC!", "lock"));
+    }
     if (statProofBtn) {
         statProofBtn.addEventListener("click", () => {
             switchPane("submissions");
             showToast("Switched to History Log", "history");
         });
     }
-
     if (streakBadgeBtn) {
-        streakBadgeBtn.addEventListener("click", () => {
-            showToast("🔥 12-Day Active Streak! Keep it up!", "local_fire_department");
-        });
+        streakBadgeBtn.addEventListener("click", () => showToast("🔥 12-Day Streak Active!", "local_fire_department"));
     }
-
     if (userProfileBtn) {
-        userProfileBtn.addEventListener("click", () => {
-            showToast("Logged in as Student (Day 12)", "account_circle");
-        });
+        userProfileBtn.addEventListener("click", () => showToast("Logged in as Student (Day 12)", "account_circle"));
     }
 
-    // Initial Renders
+    // Pre-render
     renderSubmissionsLog();
+    renderPaneLeaderboard();
 }
 
 document.addEventListener("DOMContentLoaded", initDashboard);
