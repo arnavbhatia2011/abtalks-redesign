@@ -1,1 +1,238 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <title>Submissions History - ABTalks 60-Day Tech Challenge</title>
 
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary": "#ffc640",
+                        "secondary-container": "#e0a100",
+                        "surface-container-high": "#2a2a2c",
+                        "surface-container-highest": "#353437",
+                        "on-surface-variant": "#e0c0b1",
+                        "on-background": "#e5e1e4",
+                        "tertiary": "#c0c1ff",
+                        "primary": "#ffb690",
+                        "primary-container": "#f97316",
+                        "on-primary": "#552100",
+                        "surface": "#131315",
+                        "surface-variant": "#232325"
+                    },
+                    fontFamily: {
+                        "code-sm": ["JetBrains Mono", "monospace"],
+                        "display-sm": ["Geist", "sans-serif"],
+                        "body-md": ["Geist", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+    <style>
+        :root {
+            --bg-color: #131315;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100dvh;
+            background-color: var(--bg-color);
+            color: #e5e1e4;
+            font-family: 'Geist', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(25, 25, 28, 0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-card-glow {
+            background: rgba(25, 25, 28, 0.85);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            box-shadow: 0 0 35px -5px rgba(249, 115, 22, 0.2), 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-nav {
+            background: rgba(19, 19, 21, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="relative flex justify-center items-center min-h-screen">
+
+<div class="w-full max-w-[420px] min-h-screen relative z-10 flex flex-col bg-[#131315] border-x border-white/5 shadow-2xl">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 w-full z-50 glass-nav flex items-center justify-between px-4 h-16">
+        <a href="/dashboard" class="flex items-center gap-2 cursor-pointer">
+            <span class="material-symbols-outlined text-primary text-xl">arrow_back</span>
+            <div class="flex flex-col">
+                <span class="font-display-sm text-sm font-extrabold tracking-tight bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent">ABTalks</span>
+                <span class="text-[8px] font-code-sm text-on-surface-variant/70 tracking-widest -mt-1 uppercase">Submission History</span>
+            </div>
+        </a>
+
+        <div class="flex items-center gap-2">
+            <span class="text-[10px] font-code-sm text-secondary bg-secondary/10 px-2.5 py-1 rounded-full border border-secondary/20 font-bold">
+                12 VERIFIED
+            </span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 px-4 pt-5 pb-24 flex flex-col gap-4">
+
+        <!-- Points Summary Header -->
+        <section class="glass-card-glow p-4 rounded-2xl flex items-center justify-between">
+            <div class="flex flex-col gap-0.5">
+                <span class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">Total Accumulated Score</span>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-2xl font-extrabold font-code-sm text-secondary">1,200 PTS</span>
+                    <span class="text-xs text-emerald-400 font-code-sm">(12 / 12 Perfect)</span>
+                </div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                <span class="material-symbols-outlined text-xl">verified</span>
+            </div>
+        </section>
+
+        <!-- Submissions Log List -->
+        <section class="flex flex-col gap-2">
+            <span class="font-code-sm text-xs text-on-surface-variant font-semibold uppercase tracking-wider px-1">Completed Challenges</span>
+
+            <div class="flex flex-col gap-2.5">
+
+                <!-- Day 12 -->
+                <div class="glass-panel p-3.5 rounded-xl flex items-center justify-between border-l-2 border-emerald-400">
+                    <div class="flex flex-col gap-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-code-sm font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded">DAY 12</span>
+                            <span class="text-xs font-bold text-white">LRU Cache Architecture</span>
+                        </div>
+                        <span class="text-[9px] font-code-sm text-on-surface-variant/80">Submitted Today • GitHub & LinkedIn</span>
+                    </div>
+                    <span class="text-xs font-code-sm font-bold text-emerald-400">+100 PTS</span>
+                </div>
+
+                <!-- Day 11 -->
+                <div class="glass-panel p-3.5 rounded-xl flex items-center justify-between">
+                    <div class="flex flex-col gap-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-code-sm font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded">DAY 11</span>
+                            <span class="text-xs font-bold text-white">Binary Tree Traversal</span>
+                        </div>
+                        <span class="text-[9px] font-code-sm text-on-surface-variant/80">Submitted Yesterday • Verified</span>
+                    </div>
+                    <span class="text-xs font-code-sm font-bold text-emerald-400">+100 PTS</span>
+                </div>
+
+                <!-- Day 10 -->
+                <div class="glass-panel p-3.5 rounded-xl flex items-center justify-between">
+                    <div class="flex flex-col gap-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-code-sm font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded">DAY 10</span>
+                            <span class="text-xs font-bold text-white">Dynamic Programming (Knapsack)</span>
+                        </div>
+                        <span class="text-[9px] font-code-sm text-on-surface-variant/80">2 days ago • Verified</span>
+                    </div>
+                    <span class="text-xs font-code-sm font-bold text-emerald-400">+100 PTS</span>
+                </div>
+
+                <!-- Day 9 -->
+                <div class="glass-panel p-3.5 rounded-xl flex items-center justify-between">
+                    <div class="flex flex-col gap-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-code-sm font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded">DAY 09</span>
+                            <span class="text-xs font-bold text-white">Graph Shortest Path (Dijkstra)</span>
+                        </div>
+                        <span class="text-[9px] font-code-sm text-on-surface-variant/80">3 days ago • Verified</span>
+                    </div>
+                    <span class="text-xs font-code-sm font-bold text-emerald-400">+100 PTS</span>
+                </div>
+
+                <!-- Day 8 -->
+                <div class="glass-panel p-3.5 rounded-xl flex items-center justify-between">
+                    <div class="flex flex-col gap-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-code-sm font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded">DAY 08</span>
+                            <span class="text-xs font-bold text-white">REST API Rate Limiter</span>
+                        </div>
+                        <span class="text-[9px] font-code-sm text-on-surface-variant/80">4 days ago • Verified</span>
+                    </div>
+                    <span class="text-xs font-code-sm font-bold text-emerald-400">+100 PTS</span>
+                </div>
+
+                <!-- Day 7 -->
+                <div class="glass-panel p-3.5 rounded-xl flex items-center justify-between">
+                    <div class="flex flex-col gap-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-code-sm font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded">DAY 07</span>
+                            <span class="text-xs font-bold text-white">JWT Auth Implementation</span>
+                        </div>
+                        <span class="text-[9px] font-code-sm text-on-surface-variant/80">5 days ago • Verified</span>
+                    </div>
+                    <span class="text-xs font-code-sm font-bold text-emerald-400">+100 PTS</span>
+                </div>
+
+                <!-- Days 1 to 6 (Grouped) -->
+                <div class="glass-panel p-3.5 rounded-xl flex items-center justify-between">
+                    <div class="flex flex-col gap-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-code-sm font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded">DAYS 01 - 06</span>
+                            <span class="text-xs font-bold text-white">Foundational Tech Tasks (6 Total)</span>
+                        </div>
+                        <span class="text-[9px] font-code-sm text-on-surface-variant/80">6 Challenges Complete • Verified</span>
+                    </div>
+                    <span class="text-xs font-code-sm font-bold text-emerald-400">+600 PTS</span>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="fixed bottom-0 w-full max-w-[420px] glass-nav h-16 z-50 border-t border-white/10 grid grid-cols-3 items-center text-center">
+        <a href="/dashboard" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-xl">dashboard</span>
+            <span class="text-[9px] font-code-sm uppercase">Dashboard</span>
+        </a>
+        <a href="/dashboard/leaderboard" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-xl">emoji_events</span>
+            <span class="text-[9px] font-code-sm uppercase">Leaderboard</span>
+        </a>
+        <a href="/dashboard/submissions" class="flex flex-col items-center gap-0.5 text-primary">
+            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">history</span>
+            <span class="text-[9px] font-code-sm font-bold uppercase">History</span>
+        </a>
+    </nav>
+
+</div>
+
+</body>
+</html>
