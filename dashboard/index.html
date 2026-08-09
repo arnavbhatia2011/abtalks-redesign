@@ -97,6 +97,17 @@
 </head>
 <body class="relative flex justify-center items-center min-h-screen">
 
+<!-- Custom Dynamic Notification Banner -->
+<div id="notification-banner" class="fixed top-4 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-[390px] transition-all duration-300 transform -translate-y-20 opacity-0 pointer-events-none">
+    <div id="notification-card" class="p-4 rounded-xl border flex items-start gap-3 shadow-2xl backdrop-blur-xl">
+        <span id="notification-icon" class="material-symbols-outlined text-xl mt-0.5"></span>
+        <div class="flex flex-col gap-0.5">
+            <h4 id="notification-title" class="text-xs font-bold font-code-sm uppercase tracking-wide"></h4>
+            <p id="notification-message" class="text-xs leading-relaxed opacity-90"></p>
+        </div>
+    </div>
+</div>
+
 <!-- Outer Mobile Container -->
 <div class="w-full max-w-[420px] min-h-screen relative z-10 flex flex-col bg-[#131315] border-x border-white/5 shadow-2xl">
 
@@ -191,15 +202,15 @@
                 Construct an LRU (Least Recently Used) cache with O(1) time complexity for read/write operations. Push code to GitHub and share a breakdown on LinkedIn.
             </p>
 
-            <form class="flex flex-col gap-2.5 pt-2" onsubmit="event.preventDefault(); alert('Proof Submitted Successfully!');">
+            <form id="submission-form" class="flex flex-col gap-2.5 pt-2">
                 <div class="flex flex-col gap-1">
                     <label class="text-[10px] font-code-sm text-on-surface-variant uppercase">GitHub Commit / Repo URL</label>
-                    <input class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-primary font-code-sm" placeholder="https://github.com/username/repo" required="" type="url"/>
+                    <input id="github-url" class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-primary font-code-sm" placeholder="https://github.com/username/repo" required="" type="url"/>
                 </div>
 
                 <div class="flex flex-col gap-1">
                     <label class="text-[10px] font-code-sm text-on-surface-variant uppercase">LinkedIn Post Link</label>
-                    <input class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-primary font-code-sm" placeholder="https://linkedin.com/posts/..." required="" type="url"/>
+                    <input id="linkedin-url" class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-primary font-code-sm" placeholder="https://linkedin.com/posts/..." required="" type="url"/>
                 </div>
 
                 <button class="w-full py-3 mt-1 bg-gradient-to-r from-primary-container via-primary to-secondary text-on-primary rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-primary-container/20 active:scale-[0.98] transition-transform" type="submit">
@@ -266,6 +277,7 @@
 </div>
 
 <script>
+    // Countdown Timer Functionality
     function updateISTTimer() {
         const now = new Date();
         const utcMs = now.getTime() + (now.getTimezoneOffset() * 60000);
@@ -295,6 +307,80 @@
 
     updateISTTimer();
     setInterval(updateISTTimer, 1000);
+
+    // Dynamic Notification Helper
+    let bannerTimeout;
+    function showNotification(type, title, message) {
+        const banner = document.getElementById('notification-banner');
+        const card = document.getElementById('notification-card');
+        const icon = document.getElementById('notification-icon');
+        const titleEl = document.getElementById('notification-title');
+        const msgEl = document.getElementById('notification-message');
+
+        clearTimeout(bannerTimeout);
+
+        if (type === 'success') {
+            card.className = "p-4 rounded-xl border flex items-start gap-3 shadow-2xl backdrop-blur-xl bg-emerald-950/80 border-emerald-500/30 text-emerald-200";
+            icon.innerText = "pending_actions";
+        } else {
+            card.className = "p-4 rounded-xl border flex items-start gap-3 shadow-2xl backdrop-blur-xl bg-rose-950/80 border-rose-500/30 text-rose-200";
+            icon.innerText = "error";
+        }
+
+        titleEl.innerText = title;
+        msgEl.innerText = message;
+
+        banner.classList.remove('-translate-y-20', 'opacity-0', 'pointer-events-none');
+        banner.classList.add('translate-y-0', 'opacity-100');
+
+        bannerTimeout = setTimeout(() => {
+            banner.classList.remove('translate-y-0', 'opacity-100');
+            banner.classList.add('-translate-y-20', 'opacity-0', 'pointer-events-none');
+        }, 5000);
+    }
+
+    // Submission Form Handling & Domain Validation
+    document.getElementById('submission-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const githubVal = document.getElementById('github-url').value.trim();
+        const linkedinVal = document.getElementById('linkedin-url').value.trim();
+
+        try {
+            const githubUrl = new URL(githubVal);
+            const isGithub = githubUrl.hostname === 'github.com' || githubUrl.hostname.endsWith('.github.com');
+            
+            if (!isGithub) {
+                showNotification('error', 'Invalid Link', 'Please enter a valid GitHub URL (e.g., https://github.com/...)');
+                return;
+            }
+        } catch (err) {
+            showNotification('error', 'Invalid Link', 'Please enter a valid GitHub URL.');
+            return;
+        }
+
+        try {
+            const linkedinUrl = new URL(linkedinVal);
+            const isLinkedin = linkedinUrl.hostname === 'linkedin.com' || linkedinUrl.hostname.endsWith('.linkedin.com');
+            
+            if (!isLinkedin) {
+                showNotification('error', 'Invalid Link', 'Please enter a valid LinkedIn URL (e.g., https://linkedin.com/...)');
+                return;
+            }
+        } catch (err) {
+            showNotification('error', 'Invalid Link', 'Please enter a valid LinkedIn URL.');
+            return;
+        }
+
+        // On Successful Validation
+        showNotification(
+            'success', 
+            'Under Review', 
+            'Your response has been sent to the admin and is currently under review. You will receive your points soon!'
+        );
+
+        this.reset();
+    });
 </script>
 
 </body>
