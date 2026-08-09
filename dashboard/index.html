@@ -106,7 +106,7 @@
             </div>
         </section>
 
-        <!-- Day 12 Main Prompt Card -->
+        <!-- Day 12 Card -->
         <section class="glass-card-glow p-5 rounded-2xl flex flex-col gap-4 relative overflow-hidden">
             <div class="flex items-center justify-between z-10">
                 <span class="text-[10px] font-code-sm font-extrabold text-primary bg-primary/10 px-2.5 py-1 rounded-full border border-primary/20 tracking-wider">TODAY • DAY 12</span>
@@ -116,13 +116,12 @@
             <div class="flex flex-col gap-1 z-10">
                 <h2 class="text-lg font-extrabold text-white tracking-tight">LRU Cache Architecture</h2>
                 <p class="text-xs text-on-surface-variant/80 leading-relaxed">
-                    Design and implement an in-memory Least Recently Used (LRU) Cache with <code class="bg-black/60 px-1.5 py-0.5 rounded text-secondary font-code-sm text-[11px]">O(1)</code> operations for both retrieval and storage.
+                    Design and implement an in-memory Least Recently Used (LRU) Cache with <code class="bg-black/60 px-1.5 py-0.5 rounded text-secondary font-code-sm text-[11px]">O(1)</code> operations.
                 </p>
             </div>
 
-            <div class="pt-2 z-10">
-                <!-- Route points directly to /submit -->
-                <a id="action-btn" href="/submit" class="w-full py-3 bg-gradient-to-r from-primary-container to-secondary text-black font-code-sm font-extrabold text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 shadow-lg hover:brightness-110 transition-all">
+            <div class="pt-2 z-10 flex gap-2">
+                <a id="action-btn" href="/submission" class="flex-1 py-3 bg-gradient-to-r from-primary-container to-secondary text-black font-code-sm font-extrabold text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 shadow-lg hover:brightness-110 transition-all">
                     <span class="material-symbols-outlined text-base">upload_file</span>
                     Submit Day 12 Work
                 </a>
@@ -137,11 +136,11 @@
             <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">dashboard</span>
             <span class="text-[9px] font-code-sm font-bold uppercase">Dashboard</span>
         </a>
-        <a href="/dashboard/leaderboard" class="flex flex-col items-center gap-1 text-on-surface-variant/70 hover:text-white transition-colors">
+        <a href="/dashboard/leaderboard.html" class="flex flex-col items-center gap-1 text-on-surface-variant/70 hover:text-white transition-colors">
             <span class="material-symbols-outlined text-xl">emoji_events</span>
             <span class="text-[9px] font-code-sm uppercase">Leaderboard</span>
         </a>
-        <a href="/dashboard/submissions" class="flex flex-col items-center gap-1 text-on-surface-variant/70 hover:text-white transition-colors">
+        <a href="/dashboard/submissions.html" class="flex flex-col items-center gap-1 text-on-surface-variant/70 hover:text-white transition-colors">
             <span class="material-symbols-outlined text-xl">history</span>
             <span class="text-[9px] font-code-sm uppercase">History</span>
         </a>
@@ -165,8 +164,8 @@
 
         const btn = document.getElementById('action-btn');
         btn.innerText = 'VIEW SUBMISSION PROOF';
-        btn.href = '/dashboard/submissions';
-        btn.className = 'w-full py-3 bg-white/10 border border-white/20 text-emerald-400 font-code-sm font-extrabold text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 hover:bg-white/15 transition-all';
+        btn.href = '/dashboard/submissions.html';
+        btn.className = 'flex-1 py-3 bg-white/10 border border-white/20 text-emerald-400 font-code-sm font-extrabold text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 hover:bg-white/15 transition-all';
     }
 </script>
 
