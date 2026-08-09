@@ -14,14 +14,22 @@
                 extend: {
                     colors: {
                         "secondary": "#ffc640",
+                        "secondary-container": "#e0a100",
+                        "surface-container-high": "#2a2a2c",
+                        "surface-container-highest": "#353437",
+                        "on-surface-variant": "#e0c0b1",
+                        "on-background": "#e5e1e4",
+                        "tertiary": "#c0c1ff",
                         "primary": "#ffb690",
                         "primary-container": "#f97316",
-                        "on-surface-variant": "#e0c0b1",
-                        "surface": "#131315"
+                        "on-primary": "#552100",
+                        "surface": "#131315",
+                        "surface-variant": "#232325"
                     },
                     fontFamily: {
                         "code-sm": ["JetBrains Mono", "monospace"],
-                        "display-sm": ["Geist", "sans-serif"]
+                        "display-sm": ["Geist", "sans-serif"],
+                        "body-md": ["Geist", "sans-serif"]
                     }
                 }
             }
@@ -35,7 +43,8 @@
         :root { --bg-color: #0b0b0d; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { min-height: 100dvh; background-color: var(--bg-color); color: #e5e1e4; font-family: 'Geist', sans-serif; overflow-x: hidden; }
-        .glass-panel { background: rgba(22, 22, 26, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5); }
+        .glass-panel { background: rgba(22, 22, 26, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5); }
+        .glass-card-glow { background: linear-gradient(135deg, rgba(25, 25, 30, 0.9), rgba(18, 18, 22, 0.8)); backdrop-filter: blur(28px); border: 1px solid rgba(249, 115, 22, 0.3); box-shadow: 0 0 35px -5px rgba(249, 115, 22, 0.25), 0 8px 32px 0 rgba(0, 0, 0, 0.6); }
         .glass-nav { background: rgba(13, 13, 16, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
     </style>
 </head>
@@ -45,30 +54,71 @@
 
     <!-- Header -->
     <header class="sticky top-0 w-full z-50 glass-nav flex items-center justify-between px-4 h-16">
-        <a href="/dashboard" class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+        <a href="/dashboard" class="flex items-center gap-2.5 cursor-pointer group">
+            <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
                 <span class="material-symbols-outlined text-primary text-lg">arrow_back</span>
             </div>
             <div class="flex flex-col">
-                <span class="font-display-sm text-sm font-extrabold tracking-tight bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent">Submission Logs</span>
-                <span class="text-[9px] font-code-sm text-on-surface-variant/70 tracking-widest uppercase">Verified Proof of Work</span>
+                <span class="font-display-sm text-sm font-extrabold tracking-tight bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent">Submissions Log</span>
+                <span class="text-[9px] font-code-sm text-on-surface-variant/70 tracking-widest uppercase">Verified Activity History</span>
             </div>
         </a>
+
+        <div class="flex items-center gap-1 text-[10px] font-code-sm text-emerald-400 bg-emerald-400/10 px-2.5 py-1 rounded-full border border-emerald-400/20 font-bold">
+            <span class="material-symbols-outlined text-xs">verified</span>
+            ALL SYNCED
+        </div>
     </header>
 
     <main id="history-container" class="flex-1 px-4 pt-5 pb-28 flex flex-col gap-3.5">
-        <!-- Day 11 Entry -->
-        <div class="glass-panel p-4 rounded-2xl flex flex-col gap-2.5 border-l-2 border-emerald-400">
+
+        <!-- Day 11 Card -->
+        <div class="glass-panel p-4 rounded-2xl flex flex-col gap-3 border-l-2 border-emerald-400">
             <div class="flex items-center justify-between">
-                <span class="text-[10px] font-code-sm text-emerald-400 font-bold bg-emerald-400/10 px-2.5 py-0.5 rounded-full border border-emerald-400/20">DAY 11 • VERIFIED</span>
-                <span class="text-[10px] font-code-sm text-secondary font-bold">+100 PTS</span>
+                <span class="text-[10px] font-code-sm font-bold text-emerald-400 bg-emerald-400/10 px-2.5 py-0.5 rounded-full border border-emerald-400/20 uppercase tracking-wider">DAY 11 • VERIFIED</span>
+                <span class="text-[10px] font-code-sm font-bold text-secondary bg-secondary/10 px-2 py-0.5 rounded border border-secondary/20">+100 PTS</span>
             </div>
-            <h3 class="text-sm font-bold text-white">Rate Limiter Middleware</h3>
-            <div class="flex items-center justify-between text-[10px] font-code-sm text-on-surface-variant/60 border-t border-white/5 pt-2">
-                <span class="text-emerald-400 flex items-center gap-1 font-semibold"><span class="material-symbols-outlined text-xs">check_circle</span> Verified</span>
-                <span>24 hours ago</span>
+
+            <div class="flex flex-col gap-0.5">
+                <h3 class="text-sm font-extrabold text-white">Rate Limiter Middleware</h3>
+                <p class="text-[11px] text-on-surface-variant/70">Sliding Window Log algorithm implementation with Redis support.</p>
+            </div>
+
+            <div class="flex flex-col gap-1.5 text-[10px] font-code-sm bg-black/50 p-2.5 rounded-xl border border-white/5">
+                <div class="flex items-center justify-between text-on-surface-variant/80">
+                    <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-xs text-primary">code</span> GitHub:</span>
+                    <a href="https://github.com/abtalks/rate-limiter" target="_blank" class="text-primary hover:underline truncate max-w-[180px]">github.com/abtalks/rate-limiter</a>
+                </div>
+                <div class="flex items-center justify-between text-on-surface-variant/80">
+                    <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-xs text-primary">language</span> Demo:</span>
+                    <a href="https://rate-limiter-demo.vercel.app" target="_blank" class="text-primary hover:underline truncate max-w-[180px]">rate-limiter-demo.vercel.app</a>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[9px] font-code-sm text-on-surface-variant/50 border-t border-white/5 pt-2">
+                <span class="text-emerald-400 flex items-center gap-1 font-bold"><span class="material-symbols-outlined text-xs">check_circle</span> Automated Verification Passed</span>
+                <span>Yesterday</span>
             </div>
         </div>
+
+        <!-- Day 10 Card -->
+        <div class="glass-panel p-4 rounded-2xl flex flex-col gap-3 border-l-2 border-emerald-400 opacity-90">
+            <div class="flex items-center justify-between">
+                <span class="text-[10px] font-code-sm font-bold text-emerald-400 bg-emerald-400/10 px-2.5 py-0.5 rounded-full border border-emerald-400/20 uppercase tracking-wider">DAY 10 • VERIFIED</span>
+                <span class="text-[10px] font-code-sm font-bold text-secondary bg-secondary/10 px-2 py-0.5 rounded border border-secondary/20">+100 PTS</span>
+            </div>
+
+            <div class="flex flex-col gap-0.5">
+                <h3 class="text-sm font-extrabold text-white">JWT Auth & Refresh Flow</h3>
+                <p class="text-[11px] text-on-surface-variant/70">Secure stateless auth with HttpOnly cookies & automatic rotation.</p>
+            </div>
+
+            <div class="flex items-center justify-between text-[9px] font-code-sm text-on-surface-variant/50 border-t border-white/5 pt-2">
+                <span class="text-emerald-400 flex items-center gap-1 font-bold"><span class="material-symbols-outlined text-xs">check_circle</span> Verified</span>
+                <span>2 days ago</span>
+            </div>
+        </div>
+
     </main>
 
     <!-- Navigation -->
@@ -92,32 +142,41 @@
     const isSubmitted = sessionStorage.getItem('day12_submitted') === 'true';
 
     if (isSubmitted) {
-        const ghUrl = sessionStorage.getItem('gh_url') || 'https://github.com';
-        const deployUrl = sessionStorage.getItem('deploy_url') || '#';
-        const liUrl = sessionStorage.getItem('li_url') || '#';
+        const ghUrl = sessionStorage.getItem('gh_url') || 'https://github.com/abtalks/lru-cache';
+        const deployUrl = sessionStorage.getItem('deploy_url') || 'https://lru-cache-demo.vercel.app';
+        const liUrl = sessionStorage.getItem('li_url') || 'https://linkedin.com';
 
         const historyContainer = document.getElementById('history-container');
         const day12Card = document.createElement('div');
-        day12Card.className = "glass-panel p-4 rounded-2xl flex flex-col gap-3 border-l-2 border-emerald-400 bg-gradient-to-r from-emerald-500/5 to-transparent";
+        day12Card.className = "glass-card-glow p-4 rounded-2xl flex flex-col gap-3 border-l-2 border-emerald-400 relative overflow-hidden";
         day12Card.innerHTML = `
             <div class="flex items-center justify-between">
-                <span class="text-[10px] font-code-sm text-emerald-400 font-bold bg-emerald-400/10 px-2.5 py-0.5 rounded-full border border-emerald-400/20">DAY 12 • VERIFIED</span>
-                <span class="text-[10px] font-code-sm text-secondary font-bold">+100 PTS</span>
+                <span class="text-[10px] font-code-sm font-bold text-emerald-400 bg-emerald-400/10 px-2.5 py-0.5 rounded-full border border-emerald-400/20 uppercase tracking-wider">DAY 12 • VERIFIED</span>
+                <span class="text-[10px] font-code-sm font-bold text-secondary bg-secondary/10 px-2 py-0.5 rounded border border-secondary/20">+100 PTS</span>
             </div>
-            <h3 class="text-sm font-bold text-white">LRU Cache Architecture</h3>
-            <div class="flex flex-col gap-1.5 text-[10px] font-code-sm text-on-surface-variant/80 bg-black/50 p-2.5 rounded-xl border border-white/5">
-                <a href="${ghUrl}" target="_blank" class="hover:text-primary transition-colors flex items-center gap-1.5 truncate">
-                    <span class="material-symbols-outlined text-xs">code</span> ${ghUrl}
-                </a>
-                <a href="${deployUrl}" target="_blank" class="hover:text-primary transition-colors flex items-center gap-1.5 truncate">
-                    <span class="material-symbols-outlined text-xs">language</span> ${deployUrl}
-                </a>
-                <a href="${liUrl}" target="_blank" class="hover:text-primary transition-colors flex items-center gap-1.5 truncate">
-                    <span class="material-symbols-outlined text-xs">share</span> ${liUrl}
-                </a>
+
+            <div class="flex flex-col gap-0.5">
+                <h3 class="text-sm font-extrabold text-white">LRU Cache Architecture</h3>
+                <p class="text-[11px] text-on-surface-variant/80">Doubly Linked List + Hash Map with O(1) ops.</p>
             </div>
-            <div class="flex items-center justify-between text-[10px] font-code-sm text-on-surface-variant/60 border-t border-white/5 pt-2">
-                <span class="text-emerald-400 flex items-center gap-1 font-semibold"><span class="material-symbols-outlined text-xs">check_circle</span> Live Session Saved</span>
+
+            <div class="flex flex-col gap-1.5 text-[10px] font-code-sm bg-black/60 p-2.5 rounded-xl border border-white/10">
+                <div class="flex items-center justify-between text-on-surface-variant/90">
+                    <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-xs text-primary">code</span> GitHub:</span>
+                    <a href="${ghUrl}" target="_blank" class="text-primary hover:underline truncate max-w-[180px]">${ghUrl}</a>
+                </div>
+                <div class="flex items-center justify-between text-on-surface-variant/90">
+                    <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-xs text-primary">language</span> Live Demo:</span>
+                    <a href="${deployUrl}" target="_blank" class="text-primary hover:underline truncate max-w-[180px]">${deployUrl}</a>
+                </div>
+                <div class="flex items-center justify-between text-on-surface-variant/90">
+                    <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-xs text-primary">share</span> LinkedIn Post:</span>
+                    <a href="${liUrl}" target="_blank" class="text-primary hover:underline truncate max-w-[180px]">${liUrl}</a>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[9px] font-code-sm text-on-surface-variant/60 border-t border-white/10 pt-2">
+                <span class="text-emerald-400 flex items-center gap-1 font-bold"><span class="material-symbols-outlined text-xs">check_circle</span> Live Session Verified</span>
                 <span>Just now</span>
             </div>
         `;
