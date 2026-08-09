@@ -143,6 +143,32 @@
             </div>
         </section>
 
+        <!-- Thoughtful UX Feature: Real-time Pre-flight Submission Checklist -->
+        <section class="glass-panel p-3.5 rounded-xl flex flex-col gap-2 border border-secondary/20">
+            <div class="flex items-center justify-between">
+                <span class="text-[10px] font-code-sm font-bold text-secondary uppercase tracking-wider flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-sm">fact_check</span>
+                    Submission Readiness Checklist
+                </span>
+                <span id="completion-status" class="text-[9px] font-code-sm text-amber-400 font-bold">0 / 3 Verified</span>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-2 pt-1">
+                <div id="check-gh" class="bg-black/30 p-2 rounded border border-white/5 text-center flex flex-col items-center gap-1">
+                    <span class="material-symbols-outlined text-sm text-on-surface-variant/40" id="icon-gh">cancel</span>
+                    <span class="text-[9px] font-code-sm text-on-surface-variant/80">GitHub Link</span>
+                </div>
+                <div id="check-deploy" class="bg-black/30 p-2 rounded border border-white/5 text-center flex flex-col items-center gap-1">
+                    <span class="material-symbols-outlined text-sm text-on-surface-variant/40" id="icon-deploy">cancel</span>
+                    <span class="text-[9px] font-code-sm text-on-surface-variant/80">Live App</span>
+                </div>
+                <div id="check-li" class="bg-black/30 p-2 rounded border border-white/5 text-center flex flex-col items-center gap-1">
+                    <span class="material-symbols-outlined text-sm text-on-surface-variant/40" id="icon-li">cancel</span>
+                    <span class="text-[9px] font-code-sm text-on-surface-variant/80">LinkedIn Post</span>
+                </div>
+            </div>
+        </section>
+
         <!-- Proof of Work Submission Form -->
         <section class="glass-panel p-4 rounded-xl flex flex-col gap-4 border-l-2 border-primary">
             <div class="flex items-center justify-between">
@@ -152,45 +178,62 @@
                 </div>
             </div>
 
-            <form class="flex flex-col gap-3" action="#" method="POST" onsubmit="event.preventDefault(); alert('Submission Received!');">
+            <form id="submission-form" class="flex flex-col gap-3.5" action="#" method="POST">
 
-                <!-- GitHub Repo / Commit URL -->
+                <!-- GitHub Repo / Commit URL with Link Verification -->
                 <div class="flex flex-col gap-1">
-                    <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">GitHub Repository / Commit URL <span class="text-primary">*</span></label>
+                    <div class="flex items-center justify-between">
+                        <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">GitHub Repo / Commit URL <span class="text-primary">*</span></label>
+                        <span id="gh-badge" class="text-[9px] font-code-sm text-on-surface-variant/50">Unverified</span>
+                    </div>
                     <div class="relative flex items-center">
                         <span class="material-symbols-outlined absolute left-3 text-on-surface-variant/50 text-base">code</span>
-                        <input type="url" required placeholder="https://github.com/user/repo/commit/..." class="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm"/>
+                        <input id="input-gh" type="url" required placeholder="https://github.com/username/repo" class="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm transition-all"/>
                     </div>
                 </div>
 
                 <!-- Live Deployment URL -->
                 <div class="flex flex-col gap-1">
-                    <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">Live Deployment URL <span class="text-primary">*</span></label>
+                    <div class="flex items-center justify-between">
+                        <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">Live Deployment URL <span class="text-primary">*</span></label>
+                        <span id="deploy-badge" class="text-[9px] font-code-sm text-on-surface-variant/50">Unverified</span>
+                    </div>
                     <div class="relative flex items-center">
                         <span class="material-symbols-outlined absolute left-3 text-on-surface-variant/50 text-base">link</span>
-                        <input type="url" required placeholder="https://your-app.vercel.app" class="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm"/>
+                        <input id="input-deploy" type="url" required placeholder="https://your-app.vercel.app" class="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm transition-all"/>
                     </div>
                 </div>
 
                 <!-- LinkedIn Post URL -->
                 <div class="flex flex-col gap-1">
-                    <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">LinkedIn Post URL <span class="text-primary">*</span></label>
+                    <div class="flex items-center justify-between">
+                        <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">LinkedIn Post URL <span class="text-primary">*</span></label>
+                        <span id="li-badge" class="text-[9px] font-code-sm text-on-surface-variant/50">Unverified</span>
+                    </div>
                     <div class="relative flex items-center">
                         <span class="material-symbols-outlined absolute left-3 text-on-surface-variant/50 text-base">share</span>
-                        <input type="url" required placeholder="https://linkedin.com/posts/..." class="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm"/>
+                        <input id="input-li" type="url" required placeholder="https://linkedin.com/posts/..." class="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm transition-all"/>
                     </div>
                 </div>
 
-                <!-- Pre-formatted Route Map -->
-                <div class="flex flex-col gap-1">
+                <!-- Required Route Map Block (Fixed & Enhancd with 1-Click Copy) -->
+                <div class="flex flex-col gap-1.5 pt-1">
                     <div class="flex items-center justify-between">
-                        <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">Route Map (Automated Screenshot Verification)</label>
-                        <span class="text-[9px] font-code-sm text-emerald-400">Exact Format</span>
+                        <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider flex items-center gap-1">
+                            <span class="material-symbols-outlined text-xs text-amber-400">verified</span>
+                            Route Map (Automated Verification)
+                        </label>
+                        <button type="button" onclick="copyRouteMap()" class="text-[9px] font-code-sm text-secondary bg-secondary/10 px-2 py-0.5 rounded border border-secondary/20 hover:bg-secondary/20 transition-all flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[11px]">content_copy</span>
+                            <span id="copy-text">Copy Map</span>
+                        </button>
                     </div>
-                    <textarea readonly rows="3" class="w-full bg-black/60 border border-white/10 rounded-lg p-2.5 text-xs text-secondary font-code-sm leading-relaxed resize-none focus:outline-none">//
+                    
+                    <textarea id="route-map-text" readonly rows="3" class="w-full bg-black/60 border border-white/10 rounded-lg p-2.5 text-xs text-emerald-400 font-code-sm leading-relaxed resize-none focus:outline-none cursor-pointer" onclick="copyRouteMap()">/
 /dashboard
 /day/12</textarea>
-                    <span class="text-[9px] font-code-sm text-on-surface-variant/60">Automated evaluation captures viewports at 390px mobile width for these paths.</span>
+                    
+                    <span class="text-[9px] font-code-sm text-on-surface-variant/60">Automated grading captures viewports at 390px mobile width for these exact paths.</span>
                 </div>
 
                 <!-- Submit Button -->
@@ -220,6 +263,82 @@
     </nav>
 
 </div>
+
+<script>
+    // Live Input Verification Script
+    const inputGh = document.getElementById('input-gh');
+    const inputDeploy = document.getElementById('input-deploy');
+    const inputLi = document.getElementById('input-li');
+
+    function validateLinks() {
+        let count = 0;
+
+        // GitHub Validation
+        const ghValid = inputGh.value.includes('github.com');
+        updateStatus('gh', ghValid, 'input-gh', 'gh-badge', 'check-gh', 'icon-gh');
+        if (ghValid) count++;
+
+        // Live Deployment Validation
+        const deployValid = inputDeploy.value.startsWith('http://') || inputDeploy.value.startsWith('https://');
+        updateStatus('deploy', deployValid && inputDeploy.value.length > 8, 'input-deploy', 'deploy-badge', 'check-deploy', 'icon-deploy');
+        if (deployValid && inputDeploy.value.length > 8) count++;
+
+        // LinkedIn Validation
+        const liValid = inputLi.value.includes('linkedin.com');
+        updateStatus('li', liValid, 'input-li', 'li-badge', 'check-li', 'icon-li');
+        if (liValid) count++;
+
+        // Status Header Update
+        const statusHeader = document.getElementById('completion-status');
+        statusHeader.innerText = `${count} / 3 Verified`;
+        if (count === 3) {
+            statusHeader.className = "text-[9px] font-code-sm text-emerald-400 font-bold";
+        } else {
+            statusHeader.className = "text-[9px] font-code-sm text-amber-400 font-bold";
+        }
+    }
+
+    function updateStatus(type, isValid, inputId, badgeId, checkCardId, iconId) {
+        const input = document.getElementById(inputId);
+        const badge = document.getElementById(badgeId);
+        const checkCard = document.getElementById(checkCardId);
+        const icon = document.getElementById(iconId);
+
+        if (isValid) {
+            badge.innerText = "Verified ✓";
+            badge.className = "text-[9px] font-code-sm text-emerald-400 font-bold";
+            icon.innerText = "check_circle";
+            icon.className = "material-symbols-outlined text-sm text-emerald-400";
+            checkCard.className = "bg-emerald-500/10 p-2 rounded border border-emerald-500/30 text-center flex flex-col items-center gap-1 transition-all";
+        } else {
+            badge.innerText = input.value.length > 0 ? "Invalid Format" : "Unverified";
+            badge.className = "text-[9px] font-code-sm text-on-surface-variant/50";
+            icon.innerText = "cancel";
+            icon.className = "material-symbols-outlined text-sm text-on-surface-variant/40";
+            checkCard.className = "bg-black/30 p-2 rounded border border-white/5 text-center flex flex-col items-center gap-1 transition-all";
+        }
+    }
+
+    inputGh.addEventListener('input', validateLinks);
+    inputDeploy.addEventListener('input', validateLinks);
+    inputLi.addEventListener('input', validateLinks);
+
+    function copyRouteMap() {
+        const text = document.getElementById('route-map-text').value;
+        navigator.clipboard.writeText(text);
+        const copyBtn = document.getElementById('copy-text');
+        copyBtn.innerText = "Copied!";
+        setTimeout(() => {
+            copyBtn.innerText = "Copy Map";
+        }, 2000);
+    }
+
+    document.getElementById('submission-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Challenge Submitted Successfully! Evaluation underway.');
+        window.location.href = '/dashboard/submissions';
+    });
+</script>
 
 </body>
 </html>
