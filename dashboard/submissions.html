@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-    <title>Submit Day 12 - ABTalks 60-Day Tech Challenge</title>
+    <title>Submissions - ABTalks 60-Day Tech Challenge</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,7 +47,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { min-height: 100dvh; background-color: var(--bg-color); color: #e5e1e4; font-family: 'Geist', sans-serif; overflow-x: hidden; }
         .glass-panel { background: rgba(22, 22, 26, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5); }
-        .glass-card-glow { background: linear-gradient(135deg, rgba(25, 25, 30, 0.9), rgba(18, 18, 22, 0.8)); backdrop-filter: blur(28px); border: 1px solid rgba(249, 115, 22, 0.3); box-shadow: 0 0 35px -5px rgba(249, 115, 22, 0.25), 0 8px 32px 0 rgba(0, 0, 0, 0.6); }
         .glass-nav { background: rgba(13, 13, 16, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
         .material-symbols-outlined { font-display: block; display: inline-block; white-space: nowrap; word-wrap: normal; direction: ltr; -webkit-font-smoothing: antialiased; }
     </style>
@@ -58,77 +57,78 @@
 
     <!-- Header -->
     <header class="sticky top-0 w-full z-50 glass-nav flex items-center justify-between px-4 h-16">
-        <a href="/dashboard" class="flex items-center gap-2.5 cursor-pointer group">
-            <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                <span class="material-symbols-outlined text-primary text-lg">arrow_back</span>
-            </div>
+        <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-primary text-2xl">history</span>
             <div class="flex flex-col">
-                <span class="font-display-sm text-sm font-extrabold tracking-tight bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent">Submit Work</span>
-                <span class="text-[9px] font-code-sm text-on-surface-variant/70 tracking-widest uppercase">Day 12 • LRU Cache</span>
+                <span class="font-display-sm text-sm font-extrabold tracking-tight text-white">Submission History</span>
+                <span class="text-[9px] font-code-sm text-on-surface-variant/70 tracking-widest uppercase">Verified Proofs</span>
             </div>
-        </a>
-
-        <div class="text-[10px] font-code-sm text-secondary bg-secondary/10 px-2.5 py-1 rounded-full border border-secondary/20 font-bold">
-            +100 PTS
         </div>
     </header>
 
-    <main class="flex-1 px-4 pt-5 pb-12 flex flex-col gap-5">
+    <main class="flex-1 px-4 pt-5 pb-28 flex flex-col gap-3" id="submission-list">
 
-        <form id="submission-form" class="glass-card-glow p-5 rounded-2xl flex flex-col gap-4">
-            <div class="flex flex-col gap-1 border-b border-white/10 pb-3">
-                <h2 class="text-base font-extrabold text-white">Proof of Work</h2>
-                <p class="text-xs text-on-surface-variant/70">Submit your repo and live project link to claim today's points.</p>
+        <!-- Day 12 Card (Rendered via JS if submitted) -->
+        <div id="day12-history-card" class="hidden glass-panel p-4 rounded-2xl flex flex-col gap-2 border-l-4 border-l-emerald-400">
+            <div class="flex items-center justify-between">
+                <span class="text-[10px] font-code-sm font-bold text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded border border-emerald-400/20">DAY 12 • VERIFIED</span>
+                <span class="text-xs font-code-sm font-bold text-secondary">+100 PTS</span>
             </div>
-
-            <div class="flex flex-col gap-1.5">
-                <label class="text-xs font-code-sm font-bold text-white flex items-center gap-1.5">
-                    <span class="material-symbols-outlined text-primary text-sm">code</span>
-                    GitHub Repository URL *
-                </label>
-                <input type="url" id="gh-input" required placeholder="https://github.com/username/lru-cache" class="bg-black/60 border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-on-surface-variant/40 focus:outline-none focus:border-primary font-code-sm"/>
+            <h3 class="text-sm font-bold text-white">LRU Cache Architecture</h3>
+            <div class="flex flex-wrap gap-2 pt-1">
+                <a id="history-gh-link" href="#" target="_blank" class="text-[10px] font-code-sm bg-white/5 border border-white/10 px-2.5 py-1 rounded-lg text-primary flex items-center gap-1 hover:bg-white/10">
+                    <span class="material-symbols-outlined text-xs">code</span> GitHub Repo
+                </a>
+                <a id="history-deploy-link" href="#" target="_blank" class="text-[10px] font-code-sm bg-white/5 border border-white/10 px-2.5 py-1 rounded-lg text-secondary flex items-center gap-1 hover:bg-white/10">
+                    <span class="material-symbols-outlined text-xs">open_in_new</span> Live Demo
+                </a>
             </div>
+        </div>
 
-            <div class="flex flex-col gap-1.5">
-                <label class="text-xs font-code-sm font-bold text-white flex items-center gap-1.5">
-                    <span class="material-symbols-outlined text-primary text-sm">language</span>
-                    Live Demo / Vercel URL *
-                </label>
-                <input type="url" id="deploy-input" required placeholder="https://lru-cache-demo.vercel.app" class="bg-black/60 border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-on-surface-variant/40 focus:outline-none focus:border-primary font-code-sm"/>
+        <!-- Day 11 -->
+        <div class="glass-panel p-4 rounded-2xl flex flex-col gap-2 border-l-4 border-l-emerald-400">
+            <div class="flex items-center justify-between">
+                <span class="text-[10px] font-code-sm font-bold text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded border border-emerald-400/20">DAY 11 • VERIFIED</span>
+                <span class="text-xs font-code-sm font-bold text-secondary">+100 PTS</span>
             </div>
-
-            <div class="flex flex-col gap-1.5">
-                <label class="text-xs font-code-sm font-bold text-white flex items-center gap-1.5">
-                    <span class="material-symbols-outlined text-primary text-sm">share</span>
-                    LinkedIn Post URL (Optional)
-                </label>
-                <input type="url" id="li-input" placeholder="https://linkedin.com/posts/..." class="bg-black/60 border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-on-surface-variant/40 focus:outline-none focus:border-primary font-code-sm"/>
+            <h3 class="text-sm font-bold text-white">JWT Authentication Service</h3>
+            <div class="flex flex-wrap gap-2 pt-1">
+                <span class="text-[10px] font-code-sm bg-white/5 border border-white/10 px-2.5 py-1 rounded-lg text-on-surface-variant/70 flex items-center gap-1">
+                    <span class="material-symbols-outlined text-xs">check_circle</span> Verified
+                </span>
             </div>
-
-            <button type="submit" class="mt-2 w-full py-3 bg-gradient-to-r from-primary-container to-secondary text-black font-code-sm font-extrabold text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 shadow-lg hover:brightness-110 transition-all">
-                <span class="material-symbols-outlined text-base">check_circle</span>
-                Complete Day 12
-            </button>
-        </form>
+        </div>
 
     </main>
+
+    <!-- Navigation -->
+    <nav class="fixed bottom-0 w-full max-w-[420px] glass-nav h-16 z-50 border-t border-white/10 grid grid-cols-3 items-center text-center">
+        <a href="/dashboard" class="flex flex-col items-center gap-1 text-on-surface-variant/70 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-xl">dashboard</span>
+            <span class="text-[9px] font-code-sm uppercase">Dashboard</span>
+        </a>
+        <a href="/dashboard/leaderboard" class="flex flex-col items-center gap-1 text-on-surface-variant/70 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-xl">emoji_events</span>
+            <span class="text-[9px] font-code-sm uppercase">Leaderboard</span>
+        </a>
+        <a href="/dashboard/submissions" class="flex flex-col items-center gap-1 text-primary">
+            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">history</span>
+            <span class="text-[9px] font-code-sm font-bold uppercase">History</span>
+        </a>
+    </nav>
 </div>
 
 <script>
-    document.getElementById('submission-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const gh = document.getElementById('gh-input').value;
-        const deploy = document.getElementById('deploy-input').value;
-        const li = document.getElementById('li-input').value;
+    if (sessionStorage.getItem('day12_submitted') === 'true') {
+        const card = document.getElementById('day12-history-card');
+        card.classList.remove('hidden');
 
-        sessionStorage.setItem('day12_submitted', 'true');
-        sessionStorage.setItem('gh_url', gh);
-        sessionStorage.setItem('deploy_url', deploy);
-        if (li) sessionStorage.setItem('li_url', li);
+        const gh = sessionStorage.getItem('gh_url');
+        const deploy = sessionStorage.getItem('deploy_url');
 
-        window.location.href = '/dashboard';
-    });
+        if (gh) document.getElementById('history-gh-link').href = gh;
+        if (deploy) document.getElementById('history-deploy-link').href = deploy;
+    }
 </script>
 
 </body>
