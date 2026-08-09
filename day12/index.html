@@ -40,101 +40,140 @@
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700" rel="stylesheet"/>
 
     <style>
-        :root { --bg-color: #131315; }
+        :root { --bg-color: #0b0b0d; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { min-height: 100dvh; background-color: var(--bg-color); color: #e5e1e4; font-family: 'Geist', sans-serif; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
-        .glass-panel { background: rgba(25, 25, 28, 0.65); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
-        .glass-card-glow { background: rgba(25, 25, 28, 0.85); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); border: 1px solid rgba(249, 115, 22, 0.3); box-shadow: 0 0 35px -5px rgba(249, 115, 22, 0.2), 0 8px 32px 0 rgba(0, 0, 0, 0.5); }
-        .glass-nav { background: rgba(19, 19, 21, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+        .glass-panel { background: rgba(22, 22, 26, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5); }
+        .glass-card-glow { background: linear-gradient(135deg, rgba(25, 25, 30, 0.9), rgba(18, 18, 22, 0.8)); backdrop-filter: blur(28px); border: 1px solid rgba(249, 115, 22, 0.3); box-shadow: 0 0 35px -5px rgba(249, 115, 22, 0.25), 0 8px 32px 0 rgba(0, 0, 0, 0.6); }
+        .glass-nav { background: rgba(13, 13, 16, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+        .input-glow:focus { border-color: #f97316; box-shadow: 0 0 15px -3px rgba(249, 115, 22, 0.3); }
     </style>
 </head>
-<body class="relative flex justify-center items-center min-h-screen">
+<body class="relative flex justify-center items-center min-h-screen bg-[#070709]">
 
-<div class="w-full max-w-[420px] min-h-screen relative z-10 flex flex-col bg-[#131315] border-x border-white/5 shadow-2xl">
+<div class="w-full max-w-[420px] min-h-screen relative z-10 flex flex-col bg-[#0b0b0d] border-x border-white/5 shadow-2xl">
 
+    <!-- Navbar -->
     <header class="sticky top-0 w-full z-50 glass-nav flex items-center justify-between px-4 h-16">
-        <a href="/dashboard" class="flex items-center gap-2 cursor-pointer">
-            <span class="material-symbols-outlined text-primary text-xl">arrow_back</span>
+        <a href="/dashboard" class="flex items-center gap-2.5 cursor-pointer group">
+            <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                <span class="material-symbols-outlined text-primary text-lg">arrow_back</span>
+            </div>
             <div class="flex flex-col">
                 <span class="font-display-sm text-sm font-extrabold tracking-tight bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent">ABTalks</span>
-                <span class="text-[8px] font-code-sm text-on-surface-variant/70 tracking-widest -mt-1 uppercase">Day 12 Challenge</span>
+                <span class="text-[9px] font-code-sm text-on-surface-variant/70 tracking-widest uppercase">Day 12 Challenge</span>
             </div>
         </a>
 
         <div class="flex items-center gap-2">
-            <span id="user-points" class="text-[10px] font-code-sm text-secondary bg-secondary/10 px-2.5 py-1 rounded-full border border-secondary/20 font-bold">
-                1,200 PTS
+            <span id="user-points" class="text-[11px] font-code-sm text-secondary bg-secondary/10 px-3 py-1 rounded-full border border-secondary/20 font-bold flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">stars</span>
+                <span id="pts-val">1,200</span> PTS
             </span>
         </div>
     </header>
 
-    <main class="flex-1 px-4 pt-5 pb-24 flex flex-col gap-5">
-        <section class="glass-card-glow p-4 rounded-2xl flex flex-col gap-2">
+    <main class="flex-1 px-4 pt-5 pb-28 flex flex-col gap-5">
+        <!-- Challenge Banner -->
+        <section class="glass-card-glow p-5 rounded-2xl flex flex-col gap-3 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none"></div>
+            
             <div class="flex items-center justify-between">
-                <span class="text-[10px] font-code-sm font-bold text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20">DAY 12 • SYSTEM DESIGN</span>
-                <span id="day-status-pill" class="text-[10px] font-code-sm text-amber-400 font-semibold flex items-center gap-1">
+                <span class="text-[10px] font-code-sm font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded-full border border-primary/20 uppercase tracking-wide">DAY 12 • SYSTEM DESIGN</span>
+                <span id="day-status-pill" class="text-[10px] font-code-sm text-amber-400 font-semibold flex items-center gap-1.5 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/20">
                     <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-                    ACTIVE TASK
+                    ACTIVE
                 </span>
             </div>
-            <h1 class="text-xl font-extrabold text-white tracking-tight">LRU Cache Architecture</h1>
-            <p class="text-xs text-on-surface-variant leading-relaxed">
-                Design and implement an in-memory Least Recently Used (LRU) Cache with <code class="font-code-sm text-secondary bg-white/5 px-1 py-0.5 rounded">O(1)</code> time complexity for both <code class="font-code-sm text-secondary bg-white/5 px-1 py-0.5 rounded font-bold">get</code> and <code class="font-code-sm text-secondary bg-white/5 px-1 py-0.5 rounded font-bold">put</code> operations.
+            
+            <h1 class="text-2xl font-extrabold text-white tracking-tight leading-tight">LRU Cache Architecture</h1>
+            <p class="text-xs text-on-surface-variant/90 leading-relaxed font-normal">
+                Implement a high-performance Least Recently Used (LRU) Cache in memory with <code class="font-code-sm text-secondary bg-white/5 px-1.5 py-0.5 rounded text-[11px] border border-white/5">O(1)</code> time complexity for both <code class="font-code-sm text-primary">get()</code> and <code class="font-code-sm text-primary">put()</code> operations.
             </p>
         </section>
 
-        <section class="glass-panel p-4 rounded-xl flex flex-col gap-3">
+        <!-- Task Spec -->
+        <section class="glass-panel p-4 rounded-xl flex flex-col gap-2.5 border-l-2 border-secondary">
             <div class="flex items-center gap-2 text-white">
-                <span class="material-symbols-outlined text-primary text-lg">description</span>
-                <h2 class="text-xs font-code-sm font-bold uppercase tracking-wider">Problem Specification</h2>
+                <span class="material-symbols-outlined text-secondary text-lg">data_object</span>
+                <h2 class="text-xs font-code-sm font-bold uppercase tracking-wider">Implementation Requirements</h2>
             </div>
-            <p class="text-xs text-on-surface-variant/90 leading-relaxed">
-                An LRU cache evicts the least recently accessed key when its capacity limit is reached. Your implementation must combine a <strong>Doubly Linked List</strong> and a <strong>Hash Map</strong> to achieve constant time lookups and updates.
-            </p>
+            <ul class="text-xs text-on-surface-variant/80 flex flex-col gap-1.5 pl-5 list-disc font-normal">
+                <li>Combine a <strong>Doubly Linked List</strong> with a <strong>Hash Map</strong>.</li>
+                <li>Support custom capacity initialization.</li>
+                <li>Automatically evict least recently used elements when capacity exceeds limit.</li>
+            </ul>
         </section>
 
-        <section class="glass-panel p-4 rounded-xl flex flex-col gap-4 border-l-2 border-primary">
-            <div class="flex items-center justify-between">
+        <!-- Form Submission -->
+        <section class="glass-panel p-5 rounded-2xl flex flex-col gap-4 border border-white/10 relative">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3">
                 <div class="flex items-center gap-2 text-white">
-                    <span class="material-symbols-outlined text-secondary text-lg">upload_file</span>
+                    <span class="material-symbols-outlined text-primary text-xl">verified</span>
                     <h2 class="text-xs font-code-sm font-bold uppercase tracking-wider">Submit Proof of Work</h2>
                 </div>
+                <span class="text-[10px] font-code-sm text-emerald-400 flex items-center gap-1 font-semibold">
+                    <span class="material-symbols-outlined text-xs">add_task</span>
+                    +100 PTS
+                </span>
             </div>
 
-            <form id="submission-form" class="flex flex-col gap-3.5">
-                <div class="flex flex-col gap-1">
-                    <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">GitHub Repo / Commit URL <span class="text-primary">*</span></label>
-                    <input id="input-gh" type="url" required placeholder="https://github.com/username/repo" class="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm"/>
+            <form id="submission-form" class="flex flex-col gap-4">
+                <!-- GitHub -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider flex justify-between">
+                        <span>GitHub Repo / Commit URL</span>
+                        <span id="gh-validation" class="text-amber-400 font-bold hidden">Invalid URL</span>
+                    </label>
+                    <div class="relative flex items-center">
+                        <span class="material-symbols-outlined absolute left-3 text-on-surface-variant/50 text-sm">code</span>
+                        <input id="input-gh" type="url" required placeholder="https://github.com/username/lru-cache" class="w-full bg-black/50 border border-white/10 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-on-surface-variant/30 focus:outline-none input-glow font-code-sm transition-all"/>
+                    </div>
                 </div>
 
-                <div class="flex flex-col gap-1">
-                    <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">Live Deployment URL <span class="text-primary">*</span></label>
-                    <input id="input-deploy" type="url" required placeholder="https://your-app.vercel.app" class="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm"/>
+                <!-- Live Deploy -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider flex justify-between">
+                        <span>Live Deployment URL</span>
+                        <span id="deploy-validation" class="text-amber-400 font-bold hidden">Invalid URL</span>
+                    </label>
+                    <div class="relative flex items-center">
+                        <span class="material-symbols-outlined absolute left-3 text-on-surface-variant/50 text-sm">language</span>
+                        <input id="input-deploy" type="url" required placeholder="https://lru-cache-demo.vercel.app" class="w-full bg-black/50 border border-white/10 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-on-surface-variant/30 focus:outline-none input-glow font-code-sm transition-all"/>
+                    </div>
                 </div>
 
-                <div class="flex flex-col gap-1">
-                    <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">LinkedIn Post URL <span class="text-primary">*</span></label>
-                    <input id="input-li" type="url" required placeholder="https://linkedin.com/posts/..." class="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm"/>
+                <!-- LinkedIn -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider flex justify-between">
+                        <span>LinkedIn Post URL</span>
+                        <span id="li-validation" class="text-amber-400 font-bold hidden">Invalid LinkedIn URL</span>
+                    </label>
+                    <div class="relative flex items-center">
+                        <span class="material-symbols-outlined absolute left-3 text-on-surface-variant/50 text-sm">share</span>
+                        <input id="input-li" type="url" required placeholder="https://linkedin.com/posts/username_challenge-activity..." class="w-full bg-black/50 border border-white/10 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-on-surface-variant/30 focus:outline-none input-glow font-code-sm transition-all"/>
+                    </div>
                 </div>
 
-                <button id="submit-btn" type="submit" class="mt-2 w-full bg-gradient-to-r from-primary-container to-primary text-on-primary font-code-sm font-bold text-xs py-3 rounded-lg shadow-lg hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2 uppercase tracking-wider">
-                    <span class="material-symbols-outlined text-base">send</span>
+                <button id="submit-btn" type="submit" class="mt-2 w-full bg-gradient-to-r from-primary-container via-primary to-secondary text-on-primary font-code-sm font-extrabold text-xs py-3.5 rounded-xl shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 uppercase tracking-wider">
+                    <span class="material-symbols-outlined text-lg">rocket_launch</span>
                     Submit Day 12 Solution
                 </button>
             </form>
         </section>
     </main>
 
+    <!-- Bottom Nav -->
     <nav class="fixed bottom-0 w-full max-w-[420px] glass-nav h-16 z-50 border-t border-white/10 grid grid-cols-3 items-center text-center">
-        <a href="/dashboard" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
+        <a href="/dashboard" class="flex flex-col items-center gap-1 text-on-surface-variant/70 hover:text-white transition-colors">
             <span class="material-symbols-outlined text-xl">dashboard</span>
             <span class="text-[9px] font-code-sm uppercase">Dashboard</span>
         </a>
-        <a href="/dashboard/leaderboard" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
+        <a href="/dashboard/leaderboard" class="flex flex-col items-center gap-1 text-on-surface-variant/70 hover:text-white transition-colors">
             <span class="material-symbols-outlined text-xl">emoji_events</span>
             <span class="text-[9px] font-code-sm uppercase">Leaderboard</span>
         </a>
-        <a href="/dashboard/submissions" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
+        <a href="/dashboard/submissions" class="flex flex-col items-center gap-1 text-on-surface-variant/70 hover:text-white transition-colors">
             <span class="material-symbols-outlined text-xl">history</span>
             <span class="text-[9px] font-code-sm uppercase">History</span>
         </a>
@@ -145,31 +184,59 @@
     const isSubmitted = sessionStorage.getItem('day12_submitted') === 'true';
 
     if (isSubmitted) {
-        document.getElementById('user-points').innerText = '1,300 PTS';
-        document.getElementById('day-status-pill').className = "text-[10px] font-code-sm text-emerald-400 font-semibold flex items-center gap-1 bg-emerald-400/10 px-2 py-0.5 rounded border border-emerald-400/20";
-        document.getElementById('day-status-pill').innerText = "✓ COMPLETED";
+        document.getElementById('pts-val').innerText = '1,300';
+        document.getElementById('day-status-pill').className = "text-[10px] font-code-sm text-emerald-400 font-semibold flex items-center gap-1 bg-emerald-400/10 px-2.5 py-0.5 rounded-full border border-emerald-400/20";
+        document.getElementById('day-status-pill').innerHTML = "✓ VERIFIED";
         
+        // Prefill inputs
+        document.getElementById('input-gh').value = sessionStorage.getItem('gh_url') || '';
+        document.getElementById('input-deploy').value = sessionStorage.getItem('deploy_url') || '';
+        document.getElementById('input-li').value = sessionStorage.getItem('li_url') || '';
+
+        document.getElementById('input-gh').disabled = true;
+        document.getElementById('input-deploy').disabled = true;
+        document.getElementById('input-li').disabled = true;
+
         const btn = document.getElementById('submit-btn');
-        btn.innerText = "Already Submitted (+100 PTS)";
+        btn.innerHTML = `<span class="material-symbols-outlined text-lg">check_circle</span> Submitted & Points Added (+100 PTS)`;
         btn.disabled = true;
-        btn.className = "mt-2 w-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-code-sm font-bold text-xs py-3 rounded-lg flex items-center justify-center gap-2 uppercase tracking-wider opacity-80 cursor-not-allowed";
+        btn.className = "mt-2 w-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-code-sm font-bold text-xs py-3.5 rounded-xl flex items-center justify-center gap-2 uppercase tracking-wider cursor-not-allowed";
     }
 
     document.getElementById('submission-form').addEventListener('submit', (e) => {
         e.preventDefault();
         
-        const ghUrl = document.getElementById('input-gh').value;
-        const deployUrl = document.getElementById('input-deploy').value;
-        const liUrl = document.getElementById('input-li').value;
+        const ghUrl = document.getElementById('input-gh').value.trim();
+        const deployUrl = document.getElementById('input-deploy').value.trim();
+        const liUrl = document.getElementById('input-li').value.trim();
+
+        // Verification checks
+        let isValid = true;
+
+        if (!ghUrl.includes('github.com')) {
+            document.getElementById('gh-validation').classList.remove('hidden');
+            isValid = false;
+        } else {
+            document.getElementById('gh-validation').classList.add('hidden');
+        }
+
+        if (!liUrl.includes('linkedin.com')) {
+            document.getElementById('li-validation').classList.remove('hidden');
+            isValid = false;
+        } else {
+            document.getElementById('li-validation').classList.add('hidden');
+        }
+
+        if (!isValid) return;
 
         sessionStorage.setItem('day12_submitted', 'true');
         sessionStorage.setItem('user_points', '1300');
         sessionStorage.setItem('user_streak', '12');
+        sessionStorage.setItem('user_rank', '12');
         sessionStorage.setItem('gh_url', ghUrl);
         sessionStorage.setItem('deploy_url', deployUrl);
         sessionStorage.setItem('li_url', liUrl);
 
-        alert('Challenge Submitted! +100 Points added. Streak is now 12 🔥');
         window.location.href = '/dashboard';
     });
 </script>
