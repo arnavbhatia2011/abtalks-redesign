@@ -5,6 +5,9 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
     <title>Leaderboard - ABTalks 60-Day Tech Challenge</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
     <script>
@@ -36,8 +39,8 @@
         }
     </script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 
     <style>
         :root { --bg-color: #0b0b0d; }
@@ -49,6 +52,15 @@
         .podium-glow-1 { box-shadow: 0 0 40px -10px rgba(255, 198, 64, 0.35); }
         .podium-glow-2 { box-shadow: 0 0 30px -10px rgba(203, 213, 225, 0.2); }
         .podium-glow-3 { box-shadow: 0 0 30px -10px rgba(217, 119, 6, 0.2); }
+
+        .material-symbols-outlined {
+            font-display: block;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-smoothing: antialiased;
+        }
     </style>
 </head>
 <body class="relative flex justify-center items-center min-h-screen bg-[#070709]">
@@ -146,7 +158,7 @@
             </div>
 
             <div id="rankings-list" class="flex flex-col gap-2">
-                <!-- Dynamically populated via JS for 100% mathematical accuracy -->
+                <!-- Dynamically populated via JS -->
             </div>
         </section>
 
@@ -180,12 +192,10 @@
     let nearbyList = [];
 
     if (isSubmitted) {
-        // User has 1,300 PTS -> Rank #12
         rankElement.innerText = '#12';
         streakElement.innerText = '12-Day Streak 🔥';
         ptsElement.innerText = '1,300 PTS';
 
-        // Surrounding ranks for 1,300 PTS (Rank #12)
         nearbyList = [
             { rank: 10, avatar: 'MT', name: 'Marcus T.', streak: '12-Day Streak 🔥', pts: '1,350 PTS' },
             { rank: 11, avatar: 'PS', name: 'Priya S.', streak: '12-Day Streak 🔥', pts: '1,320 PTS' },
@@ -193,12 +203,10 @@
             { rank: 14, avatar: 'VP', name: 'Vikram P.', streak: '12-Day Streak 🔥', pts: '1,220 PTS' }
         ];
     } else {
-        // User has 1,200 PTS -> Rank #14
         rankElement.innerText = '#14';
         streakElement.innerText = '11-Day Streak 🔥';
         ptsElement.innerText = '1,200 PTS';
 
-        // Surrounding ranks for 1,200 PTS (Rank #14)
         nearbyList = [
             { rank: 11, avatar: 'SN', name: 'Sarah N.', streak: '12-Day Streak 🔥', pts: '1,230 PTS' },
             { rank: 12, avatar: 'VP', name: 'Vikram P.', streak: '12-Day Streak 🔥', pts: '1,220 PTS' },
@@ -207,7 +215,6 @@
         ];
     }
 
-    // Render neighboring rankings
     rankingsContainer.innerHTML = nearbyList.map(item => `
         <div class="flex items-center justify-between p-2.5 bg-black/40 rounded-xl border border-white/5 hover:border-white/20 transition-all">
             <div class="flex items-center gap-3">
