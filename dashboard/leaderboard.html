@@ -85,7 +85,7 @@
                     AK
                 </div>
                 <span class="text-xs font-bold text-white truncate w-full">Aarav K.</span>
-                <span id="rank2-pts" class="text-[10px] font-code-sm text-secondary font-extrabold">1,480 PTS</span>
+                <span class="text-[10px] font-code-sm text-secondary font-extrabold">1,480 PTS</span>
                 <span class="text-[9px] font-code-sm text-emerald-400 mt-1 bg-emerald-400/10 px-1.5 py-0.5 rounded border border-emerald-400/20">12 Days</span>
             </div>
 
@@ -98,7 +98,7 @@
                     </div>
                 </div>
                 <span class="text-xs font-black text-white truncate w-full">DevX</span>
-                <span id="rank1-pts" class="text-[11px] font-code-sm text-amber-400 font-black tracking-tight">1,550 PTS</span>
+                <span class="text-[11px] font-code-sm text-amber-400 font-black tracking-tight">1,550 PTS</span>
                 <span class="text-[9px] font-code-sm text-amber-300 mt-1 bg-amber-400/15 px-2 py-0.5 rounded-full border border-amber-400/30 font-bold">👑 Leader</span>
             </div>
 
@@ -109,7 +109,7 @@
                     RM
                 </div>
                 <span class="text-xs font-bold text-white truncate w-full">Rohan M.</span>
-                <span id="rank3-pts" class="text-[10px] font-code-sm text-secondary font-extrabold">1,420 PTS</span>
+                <span class="text-[10px] font-code-sm text-secondary font-extrabold">1,420 PTS</span>
                 <span class="text-[9px] font-code-sm text-emerald-400 mt-1 bg-emerald-400/10 px-1.5 py-0.5 rounded border border-emerald-400/20">12 Days</span>
             </div>
 
@@ -140,56 +140,13 @@
             <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
                 <span class="text-xs font-code-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
                     <span class="material-symbols-outlined text-primary text-base">format_list_numbered</span>
-                    Rankings List
+                    Nearby Rankings
                 </span>
                 <span class="text-[10px] font-code-sm text-on-surface-variant/60">Updated Live</span>
             </div>
 
-            <div class="flex flex-col gap-2">
-                <!-- Rank 11 -->
-                <div class="flex items-center justify-between p-2.5 bg-black/40 rounded-xl border border-white/5 hover:border-white/20 transition-all">
-                    <div class="flex items-center gap-3">
-                        <span class="w-6 text-center font-code-sm text-xs font-bold text-on-surface-variant/80">11</span>
-                        <div class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs font-bold text-white">
-                            SN
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-xs font-bold text-white">Sarah N.</span>
-                            <span class="text-[9px] font-code-sm text-on-surface-variant/60">12-Day Streak 🔥</span>
-                        </div>
-                    </div>
-                    <span id="rank11-pts" class="text-xs font-code-sm font-bold text-secondary">1,230 PTS</span>
-                </div>
-
-                <!-- Rank 12 -->
-                <div class="flex items-center justify-between p-2.5 bg-black/40 rounded-xl border border-white/5 hover:border-white/20 transition-all">
-                    <div class="flex items-center gap-3">
-                        <span class="w-6 text-center font-code-sm text-xs font-bold text-on-surface-variant/80">12</span>
-                        <div class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs font-bold text-white">
-                            VP
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-xs font-bold text-white">Vikram P.</span>
-                            <span class="text-[9px] font-code-sm text-on-surface-variant/60">12-Day Streak 🔥</span>
-                        </div>
-                    </div>
-                    <span id="rank12-pts" class="text-xs font-code-sm font-bold text-secondary">1,220 PTS</span>
-                </div>
-
-                <!-- Rank 13 -->
-                <div class="flex items-center justify-between p-2.5 bg-black/40 rounded-xl border border-white/5 hover:border-white/20 transition-all">
-                    <div class="flex items-center gap-3">
-                        <span class="w-6 text-center font-code-sm text-xs font-bold text-on-surface-variant/80">13</span>
-                        <div class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs font-bold text-white">
-                            CL
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-xs font-bold text-white">Chen L.</span>
-                            <span class="text-[9px] font-code-sm text-on-surface-variant/60">11-Day Streak 🔥</span>
-                        </div>
-                    </div>
-                    <span id="rank13-pts" class="text-xs font-code-sm font-bold text-secondary">1,210 PTS</span>
-                </div>
+            <div id="rankings-list" class="flex flex-col gap-2">
+                <!-- Dynamically populated via JS for 100% mathematical accuracy -->
             </div>
         </section>
 
@@ -215,17 +172,57 @@
 <script>
     const isSubmitted = sessionStorage.getItem('day12_submitted') === 'true';
 
+    const rankElement = document.getElementById('user-lb-rank');
+    const streakElement = document.getElementById('user-lb-streak');
+    const ptsElement = document.getElementById('user-lb-pts');
+    const rankingsContainer = document.getElementById('rankings-list');
+
+    let nearbyList = [];
+
     if (isSubmitted) {
-        // Updated after Day 12 submission (1,300 PTS -> Rank #12)
-        document.getElementById('user-lb-rank').innerText = '#12';
-        document.getElementById('user-lb-streak').innerText = '12-Day Streak 🔥';
-        document.getElementById('user-lb-pts').innerText = '1,300 PTS';
+        // User has 1,300 PTS -> Rank #12
+        rankElement.innerText = '#12';
+        streakElement.innerText = '12-Day Streak 🔥';
+        ptsElement.innerText = '1,300 PTS';
+
+        // Surrounding ranks for 1,300 PTS (Rank #12)
+        nearbyList = [
+            { rank: 10, avatar: 'MT', name: 'Marcus T.', streak: '12-Day Streak 🔥', pts: '1,350 PTS' },
+            { rank: 11, avatar: 'PS', name: 'Priya S.', streak: '12-Day Streak 🔥', pts: '1,320 PTS' },
+            { rank: 13, avatar: 'SN', name: 'Sarah N.', streak: '12-Day Streak 🔥', pts: '1,230 PTS' },
+            { rank: 14, avatar: 'VP', name: 'Vikram P.', streak: '12-Day Streak 🔥', pts: '1,220 PTS' }
+        ];
     } else {
-        // Default before Day 12 submission (1,200 PTS -> Rank #14)
-        document.getElementById('user-lb-rank').innerText = '#14';
-        document.getElementById('user-lb-streak').innerText = '11-Day Streak 🔥';
-        document.getElementById('user-lb-pts').innerText = '1,200 PTS';
+        // User has 1,200 PTS -> Rank #14
+        rankElement.innerText = '#14';
+        streakElement.innerText = '11-Day Streak 🔥';
+        ptsElement.innerText = '1,200 PTS';
+
+        // Surrounding ranks for 1,200 PTS (Rank #14)
+        nearbyList = [
+            { rank: 11, avatar: 'SN', name: 'Sarah N.', streak: '12-Day Streak 🔥', pts: '1,230 PTS' },
+            { rank: 12, avatar: 'VP', name: 'Vikram P.', streak: '12-Day Streak 🔥', pts: '1,220 PTS' },
+            { rank: 13, avatar: 'CL', name: 'Chen L.', streak: '11-Day Streak 🔥', pts: '1,210 PTS' },
+            { rank: 15, avatar: 'AR', name: 'Alex R.', streak: '10-Day Streak 🔥', pts: '1,190 PTS' }
+        ];
     }
+
+    // Render neighboring rankings
+    rankingsContainer.innerHTML = nearbyList.map(item => `
+        <div class="flex items-center justify-between p-2.5 bg-black/40 rounded-xl border border-white/5 hover:border-white/20 transition-all">
+            <div class="flex items-center gap-3">
+                <span class="w-6 text-center font-code-sm text-xs font-bold text-on-surface-variant/80">${item.rank}</span>
+                <div class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs font-bold text-white">
+                    ${item.avatar}
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-xs font-bold text-white">${item.name}</span>
+                    <span class="text-[9px] font-code-sm text-on-surface-variant/60">${item.streak}</span>
+                </div>
+            </div>
+            <span class="text-xs font-code-sm font-bold text-secondary">${item.pts}</span>
+        </div>
+    `).join('');
 </script>
 
 </body>
