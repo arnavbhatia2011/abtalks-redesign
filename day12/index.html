@@ -98,8 +98,8 @@
         </a>
 
         <div class="flex items-center gap-2">
-            <span class="text-[10px] font-code-sm text-secondary bg-secondary/10 px-2.5 py-1 rounded-full border border-secondary/20 font-bold">
-                +100 PTS
+            <span id="user-points" class="text-[10px] font-code-sm text-secondary bg-secondary/10 px-2.5 py-1 rounded-full border border-secondary/20 font-bold">
+                1,200 PTS
             </span>
         </div>
     </header>
@@ -219,21 +219,17 @@
 </div>
 
 <script>
-    // Live Input Verification
     const inputGh = document.getElementById('input-gh');
     const inputDeploy = document.getElementById('input-deploy');
     const inputLi = document.getElementById('input-li');
 
     function validateLinks() {
-        // GitHub
         const ghValid = inputGh.value.includes('github.com');
         updateBadge('input-gh', 'gh-badge', ghValid);
 
-        // Live Deployment
         const deployValid = (inputDeploy.value.startsWith('http://') || inputDeploy.value.startsWith('https://')) && inputDeploy.value.length > 8;
         updateBadge('input-deploy', 'deploy-badge', deployValid);
 
-        // LinkedIn
         const liValid = inputLi.value.includes('linkedin.com');
         updateBadge('input-li', 'li-badge', liValid);
     }
@@ -255,10 +251,18 @@
     inputDeploy.addEventListener('input', validateLinks);
     inputLi.addEventListener('input', validateLinks);
 
+    // On Submission: Update Streak to 12 & Mark Day 12 Complete
     document.getElementById('submission-form').addEventListener('submit', (e) => {
         e.preventDefault();
-        alert('Challenge Submitted Successfully!');
-        window.location.href = '/dashboard/submissions';
+        
+        // Save state to localStorage
+        localStorage.setItem('day12_submitted', 'true');
+        localStorage.setItem('user_streak', '12');
+        localStorage.setItem('completed_days', '12');
+        localStorage.setItem('user_points', '1300');
+
+        alert('Challenge Submitted Successfully! Streak updated to 12 Days 🔥');
+        window.location.href = '/dashboard';
     });
 </script>
 
