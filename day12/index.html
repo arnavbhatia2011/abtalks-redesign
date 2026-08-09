@@ -40,54 +40,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700" rel="stylesheet"/>
 
     <style>
-        :root {
-            --bg-color: #131315;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            min-height: 100dvh;
-            background-color: var(--bg-color);
-            color: #e5e1e4;
-            font-family: 'Geist', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            overflow-x: hidden;
-        }
-
-        .glass-panel {
-            background: rgba(25, 25, 28, 0.65);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-
-        .glass-card-glow {
-            background: rgba(25, 25, 28, 0.85);
-            backdrop-filter: blur(28px);
-            -webkit-backdrop-filter: blur(28px);
-            border: 1px solid rgba(249, 115, 22, 0.3);
-            box-shadow: 0 0 35px -5px rgba(249, 115, 22, 0.2), 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-        }
-
-        .glass-nav {
-            background: rgba(19, 19, 21, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
+        :root { --bg-color: #131315; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { min-height: 100dvh; background-color: var(--bg-color); color: #e5e1e4; font-family: 'Geist', sans-serif; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
+        .glass-panel { background: rgba(25, 25, 28, 0.65); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
+        .glass-card-glow { background: rgba(25, 25, 28, 0.85); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); border: 1px solid rgba(249, 115, 22, 0.3); box-shadow: 0 0 35px -5px rgba(249, 115, 22, 0.2), 0 8px 32px 0 rgba(0, 0, 0, 0.5); }
+        .glass-nav { background: rgba(19, 19, 21, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
     </style>
 </head>
 <body class="relative flex justify-center items-center min-h-screen">
 
 <div class="w-full max-w-[420px] min-h-screen relative z-10 flex flex-col bg-[#131315] border-x border-white/5 shadow-2xl">
 
-    <!-- Header Navigation -->
     <header class="sticky top-0 w-full z-50 glass-nav flex items-center justify-between px-4 h-16">
         <a href="/dashboard" class="flex items-center gap-2 cursor-pointer">
             <span class="material-symbols-outlined text-primary text-xl">arrow_back</span>
@@ -104,14 +68,11 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="flex-1 px-4 pt-5 pb-24 flex flex-col gap-5">
-
-        <!-- Challenge Banner -->
         <section class="glass-card-glow p-4 rounded-2xl flex flex-col gap-2">
             <div class="flex items-center justify-between">
                 <span class="text-[10px] font-code-sm font-bold text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20">DAY 12 • SYSTEM DESIGN</span>
-                <span class="text-[10px] font-code-sm text-amber-400 font-semibold flex items-center gap-1">
+                <span id="day-status-pill" class="text-[10px] font-code-sm text-amber-400 font-semibold flex items-center gap-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
                     ACTIVE TASK
                 </span>
@@ -122,7 +83,6 @@
             </p>
         </section>
 
-        <!-- Detailed Problem Statement -->
         <section class="glass-panel p-4 rounded-xl flex flex-col gap-3">
             <div class="flex items-center gap-2 text-white">
                 <span class="material-symbols-outlined text-primary text-lg">description</span>
@@ -131,19 +91,8 @@
             <p class="text-xs text-on-surface-variant/90 leading-relaxed">
                 An LRU cache evicts the least recently accessed key when its capacity limit is reached. Your implementation must combine a <strong>Doubly Linked List</strong> and a <strong>Hash Map</strong> to achieve constant time lookups and updates.
             </p>
-
-            <div class="bg-black/40 p-3 rounded-lg border border-white/5 flex flex-col gap-2">
-                <span class="text-[10px] font-code-sm font-bold text-secondary uppercase tracking-wider">Key Requirements</span>
-                <ul class="text-[11px] text-on-surface-variant space-y-1.5 font-code-sm list-disc list-inside">
-                    <li>Initialize with fixed capacity <code class="text-white bg-white/10 px-1 rounded">capacity > 0</code>.</li>
-                    <li><code class="text-white bg-white/10 px-1 rounded">get(key)</code>: Return key value if exists, else <code class="text-amber-400">-1</code>.</li>
-                    <li><code class="text-white bg-white/10 px-1 rounded">put(key, value)</code>: Insert or update. Evict LRU node if full.</li>
-                    <li>Write comprehensive unit tests covering edge cases.</li>
-                </ul>
-            </div>
         </section>
 
-        <!-- Proof of Work Submission Form -->
         <section class="glass-panel p-4 rounded-xl flex flex-col gap-4 border-l-2 border-primary">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 text-white">
@@ -152,55 +101,30 @@
                 </div>
             </div>
 
-            <form id="submission-form" class="flex flex-col gap-3.5" action="#" method="POST">
-
-                <!-- GitHub Repo / Commit URL -->
+            <form id="submission-form" class="flex flex-col gap-3.5">
                 <div class="flex flex-col gap-1">
-                    <div class="flex items-center justify-between">
-                        <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">GitHub Repo / Commit URL <span class="text-primary">*</span></label>
-                        <span id="gh-badge" class="text-[9px] font-code-sm text-on-surface-variant/50">Unverified</span>
-                    </div>
-                    <div class="relative flex items-center">
-                        <span class="material-symbols-outlined absolute left-3 text-on-surface-variant/50 text-base">code</span>
-                        <input id="input-gh" type="url" required placeholder="https://github.com/username/repo" class="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm transition-all"/>
-                    </div>
+                    <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">GitHub Repo / Commit URL <span class="text-primary">*</span></label>
+                    <input id="input-gh" type="url" required placeholder="https://github.com/username/repo" class="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm"/>
                 </div>
 
-                <!-- Live Deployment URL -->
                 <div class="flex flex-col gap-1">
-                    <div class="flex items-center justify-between">
-                        <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">Live Deployment URL <span class="text-primary">*</span></label>
-                        <span id="deploy-badge" class="text-[9px] font-code-sm text-on-surface-variant/50">Unverified</span>
-                    </div>
-                    <div class="relative flex items-center">
-                        <span class="material-symbols-outlined absolute left-3 text-on-surface-variant/50 text-base">link</span>
-                        <input id="input-deploy" type="url" required placeholder="https://your-app.vercel.app" class="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm transition-all"/>
-                    </div>
+                    <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">Live Deployment URL <span class="text-primary">*</span></label>
+                    <input id="input-deploy" type="url" required placeholder="https://your-app.vercel.app" class="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm"/>
                 </div>
 
-                <!-- LinkedIn Post URL -->
                 <div class="flex flex-col gap-1">
-                    <div class="flex items-center justify-between">
-                        <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">LinkedIn Post URL <span class="text-primary">*</span></label>
-                        <span id="li-badge" class="text-[9px] font-code-sm text-on-surface-variant/50">Unverified</span>
-                    </div>
-                    <div class="relative flex items-center">
-                        <span class="material-symbols-outlined absolute left-3 text-on-surface-variant/50 text-base">share</span>
-                        <input id="input-li" type="url" required placeholder="https://linkedin.com/posts/..." class="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm transition-all"/>
-                    </div>
+                    <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">LinkedIn Post URL <span class="text-primary">*</span></label>
+                    <input id="input-li" type="url" required placeholder="https://linkedin.com/posts/..." class="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm"/>
                 </div>
 
-                <!-- Submit Button -->
-                <button type="submit" class="mt-2 w-full bg-gradient-to-r from-primary-container to-primary text-on-primary font-code-sm font-bold text-xs py-3 rounded-lg shadow-lg hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2 uppercase tracking-wider">
+                <button id="submit-btn" type="submit" class="mt-2 w-full bg-gradient-to-r from-primary-container to-primary text-on-primary font-code-sm font-bold text-xs py-3 rounded-lg shadow-lg hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2 uppercase tracking-wider">
                     <span class="material-symbols-outlined text-base">send</span>
                     Submit Day 12 Solution
                 </button>
             </form>
         </section>
-
     </main>
 
-    <!-- Bottom Navigation Bar -->
     <nav class="fixed bottom-0 w-full max-w-[420px] glass-nav h-16 z-50 border-t border-white/10 grid grid-cols-3 items-center text-center">
         <a href="/dashboard" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
             <span class="material-symbols-outlined text-xl">dashboard</span>
@@ -215,53 +139,37 @@
             <span class="text-[9px] font-code-sm uppercase">History</span>
         </a>
     </nav>
-
 </div>
 
 <script>
-    const inputGh = document.getElementById('input-gh');
-    const inputDeploy = document.getElementById('input-deploy');
-    const inputLi = document.getElementById('input-li');
+    const isSubmitted = sessionStorage.getItem('day12_submitted') === 'true';
 
-    function validateLinks() {
-        const ghValid = inputGh.value.includes('github.com');
-        updateBadge('input-gh', 'gh-badge', ghValid);
-
-        const deployValid = (inputDeploy.value.startsWith('http://') || inputDeploy.value.startsWith('https://')) && inputDeploy.value.length > 8;
-        updateBadge('input-deploy', 'deploy-badge', deployValid);
-
-        const liValid = inputLi.value.includes('linkedin.com');
-        updateBadge('input-li', 'li-badge', liValid);
+    if (isSubmitted) {
+        document.getElementById('user-points').innerText = '1,300 PTS';
+        document.getElementById('day-status-pill').className = "text-[10px] font-code-sm text-emerald-400 font-semibold flex items-center gap-1 bg-emerald-400/10 px-2 py-0.5 rounded border border-emerald-400/20";
+        document.getElementById('day-status-pill').innerText = "✓ COMPLETED";
+        
+        const btn = document.getElementById('submit-btn');
+        btn.innerText = "Already Submitted (+100 PTS)";
+        btn.disabled = true;
+        btn.className = "mt-2 w-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-code-sm font-bold text-xs py-3 rounded-lg flex items-center justify-center gap-2 uppercase tracking-wider opacity-80 cursor-not-allowed";
     }
 
-    function updateBadge(inputId, badgeId, isValid) {
-        const input = document.getElementById(inputId);
-        const badge = document.getElementById(badgeId);
-
-        if (isValid) {
-            badge.innerText = "Verified ✓";
-            badge.className = "text-[9px] font-code-sm text-emerald-400 font-bold";
-        } else {
-            badge.innerText = input.value.length > 0 ? "Invalid URL" : "Unverified";
-            badge.className = "text-[9px] font-code-sm text-on-surface-variant/50";
-        }
-    }
-
-    inputGh.addEventListener('input', validateLinks);
-    inputDeploy.addEventListener('input', validateLinks);
-    inputLi.addEventListener('input', validateLinks);
-
-    // On Submission: Update Streak to 12 & Mark Day 12 Complete
     document.getElementById('submission-form').addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Save state to localStorage
-        localStorage.setItem('day12_submitted', 'true');
-        localStorage.setItem('user_streak', '12');
-        localStorage.setItem('completed_days', '12');
-        localStorage.setItem('user_points', '1300');
+        const ghUrl = document.getElementById('input-gh').value;
+        const deployUrl = document.getElementById('input-deploy').value;
+        const liUrl = document.getElementById('input-li').value;
 
-        alert('Challenge Submitted Successfully! Streak updated to 12 Days 🔥');
+        sessionStorage.setItem('day12_submitted', 'true');
+        sessionStorage.setItem('user_points', '1300');
+        sessionStorage.setItem('user_streak', '12');
+        sessionStorage.setItem('gh_url', ghUrl);
+        sessionStorage.setItem('deploy_url', deployUrl);
+        sessionStorage.setItem('li_url', liUrl);
+
+        alert('Challenge Submitted! +100 Points added. Streak is now 12 🔥');
         window.location.href = '/dashboard';
     });
 </script>
