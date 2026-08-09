@@ -32,52 +32,56 @@
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700" rel="stylesheet"/>
 
     <style>
-        :root { --bg-color: #131315; }
+        :root { --bg-color: #0b0b0d; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { min-height: 100dvh; background-color: var(--bg-color); color: #e5e1e4; font-family: 'Geist', sans-serif; overflow-x: hidden; }
-        .glass-panel { background: rgba(25, 25, 28, 0.65); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .glass-nav { background: rgba(19, 19, 21, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+        .glass-panel { background: rgba(22, 22, 26, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5); }
+        .glass-nav { background: rgba(13, 13, 16, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
     </style>
 </head>
-<body class="relative flex justify-center items-center min-h-screen">
+<body class="relative flex justify-center items-center min-h-screen bg-[#070709]">
 
-<div class="w-full max-w-[420px] min-h-screen relative z-10 flex flex-col bg-[#131315] border-x border-white/5 shadow-2xl">
+<div class="w-full max-w-[420px] min-h-screen relative z-10 flex flex-col bg-[#0b0b0d] border-x border-white/5 shadow-2xl">
 
+    <!-- Header -->
     <header class="sticky top-0 w-full z-50 glass-nav flex items-center justify-between px-4 h-16">
-        <a href="/dashboard" class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary text-xl">arrow_back</span>
+        <a href="/dashboard" class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-lg">arrow_back</span>
+            </div>
             <div class="flex flex-col">
-                <span class="font-display-sm text-sm font-extrabold tracking-tight bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent">Submissions History</span>
-                <span class="text-[8px] font-code-sm text-on-surface-variant/70 tracking-widest -mt-1 uppercase">Proof of Work Logs</span>
+                <span class="font-display-sm text-sm font-extrabold tracking-tight bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent">Submission Logs</span>
+                <span class="text-[9px] font-code-sm text-on-surface-variant/70 tracking-widest uppercase">Verified Proof of Work</span>
             </div>
         </a>
     </header>
 
-    <main id="history-container" class="flex-1 px-4 pt-5 pb-24 flex flex-col gap-3">
-        <!-- Day 11 -->
-        <div class="glass-panel p-3.5 rounded-xl flex flex-col gap-2">
+    <main id="history-container" class="flex-1 px-4 pt-5 pb-28 flex flex-col gap-3.5">
+        <!-- Day 11 Entry -->
+        <div class="glass-panel p-4 rounded-2xl flex flex-col gap-2.5 border-l-2 border-emerald-400">
             <div class="flex items-center justify-between">
-                <span class="text-[10px] font-code-sm text-primary font-bold">DAY 11 • COMPLETED</span>
-                <span class="text-[10px] font-code-sm text-secondary">+100 PTS</span>
+                <span class="text-[10px] font-code-sm text-emerald-400 font-bold bg-emerald-400/10 px-2.5 py-0.5 rounded-full border border-emerald-400/20">DAY 11 • VERIFIED</span>
+                <span class="text-[10px] font-code-sm text-secondary font-bold">+100 PTS</span>
             </div>
             <h3 class="text-sm font-bold text-white">Rate Limiter Middleware</h3>
-            <div class="flex items-center gap-3 text-[10px] font-code-sm text-on-surface-variant/70 border-t border-white/5 pt-2">
-                <span class="text-emerald-400 font-bold">✓ Verified</span>
-                <span>• 24h ago</span>
+            <div class="flex items-center justify-between text-[10px] font-code-sm text-on-surface-variant/60 border-t border-white/5 pt-2">
+                <span class="text-emerald-400 flex items-center gap-1 font-semibold"><span class="material-symbols-outlined text-xs">check_circle</span> Verified</span>
+                <span>24 hours ago</span>
             </div>
         </div>
     </main>
 
+    <!-- Navigation -->
     <nav class="fixed bottom-0 w-full max-w-[420px] glass-nav h-16 z-50 border-t border-white/10 grid grid-cols-3 items-center text-center">
-        <a href="/dashboard" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
+        <a href="/dashboard" class="flex flex-col items-center gap-1 text-on-surface-variant/70 hover:text-white transition-colors">
             <span class="material-symbols-outlined text-xl">dashboard</span>
             <span class="text-[9px] font-code-sm uppercase">Dashboard</span>
         </a>
-        <a href="/dashboard/leaderboard" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
+        <a href="/dashboard/leaderboard" class="flex flex-col items-center gap-1 text-on-surface-variant/70 hover:text-white transition-colors">
             <span class="material-symbols-outlined text-xl">emoji_events</span>
             <span class="text-[9px] font-code-sm uppercase">Leaderboard</span>
         </a>
-        <a href="/dashboard/submissions" class="flex flex-col items-center gap-0.5 text-primary">
+        <a href="/dashboard/submissions" class="flex flex-col items-center gap-1 text-primary">
             <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">history</span>
             <span class="text-[9px] font-code-sm font-bold uppercase">History</span>
         </a>
@@ -94,20 +98,26 @@
 
         const historyContainer = document.getElementById('history-container');
         const day12Card = document.createElement('div');
-        day12Card.className = "glass-panel p-3.5 rounded-xl flex flex-col gap-2 border-l-2 border-emerald-400";
+        day12Card.className = "glass-panel p-4 rounded-2xl flex flex-col gap-3 border-l-2 border-emerald-400 bg-gradient-to-r from-emerald-500/5 to-transparent";
         day12Card.innerHTML = `
             <div class="flex items-center justify-between">
-                <span class="text-[10px] font-code-sm text-emerald-400 font-bold">DAY 12 • COMPLETED</span>
-                <span class="text-[10px] font-code-sm text-secondary">+100 PTS</span>
+                <span class="text-[10px] font-code-sm text-emerald-400 font-bold bg-emerald-400/10 px-2.5 py-0.5 rounded-full border border-emerald-400/20">DAY 12 • VERIFIED</span>
+                <span class="text-[10px] font-code-sm text-secondary font-bold">+100 PTS</span>
             </div>
             <h3 class="text-sm font-bold text-white">LRU Cache Architecture</h3>
-            <div class="flex flex-col gap-1 text-[10px] font-code-sm text-on-surface-variant/80 bg-black/30 p-2 rounded">
-                <a href="${ghUrl}" target="_blank" class="hover:text-primary underline truncate">GitHub: ${ghUrl}</a>
-                <a href="${deployUrl}" target="_blank" class="hover:text-primary underline truncate">Live Demo: ${deployUrl}</a>
-                <a href="${liUrl}" target="_blank" class="hover:text-primary underline truncate">LinkedIn Post: ${liUrl}</a>
+            <div class="flex flex-col gap-1.5 text-[10px] font-code-sm text-on-surface-variant/80 bg-black/50 p-2.5 rounded-xl border border-white/5">
+                <a href="${ghUrl}" target="_blank" class="hover:text-primary transition-colors flex items-center gap-1.5 truncate">
+                    <span class="material-symbols-outlined text-xs">code</span> ${ghUrl}
+                </a>
+                <a href="${deployUrl}" target="_blank" class="hover:text-primary transition-colors flex items-center gap-1.5 truncate">
+                    <span class="material-symbols-outlined text-xs">language</span> ${deployUrl}
+                </a>
+                <a href="${liUrl}" target="_blank" class="hover:text-primary transition-colors flex items-center gap-1.5 truncate">
+                    <span class="material-symbols-outlined text-xs">share</span> ${liUrl}
+                </a>
             </div>
-            <div class="flex items-center justify-between text-[10px] font-code-sm text-on-surface-variant/70 border-t border-white/5 pt-2">
-                <span class="text-emerald-400 font-bold">✓ Verified & Saved</span>
+            <div class="flex items-center justify-between text-[10px] font-code-sm text-on-surface-variant/60 border-t border-white/5 pt-2">
+                <span class="text-emerald-400 flex items-center gap-1 font-semibold"><span class="material-symbols-outlined text-xs">check_circle</span> Live Session Saved</span>
                 <span>Just now</span>
             </div>
         `;
