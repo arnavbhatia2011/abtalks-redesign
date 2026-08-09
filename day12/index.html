@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-    <title>Dashboard - ABTalks 60-Day Tech Challenge</title>
+    <title>Day 12 Challenge - ABTalks 60-Day Tech Challenge</title>
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
@@ -89,212 +89,122 @@
 
     <!-- Header Navigation -->
     <header class="sticky top-0 w-full z-50 glass-nav flex items-center justify-between px-4 h-16">
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary-container to-secondary flex items-center justify-center text-on-primary font-bold text-sm font-code-sm">
-                AB
-            </div>
+        <a href="/dashboard" class="flex items-center gap-2 cursor-pointer">
+            <span class="material-symbols-outlined text-primary text-xl">arrow_back</span>
             <div class="flex flex-col">
-                <span class="font-display-sm text-sm font-extrabold tracking-tight bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent">ABTalks Challenge</span>
-                <span class="text-[8px] font-code-sm text-on-surface-variant/70 tracking-widest -mt-1 uppercase">60-Day Tech Journey</span>
+                <span class="font-display-sm text-sm font-extrabold tracking-tight bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent">ABTalks</span>
+                <span class="text-[8px] font-code-sm text-on-surface-variant/70 tracking-widest -mt-1 uppercase">Day 12 Challenge</span>
             </div>
-        </div>
+        </a>
 
         <div class="flex items-center gap-2">
             <span class="text-[10px] font-code-sm text-secondary bg-secondary/10 px-2.5 py-1 rounded-full border border-secondary/20 font-bold">
-                1,200 PTS
+                +100 PTS
             </span>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1 px-4 pt-5 pb-28 flex flex-col gap-5">
+    <main class="flex-1 px-4 pt-5 pb-24 flex flex-col gap-5">
 
-        <!-- 60-Day Overall Progress Banner -->
-        <section class="glass-panel p-4 rounded-2xl flex flex-col gap-3">
+        <!-- Challenge Banner -->
+        <section class="glass-card-glow p-4 rounded-2xl flex flex-col gap-2">
             <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary text-base">donut_large</span>
-                    <span class="text-xs font-code-sm font-bold uppercase tracking-wider text-white">Overall Campaign Progress</span>
-                </div>
-                <span class="text-xs font-code-sm font-bold text-secondary">20%</span>
-            </div>
-
-            <!-- Progress Bar -->
-            <div class="w-full h-2.5 bg-black/50 rounded-full overflow-hidden p-0.5 border border-white/10">
-                <div class="h-full bg-gradient-to-r from-primary-container via-primary to-secondary rounded-full w-[20%] transition-all duration-500"></div>
-            </div>
-
-            <div class="grid grid-cols-3 gap-2 pt-1 text-center border-t border-white/5">
-                <div class="flex flex-col">
-                    <span class="text-[9px] font-code-sm text-on-surface-variant/70 uppercase">Completed</span>
-                    <span class="text-xs font-bold font-code-sm text-emerald-400">11 Days</span>
-                </div>
-                <div class="flex flex-col border-x border-white/5">
-                    <span class="text-[9px] font-code-sm text-on-surface-variant/70 uppercase">Remaining</span>
-                    <span class="text-xs font-bold font-code-sm text-white">49 Days</span>
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-[9px] font-code-sm text-on-surface-variant/70 uppercase">Current Streak</span>
-                    <span class="text-xs font-bold font-code-sm text-amber-400">11 🔥</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Active Day 12 Callout Card (Detailed) -->
-        <section class="glass-card-glow p-4.5 rounded-2xl flex flex-col gap-3.5">
-            <div class="flex items-center justify-between">
-                <span class="text-[10px] font-code-sm font-bold text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20">TODAY'S CHALLENGE • DAY 12</span>
-                <span class="text-[10px] font-code-sm text-amber-400 font-semibold flex items-center gap-1 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
+                <span class="text-[10px] font-code-sm font-bold text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20">DAY 12 • SYSTEM DESIGN</span>
+                <span class="text-[10px] font-code-sm text-amber-400 font-semibold flex items-center gap-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
                     ACTIVE TASK
                 </span>
             </div>
+            <h1 class="text-xl font-extrabold text-white tracking-tight">LRU Cache Architecture</h1>
+            <p class="text-xs text-on-surface-variant leading-relaxed">
+                Design and implement an in-memory Least Recently Used (LRU) Cache with <code class="font-code-sm text-secondary bg-white/5 px-1 py-0.5 rounded">O(1)</code> time complexity for both <code class="font-code-sm text-secondary bg-white/5 px-1 py-0.5 rounded font-bold">get</code> and <code class="font-code-sm text-secondary bg-white/5 px-1 py-0.5 rounded font-bold">put</code> operations.
+            </p>
+        </section>
 
-            <div class="flex flex-col gap-1.5">
-                <h2 class="text-lg font-extrabold text-white tracking-tight">LRU Cache Architecture</h2>
-                <p class="text-xs text-on-surface-variant leading-relaxed">
-                    Design and implement an in-memory Least Recently Used (LRU) Cache with <code class="text-secondary bg-white/5 px-1 py-0.5 rounded font-code-sm">O(1)</code> operations for both retrieval and storage.
-                </p>
+        <!-- Detailed Problem Statement -->
+        <section class="glass-panel p-4 rounded-xl flex flex-col gap-3">
+            <div class="flex items-center gap-2 text-white">
+                <span class="material-symbols-outlined text-primary text-lg">description</span>
+                <h2 class="text-xs font-code-sm font-bold uppercase tracking-wider">Problem Specification</h2>
             </div>
+            <p class="text-xs text-on-surface-variant/90 leading-relaxed">
+                An LRU cache evicts the least recently accessed key when its capacity limit is reached. Your implementation must combine a <strong>Doubly Linked List</strong> and a <strong>Hash Map</strong> to achieve constant time lookups and updates.
+            </p>
 
-            <div class="bg-black/40 p-3 rounded-xl border border-white/5 flex flex-col gap-2">
-                <span class="text-[10px] font-code-sm text-secondary font-bold uppercase tracking-wider">Key Objectives</span>
-                <ul class="text-[11px] text-on-surface-variant/90 font-code-sm space-y-1 list-disc list-inside">
-                    <li>Doubly Linked List + Hash Map structure</li>
-                    <li>O(1) <code class="text-white">get(key)</code> and <code class="text-white">put(key, value)</code></li>
-                    <li>Automated LRU eviction on overflow</li>
+            <div class="bg-black/40 p-3 rounded-lg border border-white/5 flex flex-col gap-2">
+                <span class="text-[10px] font-code-sm font-bold text-secondary uppercase tracking-wider">Key Requirements</span>
+                <ul class="text-[11px] text-on-surface-variant space-y-1.5 font-code-sm list-disc list-inside">
+                    <li>Initialize with fixed capacity <code class="text-white bg-white/10 px-1 rounded">capacity > 0</code>.</li>
+                    <li><code class="text-white bg-white/10 px-1 rounded">get(key)</code>: Return key value if exists, else <code class="text-amber-400">-1</code>.</li>
+                    <li><code class="text-white bg-white/10 px-1 rounded">put(key, value)</code>: Insert or update. Evict LRU node if full.</li>
+                    <li>Write comprehensive unit tests covering edge cases.</li>
                 </ul>
             </div>
-
-            <div class="flex items-center justify-between text-[10px] font-code-sm text-on-surface-variant/70">
-                <span class="flex items-center gap-1">
-                    <span class="material-symbols-outlined text-sm text-primary">schedule</span>
-                    24h Remaining
-                </span>
-                <span class="flex items-center gap-1 text-secondary font-bold">
-                    <span class="material-symbols-outlined text-sm">stars</span>
-                    +100 Points
-                </span>
-            </div>
-
-            <!-- Action Button Updated to /day12 -->
-            <a href="/day12" class="w-full bg-gradient-to-r from-primary-container to-primary text-on-primary font-code-sm font-bold text-xs py-3 rounded-lg shadow-lg hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2 uppercase tracking-wider">
-                <span>Go to Day 12 Challenge</span>
-                <span class="material-symbols-outlined text-base">arrow_forward</span>
-            </a>
         </section>
 
-        <!-- Stats Overview Cards Grid -->
-        <section class="grid grid-cols-2 gap-3">
-            <div class="glass-panel p-3.5 rounded-xl flex flex-col gap-1">
-                <div class="flex items-center justify-between">
-                    <span class="text-[10px] font-code-sm text-on-surface-variant uppercase">Rank</span>
-                    <span class="material-symbols-outlined text-sm text-amber-400">military_tech</span>
+        <!-- Proof of Work Submission Form -->
+        <section class="glass-panel p-4 rounded-xl flex flex-col gap-4 border-l-2 border-primary">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2 text-white">
+                    <span class="material-symbols-outlined text-secondary text-lg">upload_file</span>
+                    <h2 class="text-xs font-code-sm font-bold uppercase tracking-wider">Submit Proof of Work</h2>
                 </div>
-                <span class="text-lg font-extrabold font-code-sm text-white">#14 <span class="text-[10px] font-normal text-emerald-400">↑2</span></span>
-                <span class="text-[9px] font-code-sm text-on-surface-variant/60">Top 5% of Builders</span>
             </div>
 
-            <div class="glass-panel p-3.5 rounded-xl flex flex-col gap-1">
-                <div class="flex items-center justify-between">
-                    <span class="text-[10px] font-code-sm text-on-surface-variant uppercase">Verification Rate</span>
-                    <span class="material-symbols-outlined text-sm text-emerald-400">verified</span>
-                </div>
-                <span class="text-lg font-extrabold font-code-sm text-emerald-400">100%</span>
-                <span class="text-[9px] font-code-sm text-on-surface-variant/60">11 of 11 Approved</span>
-            </div>
-        </section>
+            <form id="submission-form" class="flex flex-col gap-3.5" action="#" method="POST">
 
-        <!-- Recent Activity Logs / Submission Timeline -->
-        <section class="glass-panel p-4 rounded-xl flex flex-col gap-3">
-            <div class="flex items-center justify-between border-b border-white/5 pb-2">
-                <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-secondary text-base">history</span>
-                    <h3 class="text-xs font-code-sm font-bold uppercase tracking-wider text-white">Recent Completed Logs</h3>
-                </div>
-                <a href="/dashboard/submissions" class="text-[10px] font-code-sm text-primary hover:underline">View All</a>
-            </div>
-
-            <div class="flex flex-col gap-2.5">
-                <!-- Day 11 -->
-                <div class="flex items-center justify-between p-2.5 bg-black/30 rounded-lg border border-white/5">
-                    <div class="flex items-center gap-2.5">
-                        <div class="w-6 h-6 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-code-sm text-[10px] font-bold flex items-center justify-center">
-                            11
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-xs font-bold text-white">Rate Limiter Middleware</span>
-                            <span class="text-[9px] font-code-sm text-on-surface-variant/70">Verified • 100 PTS</span>
-                        </div>
+                <!-- GitHub Repo / Commit URL -->
+                <div class="flex flex-col gap-1">
+                    <div class="flex items-center justify-between">
+                        <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">GitHub Repo / Commit URL <span class="text-primary">*</span></label>
+                        <span id="gh-badge" class="text-[9px] font-code-sm text-on-surface-variant/50">Unverified</span>
                     </div>
-                    <span class="material-symbols-outlined text-emerald-400 text-sm">check_circle</span>
-                </div>
-
-                <!-- Day 10 -->
-                <div class="flex items-center justify-between p-2.5 bg-black/30 rounded-lg border border-white/5">
-                    <div class="flex items-center gap-2.5">
-                        <div class="w-6 h-6 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-code-sm text-[10px] font-bold flex items-center justify-center">
-                            10
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-xs font-bold text-white">JWT Auth Flow</span>
-                            <span class="text-[9px] font-code-sm text-on-surface-variant/70">Verified • 100 PTS</span>
-                        </div>
+                    <div class="relative flex items-center">
+                        <span class="material-symbols-outlined absolute left-3 text-on-surface-variant/50 text-base">code</span>
+                        <input id="input-gh" type="url" required placeholder="https://github.com/username/repo" class="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm transition-all"/>
                     </div>
-                    <span class="material-symbols-outlined text-emerald-400 text-sm">check_circle</span>
                 </div>
 
-                <!-- Day 9 -->
-                <div class="flex items-center justify-between p-2.5 bg-black/30 rounded-lg border border-white/5">
-                    <div class="flex items-center gap-2.5">
-                        <div class="w-6 h-6 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-code-sm text-[10px] font-bold flex items-center justify-center">
-                            09
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-xs font-bold text-white">Database Schema Design</span>
-                            <span class="text-[9px] font-code-sm text-on-surface-variant/70">Verified • 100 PTS</span>
-                        </div>
+                <!-- Live Deployment URL -->
+                <div class="flex flex-col gap-1">
+                    <div class="flex items-center justify-between">
+                        <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">Live Deployment URL <span class="text-primary">*</span></label>
+                        <span id="deploy-badge" class="text-[9px] font-code-sm text-on-surface-variant/50">Unverified</span>
                     </div>
-                    <span class="material-symbols-outlined text-emerald-400 text-sm">check_circle</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Skill Mastery Badges -->
-        <section class="glass-panel p-4 rounded-xl flex flex-col gap-3">
-            <div class="flex items-center gap-2 border-b border-white/5 pb-2">
-                <span class="material-symbols-outlined text-tertiary text-base">workspace_premium</span>
-                <h3 class="text-xs font-code-sm font-bold uppercase tracking-wider text-white">Earned Badges</h3>
-            </div>
-
-            <div class="grid grid-cols-3 gap-2">
-                <div class="bg-black/30 p-2.5 rounded-lg border border-white/5 flex flex-col items-center text-center gap-1">
-                    <span class="material-symbols-outlined text-amber-400 text-xl">local_fire_department</span>
-                    <span class="text-[10px] font-bold text-white">10-Day Streak</span>
-                    <span class="text-[8px] font-code-sm text-on-surface-variant/60">Unlocked</span>
+                    <div class="relative flex items-center">
+                        <span class="material-symbols-outlined absolute left-3 text-on-surface-variant/50 text-base">link</span>
+                        <input id="input-deploy" type="url" required placeholder="https://your-app.vercel.app" class="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm transition-all"/>
+                    </div>
                 </div>
 
-                <div class="bg-black/30 p-2.5 rounded-lg border border-white/5 flex flex-col items-center text-center gap-1">
-                    <span class="material-symbols-outlined text-primary text-xl">code</span>
-                    <span class="text-[10px] font-bold text-white">Backend Ace</span>
-                    <span class="text-[8px] font-code-sm text-on-surface-variant/60">Unlocked</span>
+                <!-- LinkedIn Post URL -->
+                <div class="flex flex-col gap-1">
+                    <div class="flex items-center justify-between">
+                        <label class="text-[10px] font-code-sm text-on-surface-variant uppercase tracking-wider">LinkedIn Post URL <span class="text-primary">*</span></label>
+                        <span id="li-badge" class="text-[9px] font-code-sm text-on-surface-variant/50">Unverified</span>
+                    </div>
+                    <div class="relative flex items-center">
+                        <span class="material-symbols-outlined absolute left-3 text-on-surface-variant/50 text-base">share</span>
+                        <input id="input-li" type="url" required placeholder="https://linkedin.com/posts/..." class="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary font-code-sm transition-all"/>
+                    </div>
                 </div>
 
-                <div class="bg-black/30 p-2.5 rounded-lg border border-white/5 flex flex-col items-center text-center gap-1 opacity-50">
-                    <span class="material-symbols-outlined text-on-surface-variant text-xl">lock</span>
-                    <span class="text-[10px] font-bold text-white">30-Day Legend</span>
-                    <span class="text-[8px] font-code-sm text-on-surface-variant/60">Locked</span>
-                </div>
-            </div>
+                <!-- Submit Button -->
+                <button type="submit" class="mt-2 w-full bg-gradient-to-r from-primary-container to-primary text-on-primary font-code-sm font-bold text-xs py-3 rounded-lg shadow-lg hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2 uppercase tracking-wider">
+                    <span class="material-symbols-outlined text-base">send</span>
+                    Submit Day 12 Solution
+                </button>
+            </form>
         </section>
 
     </main>
 
     <!-- Bottom Navigation Bar -->
     <nav class="fixed bottom-0 w-full max-w-[420px] glass-nav h-16 z-50 border-t border-white/10 grid grid-cols-3 items-center text-center">
-        <a href="/dashboard" class="flex flex-col items-center gap-0.5 text-primary">
-            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">dashboard</span>
-            <span class="text-[9px] font-code-sm font-bold uppercase">Dashboard</span>
+        <a href="/dashboard" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-xl">dashboard</span>
+            <span class="text-[9px] font-code-sm uppercase">Dashboard</span>
         </a>
         <a href="/dashboard/leaderboard" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
             <span class="material-symbols-outlined text-xl">emoji_events</span>
@@ -307,6 +217,50 @@
     </nav>
 
 </div>
+
+<script>
+    // Live Input Verification
+    const inputGh = document.getElementById('input-gh');
+    const inputDeploy = document.getElementById('input-deploy');
+    const inputLi = document.getElementById('input-li');
+
+    function validateLinks() {
+        // GitHub
+        const ghValid = inputGh.value.includes('github.com');
+        updateBadge('input-gh', 'gh-badge', ghValid);
+
+        // Live Deployment
+        const deployValid = (inputDeploy.value.startsWith('http://') || inputDeploy.value.startsWith('https://')) && inputDeploy.value.length > 8;
+        updateBadge('input-deploy', 'deploy-badge', deployValid);
+
+        // LinkedIn
+        const liValid = inputLi.value.includes('linkedin.com');
+        updateBadge('input-li', 'li-badge', liValid);
+    }
+
+    function updateBadge(inputId, badgeId, isValid) {
+        const input = document.getElementById(inputId);
+        const badge = document.getElementById(badgeId);
+
+        if (isValid) {
+            badge.innerText = "Verified ✓";
+            badge.className = "text-[9px] font-code-sm text-emerald-400 font-bold";
+        } else {
+            badge.innerText = input.value.length > 0 ? "Invalid URL" : "Unverified";
+            badge.className = "text-[9px] font-code-sm text-on-surface-variant/50";
+        }
+    }
+
+    inputGh.addEventListener('input', validateLinks);
+    inputDeploy.addEventListener('input', validateLinks);
+    inputLi.addEventListener('input', validateLinks);
+
+    document.getElementById('submission-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Challenge Submitted Successfully!');
+        window.location.href = '/dashboard/submissions';
+    });
+</script>
 
 </body>
 </html>
