@@ -14,14 +14,22 @@
                 extend: {
                     colors: {
                         "secondary": "#ffc640",
+                        "secondary-container": "#e0a100",
+                        "surface-container-high": "#2a2a2c",
+                        "surface-container-highest": "#353437",
+                        "on-surface-variant": "#e0c0b1",
+                        "on-background": "#e5e1e4",
+                        "tertiary": "#c0c1ff",
                         "primary": "#ffb690",
                         "primary-container": "#f97316",
-                        "on-surface-variant": "#e0c0b1",
-                        "surface": "#131315"
+                        "on-primary": "#552100",
+                        "surface": "#131315",
+                        "surface-variant": "#232325"
                     },
                     fontFamily: {
                         "code-sm": ["JetBrains Mono", "monospace"],
-                        "display-sm": ["Geist", "sans-serif"]
+                        "display-sm": ["Geist", "sans-serif"],
+                        "body-md": ["Geist", "sans-serif"]
                     }
                 }
             }
@@ -35,8 +43,12 @@
         :root { --bg-color: #0b0b0d; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { min-height: 100dvh; background-color: var(--bg-color); color: #e5e1e4; font-family: 'Geist', sans-serif; overflow-x: hidden; }
-        .glass-panel { background: rgba(22, 22, 26, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5); }
+        .glass-panel { background: rgba(22, 22, 26, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5); }
+        .glass-card-glow { background: linear-gradient(135deg, rgba(25, 25, 30, 0.9), rgba(18, 18, 22, 0.8)); backdrop-filter: blur(28px); border: 1px solid rgba(249, 115, 22, 0.3); box-shadow: 0 0 35px -5px rgba(249, 115, 22, 0.25), 0 8px 32px 0 rgba(0, 0, 0, 0.6); }
         .glass-nav { background: rgba(13, 13, 16, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+        .podium-glow-1 { box-shadow: 0 0 40px -10px rgba(255, 198, 64, 0.35); }
+        .podium-glow-2 { box-shadow: 0 0 30px -10px rgba(203, 213, 225, 0.2); }
+        .podium-glow-3 { box-shadow: 0 0 30px -10px rgba(217, 119, 6, 0.2); }
     </style>
 </head>
 <body class="relative flex justify-center items-center min-h-screen bg-[#070709]">
@@ -45,56 +57,142 @@
 
     <!-- Header -->
     <header class="sticky top-0 w-full z-50 glass-nav flex items-center justify-between px-4 h-16">
-        <a href="/dashboard" class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+        <a href="/dashboard" class="flex items-center gap-2.5 cursor-pointer group">
+            <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
                 <span class="material-symbols-outlined text-primary text-lg">arrow_back</span>
             </div>
             <div class="flex flex-col">
                 <span class="font-display-sm text-sm font-extrabold tracking-tight bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent">Global Leaderboard</span>
-                <span class="text-[9px] font-code-sm text-on-surface-variant/70 tracking-widest uppercase">Global Builders</span>
+                <span class="text-[9px] font-code-sm text-on-surface-variant/70 tracking-widest uppercase">Top 60-Day Builders</span>
             </div>
         </a>
+
+        <div class="flex items-center gap-1 bg-white/5 px-2.5 py-1 rounded-full border border-white/10 text-[10px] font-code-sm text-on-surface-variant">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            LIVE
+        </div>
     </header>
 
-    <main class="flex-1 px-4 pt-5 pb-28 flex flex-col gap-4">
-        <!-- Top 3 Podium -->
-        <div class="grid grid-cols-3 gap-2.5 my-2 items-end">
-            <!-- Rank 2 -->
-            <div class="glass-panel p-3.5 rounded-2xl flex flex-col items-center text-center border-white/10">
-                <span class="text-lg">🥈</span>
-                <span class="text-xs font-bold text-white mt-1">Aarav K.</span>
-                <span class="text-[10px] font-code-sm text-secondary font-bold">1,280 PTS</span>
-            </div>
-            <!-- Rank 1 -->
-            <div class="glass-panel p-4 rounded-2xl flex flex-col items-center text-center border-amber-400/40 bg-gradient-to-b from-amber-400/10 to-transparent -translate-y-2">
-                <span class="text-2xl">👑</span>
-                <span class="text-xs font-extrabold text-white mt-1">DevX</span>
-                <span class="text-[11px] font-code-sm text-amber-400 font-extrabold">1,350 PTS</span>
-            </div>
-            <!-- Rank 3 -->
-            <div class="glass-panel p-3.5 rounded-2xl flex flex-col items-center text-center border-white/10">
-                <span class="text-lg">🥉</span>
-                <span class="text-xs font-bold text-white mt-1">Rohan M.</span>
-                <span class="text-[10px] font-code-sm text-secondary font-bold">1,250 PTS</span>
-            </div>
-        </div>
+    <main class="flex-1 px-4 pt-5 pb-28 flex flex-col gap-5">
 
-        <!-- User Highlight Card -->
-        <div class="text-[10px] font-code-sm text-on-surface-variant/70 uppercase tracking-wider px-1">Your Standing</div>
-        
-        <div id="user-rank-card" class="glass-panel p-4 rounded-2xl flex items-center justify-between border-primary/40 bg-primary/10 shadow-lg shadow-primary/5">
+        <!-- Top 3 Podium Cards -->
+        <section class="grid grid-cols-3 gap-2 pt-3 items-end">
+            
+            <!-- Rank 2 -->
+            <div class="glass-panel p-3 rounded-2xl flex flex-col items-center text-center relative podium-glow-2 border-slate-400/30 bg-gradient-to-b from-slate-400/10 to-transparent">
+                <div class="absolute -top-3 w-6 h-6 rounded-full bg-slate-300 text-black font-code-sm font-black text-xs flex items-center justify-center border-2 border-[#0b0b0d] shadow">2</div>
+                <div class="w-12 h-12 rounded-full bg-slate-800 border-2 border-slate-400/50 flex items-center justify-center mt-2 mb-1.5 text-base font-bold text-slate-200 shadow-inner">
+                    AK
+                </div>
+                <span class="text-xs font-bold text-white truncate w-full">Aarav K.</span>
+                <span class="text-[10px] font-code-sm text-secondary font-extrabold">1,280 PTS</span>
+                <span class="text-[9px] font-code-sm text-emerald-400 mt-1 bg-emerald-400/10 px-1.5 py-0.5 rounded border border-emerald-400/20">12 Days</span>
+            </div>
+
+            <!-- Rank 1 (Featured Center) -->
+            <div class="glass-card-glow p-3.5 rounded-2xl flex flex-col items-center text-center relative podium-glow-1 -translate-y-2 border-amber-400/50">
+                <div class="absolute -top-4 w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 to-secondary text-black font-code-sm font-black text-sm flex items-center justify-center border-2 border-[#0b0b0d] shadow-lg">1</div>
+                <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary-container to-amber-500 p-0.5 mt-1 mb-1.5 shadow-xl">
+                    <div class="w-full h-full bg-[#131315] rounded-full flex items-center justify-center text-lg font-black text-amber-400">
+                        DX
+                    </div>
+                </div>
+                <span class="text-xs font-black text-white truncate w-full">DevX</span>
+                <span class="text-[11px] font-code-sm text-amber-400 font-black tracking-tight">1,350 PTS</span>
+                <span class="text-[9px] font-code-sm text-amber-300 mt-1 bg-amber-400/15 px-2 py-0.5 rounded-full border border-amber-400/30 font-bold">👑 Leader</span>
+            </div>
+
+            <!-- Rank 3 -->
+            <div class="glass-panel p-3 rounded-2xl flex flex-col items-center text-center relative podium-glow-3 border-amber-700/30 bg-gradient-to-b from-amber-700/10 to-transparent">
+                <div class="absolute -top-3 w-6 h-6 rounded-full bg-amber-600 text-white font-code-sm font-black text-xs flex items-center justify-center border-2 border-[#0b0b0d] shadow">3</div>
+                <div class="w-12 h-12 rounded-full bg-amber-950 border-2 border-amber-700/50 flex items-center justify-center mt-2 mb-1.5 text-base font-bold text-amber-200 shadow-inner">
+                    RM
+                </div>
+                <span class="text-xs font-bold text-white truncate w-full">Rohan M.</span>
+                <span class="text-[10px] font-code-sm text-secondary font-extrabold">1,250 PTS</span>
+                <span class="text-[9px] font-code-sm text-emerald-400 mt-1 bg-emerald-400/10 px-1.5 py-0.5 rounded border border-emerald-400/20">11 Days</span>
+            </div>
+
+        </section>
+
+        <!-- Your Current Position Highlight -->
+        <section class="glass-card-glow p-4 rounded-2xl flex items-center justify-between border-primary/50 relative overflow-hidden">
             <div class="flex items-center gap-3.5">
-                <span id="lb-user-rank" class="text-base font-extrabold font-code-sm text-primary bg-primary/20 px-2.5 py-1 rounded-lg border border-primary/30">#14</span>
+                <div id="user-lb-rank" class="w-10 h-10 rounded-xl bg-primary-container/20 border border-primary-container/40 flex items-center justify-center font-code-sm font-extrabold text-primary text-sm shadow-inner">
+                    #14
+                </div>
                 <div class="flex flex-col">
-                    <span class="text-xs font-extrabold text-white flex items-center gap-1.5">
-                        You (ABTalks)
-                        <span class="text-[9px] font-code-sm text-emerald-400 font-normal bg-emerald-400/10 px-1.5 py-0.5 rounded border border-emerald-400/20">YOU</span>
-                    </span>
-                    <span id="lb-user-streak" class="text-[10px] font-code-sm text-on-surface-variant/70">11-Day Streak 🔥</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-black text-white">You (ABTalks)</span>
+                        <span class="text-[9px] font-code-sm bg-primary/20 text-primary border border-primary/30 px-1.5 py-0.2 rounded font-bold uppercase">YOU</span>
+                    </div>
+                    <span id="user-lb-streak" class="text-[10px] font-code-sm text-on-surface-variant/80">11-Day Streak 🔥</span>
                 </div>
             </div>
-            <span id="lb-user-points" class="text-xs font-code-sm font-extrabold text-secondary bg-black/40 px-3 py-1.5 rounded-xl border border-white/5">1,200 PTS</span>
-        </div>
+            <div class="flex flex-col items-end">
+                <span id="user-lb-pts" class="text-xs font-code-sm font-extrabold text-secondary bg-black/50 px-3 py-1.5 rounded-xl border border-white/10">1,200 PTS</span>
+                <span class="text-[9px] font-code-sm text-emerald-400 mt-1">Top 5%</span>
+            </div>
+        </section>
+
+        <!-- Full Leaderboard Table -->
+        <section class="glass-panel p-4 rounded-2xl flex flex-col gap-3">
+            <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+                <span class="text-xs font-code-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-base">format_list_numbered</span>
+                    Rankings List
+                </span>
+                <span class="text-[10px] font-code-sm text-on-surface-variant/60">Updated Live</span>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <!-- Rank 4 -->
+                <div class="flex items-center justify-between p-2.5 bg-black/40 rounded-xl border border-white/5 hover:border-white/20 transition-all">
+                    <div class="flex items-center gap-3">
+                        <span class="w-6 text-center font-code-sm text-xs font-bold text-on-surface-variant/80">4</span>
+                        <div class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs font-bold text-white">
+                            SN
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-bold text-white">Sarah N.</span>
+                            <span class="text-[9px] font-code-sm text-on-surface-variant/60">11-Day Streak 🔥</span>
+                        </div>
+                    </div>
+                    <span class="text-xs font-code-sm font-bold text-secondary">1,210 PTS</span>
+                </div>
+
+                <!-- Rank 5 -->
+                <div class="flex items-center justify-between p-2.5 bg-black/40 rounded-xl border border-white/5 hover:border-white/20 transition-all">
+                    <div class="flex items-center gap-3">
+                        <span class="w-6 text-center font-code-sm text-xs font-bold text-on-surface-variant/80">5</span>
+                        <div class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs font-bold text-white">
+                            VP
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-bold text-white">Vikram P.</span>
+                            <span class="text-[9px] font-code-sm text-on-surface-variant/60">11-Day Streak 🔥</span>
+                        </div>
+                    </div>
+                    <span class="text-xs font-code-sm font-bold text-secondary">1,205 PTS</span>
+                </div>
+
+                <!-- Rank 6 -->
+                <div class="flex items-center justify-between p-2.5 bg-black/40 rounded-xl border border-white/5 hover:border-white/20 transition-all">
+                    <div class="flex items-center gap-3">
+                        <span class="w-6 text-center font-code-sm text-xs font-bold text-on-surface-variant/80">6</span>
+                        <div class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs font-bold text-white">
+                            CL
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-bold text-white">Chen L.</span>
+                            <span class="text-[9px] font-code-sm text-on-surface-variant/60">10-Day Streak 🔥</span>
+                        </div>
+                    </div>
+                    <span class="text-xs font-code-sm font-bold text-secondary">1,190 PTS</span>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- Navigation -->
@@ -118,9 +216,9 @@
     const isSubmitted = sessionStorage.getItem('day12_submitted') === 'true';
 
     if (isSubmitted) {
-        document.getElementById('lb-user-rank').innerText = '#12';
-        document.getElementById('lb-user-streak').innerText = '12-Day Streak 🔥';
-        document.getElementById('lb-user-points').innerText = '1,300 PTS';
+        document.getElementById('user-lb-rank').innerText = '#12';
+        document.getElementById('user-lb-streak').innerText = '12-Day Streak 🔥';
+        document.getElementById('user-lb-pts').innerText = '1,300 PTS';
     }
 </script>
 
